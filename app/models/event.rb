@@ -16,11 +16,11 @@ class Event < ActiveRecord::Base
     end
   end
 
-  validates_presence_of :event_type
-  validates_presence_of :lims_id
-  validates_presence_of :occured_at
-  validates_presence_of :user_identifier
-  validates_uniqueness_of :uuid
+  validates :event_type, presence: true
+  validates :lims_id, presence: true
+  validates :occured_at, presence: true
+  validates :user_identifier, presence: true
+  validates :uuid, uniqueness: true
 
   def ignorable?
     event_type.nil?

@@ -6,7 +6,7 @@ module ResourceTools
   extend ActiveSupport::Concern
   include ResourceTools::Json
 
-  included do |base|
+  included do |_base|
     # scope :updating, lambda { |r| where(:uuid => r.uuid).current }
 
     # The original data information is stored here

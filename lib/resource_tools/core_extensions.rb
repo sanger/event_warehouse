@@ -68,7 +68,7 @@ module ResourceTools::CoreExtensions
   end
 
   module NilClass
-    def latest(object)
+    def latest(_object)
       yield(nil)
     end
   end

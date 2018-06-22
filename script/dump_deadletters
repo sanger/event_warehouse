@@ -17,7 +17,7 @@ class Float
   end
 end
 
-class Fixnum
+class Integer
   def pretty_dump_to(io)
     io.write(self)
   end
@@ -42,7 +42,7 @@ class String
 end
 
 class Dir
-  def self.in_dump_directory(&block)
+  def self.in_dump_directory
     dump_directory = File.join('tmp', 'dumps', Time.now.strftime('%Y-%M-%d-%H%M%S'))
     FileUtils.mkdir_p(dump_directory)
     yield(dump_directory)
@@ -79,7 +79,7 @@ class IndentWriter
 
   attr_reader :io
 
-  def indent(start, finish, &block)
+  def indent(start, finish)
     puts(start)
     begin
       @current_indent = (@indent += 1)
