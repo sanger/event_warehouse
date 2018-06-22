@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Role < ActiveRecord::Base
   include ResourceTools::TypeDictionary::HasDictionary
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ResourceTools::TypeDictionary
   RECORD_NOT_UNIQUE_RETRIES = 3
 
@@ -7,12 +9,12 @@ module ResourceTools::TypeDictionary
     def for_key(key)
       tries = 0
       begin
-        self.preregistration_required? ? where(key: key).first : create_with(description: default_description).find_or_create_by(key: key)
+        preregistration_required? ? where(key: key).first : create_with(description: default_description).find_or_create_by(key: key)
       rescue ActiveRecord::RecordNotUnique => e
         # If we have two similar events arriving at the same time, we might conceivably run into a
         # race condition. We retry a few times, then give up and re-raise our exception;
         tries += 1
-        if (tries <= RECORD_NOT_UNIQUE_RETRIES)
+        if tries <= RECORD_NOT_UNIQUE_RETRIES
           retry
         else
           raise e
@@ -50,8 +52,8 @@ module ResourceTools::TypeDictionary
   module HasDictionary
     def self.included(base)
       base.class_eval do
-        type_assn = "#{self.name.downcase}_type"
-        type_class = "#{self.name}Type".constantize
+        type_assn = "#{name.downcase}_type"
+        type_class = "#{name}Type".constantize
 
         belongs_to :"#{type_assn}"
         define_method(:"#{type_assn}=") do |assn_key|

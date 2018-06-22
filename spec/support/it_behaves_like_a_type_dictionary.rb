@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 shared_examples_for 'a type dictionary' do
   let(:example_key) { 'example_key' }
   let(:type_lookup) { described_class.for_key(example_key) }

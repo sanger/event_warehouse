@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class IgnoreableResource
   def self.create_or_update_from_json(*args)
-    self.new
+    new
   end
 
   def id

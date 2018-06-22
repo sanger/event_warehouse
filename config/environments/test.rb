@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 EventWarehouse::Application.configure do
   # NOTE: Much of this can probably be removed as we're not really using Rails, more AR.
   config.cache_classes = true

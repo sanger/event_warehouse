@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 EventWarehouse::Application.configure do
   # NOTE: Much of this can probably be removed as we're not really using Rails, more AR.
   config.cache_classes = false
@@ -21,7 +23,7 @@ EventWarehouse::Application.configure do
   # Configure the worker death messages
   config.worker_death_from    = 'example@example.com'
   config.worker_death_to      = 'example@example.com'
-  config.worker_death_restart = %Q{Please restart the worker.}
+  config.worker_death_restart = %(Please restart the worker.)
 
   # Configure the main AMQP consumer
   config.amqp.main.url                    = 'amqp://localhost:5672'

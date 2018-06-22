@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 namespace :dictionaries do
-  desc "Update all dictionaries with the listed entries and their descriptions"
-  task :update => :environment do
+  desc 'Update all dictionaries with the listed entries and their descriptions'
+  task update: :environment do
     require './db/seeds/event_types.rb'
     require './db/seeds/role_types.rb'
     require './db/seeds/subject_types.rb'

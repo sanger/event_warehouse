@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SubjectType < ActiveRecord::Base
   include ResourceTools::TypeDictionary
 

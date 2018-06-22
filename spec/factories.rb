@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   sequence :key do |i|
     "example_key_#{i}"
@@ -11,8 +13,7 @@ FactoryBot.define do
   # a random uuid. However sequential uuids identified
   # an indexing bug
   sequence :uuid do |i|
-    padding = '0' * (12 - i.to_s.length)
-    '00000000-0000-0000-0000-' << padding << i.to_s
+    "00000000-0000-0000-0000-#{i.to_s.rjust(12, '0')}"
   end
 
   factory :event_type do

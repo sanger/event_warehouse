@@ -1,7 +1,9 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
+
 require 'thor'
-require File.expand_path('../../config/environment', __FILE__)
-require File.expand_path('../../lib/resource_tools/core_extensions', __FILE__)
+require File.expand_path('../config/environment', __dir__)
+require File.expand_path('../lib/resource_tools/core_extensions', __dir__)
 
 class NilClass
   def pretty_dump_to(io)
@@ -35,7 +37,7 @@ end
 
 class String
   def pretty_dump_to(io)
-    io.write(self.inspect)
+    io.write(inspect)
   end
 end
 
@@ -70,7 +72,9 @@ end
 
 class IndentWriter
   def initialize(io)
-    @io, @indent, @current_indent = io, 0, 0
+    @io = io
+    @indent = 0
+    @current_indent = 0
   end
 
   attr_reader :io
@@ -88,7 +92,7 @@ class IndentWriter
 
   def eol
     @current_indent = @indent
-    io.puts("")
+    io.puts('')
   end
 
   def puts(*args)
@@ -118,17 +122,17 @@ class DeadLetterDumper < Thor
   def dump(requeue = true)
     client = RestClient::Resource.new(
       'http://psd2c.internal.sanger.ac.uk:55672/api/queues/production/psd.deadletters',
-      :user => 'psdp', :password => 'psdp'
+      user: 'psdp', password: 'psdp'
     )
     total_messages = ActiveSupport::JSON.decode(client.get)['messages']
-    raise "Dead letter queue currently appears to be empty" if total_messages.nil? or total_messages.zero?
+    raise 'Dead letter queue currently appears to be empty' if total_messages.nil? || total_messages.zero?
 
     Dir.in_dump_directory do |dump_directory|
       ActiveSupport::JSON.decode(
         client['get'].post(
-          { count: total_messages, requeue: requeue.to_boolean_from_arguments, encoding: "auto" }.to_json,
-          :content_type => 'application/json',
-          :accept       => '*/*'
+          { count: total_messages, requeue: requeue.to_boolean_from_arguments, encoding: 'auto' }.to_json,
+          content_type: 'application/json',
+          accept: '*/*'
         )
       ).map do |amqp_message|
         ActiveSupport::JSON.decode(amqp_message['payload'])

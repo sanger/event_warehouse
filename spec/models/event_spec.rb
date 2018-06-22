@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 # As Event is effectively our main API we conduct integration tests through here
@@ -7,13 +9,13 @@ describe Event do
   let(:example_lims) { 'postal_service' }
   let(:registered_event_type) { 'delivery' }
   let(:missing_event_type) { 'package_lost' }
-  let(:expected_roles) { ['sender', 'recipient', 'package'] }
+  let(:expected_roles) { %w[sender recipient package] }
   let(:expected_subjects) do
     [
       ExpectedSubject.new('00000000-1111-2222-3333-555555555555', 'alice@example.com', 'person', 'sender'),
       # Bob is pre-registered by the tests
       ExpectedSubject.new('00000000-1111-2222-3333-666666666666', 'existing_bob@example.com', 'person', 'recipient'),
-      ExpectedSubject.new('00000000-1111-2222-3333-777777777777', 'Chuck', 'plant', 'package'),
+      ExpectedSubject.new('00000000-1111-2222-3333-777777777777', 'Chuck', 'plant', 'package')
     ]
   end
 
@@ -21,38 +23,38 @@ describe Event do
 
   let(:json) do
     {
-      "uuid" => event_uuid,
-      "event_type" => event_type,
-      "occured_at" => "2012-03-11 10:22:42",
-      "user_identifier" => "postmaster@example.com",
-      "subjects" => [
+      'uuid' => event_uuid,
+      'event_type' => event_type,
+      'occured_at' => '2012-03-11 10:22:42',
+      'user_identifier' => 'postmaster@example.com',
+      'subjects' => [
         {
-          "role_type" => "sender",
-          "subject_type" => "person",
-          "friendly_name" => "alice@example.com",
-          "uuid" => "00000000-1111-2222-3333-555555555555"
+          'role_type' => 'sender',
+          'subject_type' => 'person',
+          'friendly_name' => 'alice@example.com',
+          'uuid' => '00000000-1111-2222-3333-555555555555'
         },
         {
-          "role_type" => "recipient",
-          "subject_type" => "person",
-          "friendly_name" => "bob@example.com",
-          "uuid" => "00000000-1111-2222-3333-666666666666"
+          'role_type' => 'recipient',
+          'subject_type' => 'person',
+          'friendly_name' => 'bob@example.com',
+          'uuid' => '00000000-1111-2222-3333-666666666666'
         },
         {
-          "role_type" => "package",
-          "subject_type" => "plant",
-          "friendly_name" => "Chuck",
-          "uuid" => "00000000-1111-2222-3333-777777777777"
+          'role_type' => 'package',
+          'subject_type' => 'plant',
+          'friendly_name' => 'Chuck',
+          'uuid' => '00000000-1111-2222-3333-777777777777'
         }
       ],
-      "metadata" => metadata
+      'metadata' => metadata
     }
   end
 
   let(:metadata) do
     {
-      "delivery_method" => "courier",
-      "shipping_cost" => "15.00"
+      'delivery_method' => 'courier',
+      'shipping_cost' => '15.00'
     }
   end
 
@@ -66,12 +68,12 @@ describe Event do
 
   it_behaves_like 'it has a type dictionary'
 
-  context "message receipt" do
+  context 'message receipt' do
     before(:example) do
       described_class.create_or_update_from_json(json, example_lims)
     end
 
-    shared_examples_for "a recorded event" do
+    shared_examples_for 'a recorded event' do
       it 'should create an event' do
         expect(described_class.count - @pre_count).to eq(1)
       end
@@ -129,30 +131,30 @@ describe Event do
       end
     end
 
-    shared_examples_for "an ignored event" do
+    shared_examples_for 'an ignored event' do
       it 'should not create an event' do
         expect(described_class.count).to eq(0)
       end
     end
 
-    context "when pre-registration is required" do
+    context 'when pre-registration is required' do
       before(:context) do
         EventType.preregistration_required true
       end
 
-      context "and the event type is registered" do
+      context 'and the event type is registered' do
         let(:event_type) { registered_event_type }
 
         it_behaves_like 'a recorded event'
       end
 
-      context "and the event type is unregistered" do
+      context 'and the event type is unregistered' do
         let(:event_type) { missing_event_type }
-        it_behaves_like "an ignored event"
+        it_behaves_like 'an ignored event'
       end
     end
 
-    context "when pre-registration is not required" do
+    context 'when pre-registration is not required' do
       before(:context) do
         EventType.preregistration_required false
       end

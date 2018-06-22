@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateMetadata < ActiveRecord::Migration
   def change
     create_table :metadata do |t|

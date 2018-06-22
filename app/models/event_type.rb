@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class EventType < ActiveRecord::Base
   include ResourceTools::TypeDictionary
 

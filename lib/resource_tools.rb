@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ResourceTools
   require 'resource_tools/core_extensions'
 
@@ -15,8 +17,8 @@ module ResourceTools
     # we're probably not capturing all of the right messages.
     before_save :remember_if_we_are_a_new_record
 
-    scope :for_lims,  lambda { |lims| where(lims_id: lims) }
-    scope :with_uuid, lambda { |uuid| where(uuid: uuid) }
+    scope :for_lims,  ->(lims) { where(lims_id: lims) }
+    scope :with_uuid, ->(uuid) { where(uuid: uuid) }
   end
 
   def remember_if_we_are_a_new_record
@@ -25,5 +27,5 @@ module ResourceTools
   end
   private :remember_if_we_are_a_new_record
 
-  IGNOREABLE_ATTRIBUTES = ['dont_use_id']
+  IGNOREABLE_ATTRIBUTES = ['dont_use_id'].freeze
 end

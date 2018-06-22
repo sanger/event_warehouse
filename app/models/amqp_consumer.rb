@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'amqp'
 
 class AmqpConsumer
@@ -10,9 +12,9 @@ class AmqpConsumer
   end
 
   # Override the logging behaviour so that we have consistent message format
-  [:debug, :warn, :info, :error].each do |level|
+  %i[debug warn info error].each do |level|
     line = __LINE__
-    class_eval(%Q{
+    class_eval(%{
       def #{level}(metadata = nil, &message)
         identifier = metadata.present? ? "AMQP Consumer (\#{metadata.delivery_tag.inspect}:\#{metadata.routing_key.inspect}): " : ""
         super() { "\#{identifier}\#{message.call}" }
@@ -21,8 +23,8 @@ class AmqpConsumer
     }, __FILE__, line)
   end
 
-  delegate :url, :queue, :deadletter, :prefetch, :requeue, :reconnect_interval, :to => :@config
-  alias_method(:requeue?, :requeue)
+  delegate :url, :queue, :deadletter, :prefetch, :requeue, :reconnect_interval, to: :@config
+  alias requeue? requeue
 
   def empty_queue_disconnect_interval
     @config.empty_queue_disconnect_interval || 0
@@ -30,7 +32,7 @@ class AmqpConsumer
   private :empty_queue_disconnect_interval
 
   def run
-    info { "Starting AMQP consumer ..." }
+    info { 'Starting AMQP consumer ...' }
 
     AMQP.start(url) do |client, opened_ok|
       install_show_stopper_into(client)
@@ -67,7 +69,7 @@ class AmqpConsumer
     end
 
     client.on_recovery do |*args|
-      info { "Connection has recovered, rebuilding system ..." }
+      info { 'Connection has recovered, rebuilding system ...' }
       build_client(client)
     end
   end
@@ -75,18 +77,18 @@ class AmqpConsumer
 
   # Returns a callback that can be used to dead letter any messages.
   def prepare_deadlettering(client)
-    return lambda { |m, p, e| warn(m) { "No dead lettering for #{e.message}: #{e.backtrace}" } } if deadletter.deactivated
+    return ->(m, p, e) { warn(m) { "No dead lettering for #{e.message}: #{e.backtrace}" } } if deadletter.deactivated
 
     channel  = AMQP::Channel.new(client)
-    exchange = channel.direct(deadletter.exchange, :passive => true)
+    exchange = channel.direct(deadletter.exchange, passive: true)
     lambda do |metadata, payload, exception|
       warn(metadata) { "Dead lettering due to #{exception.message}" }
 
       exchange.publish({
-        :routing_key => metadata.routing_key,
-        :exception   => { :message => exception.message, :backtrace => exception.backtrace },
-        :message     => payload
-      }.to_json, :routing_key => "#{deadletter.routing_key}.#{metadata.routing_key}")
+        routing_key: metadata.routing_key,
+        exception: { message: exception.message, backtrace: exception.backtrace },
+        message: payload
+      }.to_json, routing_key: "#{deadletter.routing_key}.#{metadata.routing_key}")
     end
   end
   private :prepare_deadlettering
@@ -96,52 +98,52 @@ class AmqpConsumer
 
     channel = AMQP::Channel.new(client)
     channel.prefetch(prefetch)
-    channel.queue(queue, :passive => true) do |queue, queue_declared|
-      info { "Waiting for messages ..." }
+    channel.queue(queue, passive: true) do |queue, queue_declared|
+      info { 'Waiting for messages ...' }
 
-      EventMachine.add_periodic_timer(empty_queue_disconnect_interval) do
-        queue.status do |messages_in_queue, _|
-          if messages_in_queue.zero?
-            info { "Queue has no messages, quitting ..." }
-            channel.close { EventMachine.stop }
-          end
-        end
-      end unless empty_queue_disconnect_interval.zero?
-
-      queue.subscribe(:ack => true) do |metadata, payload|
-        begin
-          debug { "Message received from queue: #{payload.inspect}" }
-          begin
-            received(metadata, payload)
-          rescue => exception
-            debug(metadata) { "failed!" }
-
-            # If this is the first time we've seen this message then we requeue.  If it's not to be requeued
-            # then we deadletter it ourselves rather than using RabbitMQ's deadletter queueing which seems
-            # unreliable for some reason.  If the message is not requeued then we need to record the error.
-
-            requeue_message = requeue? && !metadata.redelivered?
-
-            if !requeue_message && longterm_issue(exception)
-              # It is our second attempt, and the issue is longterm
-              channel.reject(metadata.delivery_tag, true)
-              error(metadata) { "Closing message client following: #{exception.message}" }
-              WorkerDeath.failure(exception).deliver
-              client.close { EventMachine.stop }
-            else
-
-              channel.reject(metadata.delivery_tag, requeue_message)
-              unless requeue_message
-                deadletter.call(metadata, payload, exception)
-                raise
-              end
-
+      unless empty_queue_disconnect_interval.zero?
+        EventMachine.add_periodic_timer(empty_queue_disconnect_interval) do
+          queue.status do |messages_in_queue, _|
+            if messages_in_queue.zero?
+              info { 'Queue has no messages, quitting ...' }
+              channel.close { EventMachine.stop }
             end
           end
-        rescue NameError, StandardError => exception
-          error(metadata) { exception.message }
-          debug(metadata) { payload }
         end
+      end
+
+      queue.subscribe(ack: true) do |metadata, payload|
+        debug { "Message received from queue: #{payload.inspect}" }
+        begin
+          received(metadata, payload)
+        rescue StandardError => exception
+          debug(metadata) { 'failed!' }
+
+          # If this is the first time we've seen this message then we requeue.  If it's not to be requeued
+          # then we deadletter it ourselves rather than using RabbitMQ's deadletter queueing which seems
+          # unreliable for some reason.  If the message is not requeued then we need to record the error.
+
+          requeue_message = requeue? && !metadata.redelivered?
+
+          if !requeue_message && longterm_issue(exception)
+            # It is our second attempt, and the issue is longterm
+            channel.reject(metadata.delivery_tag, true)
+            error(metadata) { "Closing message client following: #{exception.message}" }
+            WorkerDeath.failure(exception).deliver
+            client.close { EventMachine.stop }
+          else
+
+            channel.reject(metadata.delivery_tag, requeue_message)
+            unless requeue_message
+              deadletter.call(metadata, payload, exception)
+              raise
+            end
+
+          end
+        end
+      rescue NameError, StandardError => exception
+        error(metadata) { exception.message }
+        debug(metadata) { payload }
       end
     end
   end
@@ -162,8 +164,8 @@ class AmqpConsumer
 
   # Deals with the signals that should stop the show!
   def install_show_stopper_into(client)
-    ['TERM', 'INT'].each do |signal|
-      Signal.trap(signal, Proc.new do
+    %w[TERM INT].each do |signal|
+      Signal.trap(signal, proc do
         info { "Received #{signal} signal, so quitting ..." }
         client.close { EventMachine.stop }
       end)

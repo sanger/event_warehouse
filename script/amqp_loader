@@ -1,16 +1,18 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
+
 require 'thor'
-require File.expand_path('../../config/environment', __FILE__)
+require File.expand_path('../config/environment', __dir__)
 
 class Load < Thor
   include Thor::Actions
 
-  desc "main", "Starts an AMQP consumer on the main queue"
+  desc 'main', 'Starts an AMQP consumer on the main queue'
   def main
     consumer(:main)
   end
 
-  desc "deadletter", "Starts an AMQP consumer on the dead letter queue"
+  desc 'deadletter', 'Starts an AMQP consumer on the dead letter queue'
   def deadletter
     consumer(:deadletter) do
       # Messages from the dead letter queue are in a different format.

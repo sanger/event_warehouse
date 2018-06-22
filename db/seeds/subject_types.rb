@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 SUBJECT_TYPES = [
   # ['event_key','Event description']
   ['plate', 'A physical piece of labware, represented by a human readable barcode'],
@@ -7,4 +9,4 @@ SUBJECT_TYPES = [
   ['study', 'A body of work'],
   ['project', 'Represents a cost-code and other financial groupings'],
   ['submission', 'A grouped series of work that has been requested. Samples may belong to multiple submissions during their life-cycle']
-]
+].freeze

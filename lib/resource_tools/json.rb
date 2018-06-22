@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ResourceTools::Json
   extend ActiveSupport::Concern
 
@@ -26,7 +28,7 @@ module ResourceTools::Json
 
       # JSON attributes can be translated into the attributes on the way in.
       def translate(details)
-        self.translations = Hash[details.map { |k, v| [k.to_s, v.to_s] }].reverse_merge(self.translations)
+        self.translations = Hash[details.map { |k, v| [k.to_s, v.to_s] }].reverse_merge(translations)
       end
 
       def convert_key(key)
@@ -36,12 +38,12 @@ module ResourceTools::Json
       # private :convert_key
 
       def collection_from(json_data, lims)
-        new(json_data.reverse_merge(:lims_id => lims))
+        new(json_data.reverse_merge(lims_id: lims))
       end
     end
 
-    delegate :convert_key, :to => 'self.class'
+    delegate :convert_key, to: 'self.class'
 
-    translate(:updated_at => :last_updated, :created_at => :created)
+    translate(updated_at: :last_updated, created_at: :created)
   end
 end
