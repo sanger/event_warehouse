@@ -6,8 +6,4 @@ class IgnoreableResource
   def id
     'ignored'
   end
-
-  def inserted_record?
-    false
-  end
 end

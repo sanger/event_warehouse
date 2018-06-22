@@ -4,10 +4,6 @@ module ImmutableResourceTools
 
   extend ActiveSupport::Concern
 
-  def latest(other)
-    (updated_values?(other) && ( other.last_updated > last_updated )) ? yield(self) : self
-  end
-
   module ClassMethods
     def create_or_update(attributes)
       # return false if with_uuid(new_atts["uuid"]).exists?

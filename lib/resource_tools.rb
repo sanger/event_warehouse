@@ -4,8 +4,6 @@ module ResourceTools
   extend ActiveSupport::Concern
   include ResourceTools::Json
 
-  include ResourceTools::Timestamps
-
   included do |base|
 
     # scope :updating, lambda { |r| where(:uuid => r.uuid).current }
@@ -28,20 +26,5 @@ module ResourceTools
   end
   private :remember_if_we_are_a_new_record
 
-  def inserted_record?
-    @inserted_record
-  end
-
-  def related
-    self.class.for_uuid(self.uuid)
-  end
-
-
   IGNOREABLE_ATTRIBUTES = [ 'dont_use_id' ]
-
-  def updated_values?(object)
-    us, them = self.attributes.stringify_keys, object.attributes.stringify_keys.reverse_slice(IGNOREABLE_ATTRIBUTES)
-    not us.within_acceptable_bounds?(them)
-  end
-
 end
