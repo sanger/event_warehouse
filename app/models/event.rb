@@ -8,8 +8,8 @@ class Event < ActiveRecord::Base
 
   has_many :metadata do
     def build_from_json(metadata_hash)
-      build(metadata_hash.map do |key,value|
-        {key:key,value:value}
+      build(metadata_hash.map do |key, value|
+        { key: key, value: value }
       end)
     end
   end
@@ -28,7 +28,7 @@ class Event < ActiveRecord::Base
     role_array = subject_array.map do |subject_data|
       role_type = subject_data.delete(:role_type)
       subject = Subject.lookup(subject_data)
-      {role_type: role_type, subject: subject}
+      { role_type: role_type, subject: subject }
     end
     roles.build(role_array)
   end
@@ -38,8 +38,5 @@ class Event < ActiveRecord::Base
   end
 
   json do
-
-
   end
-
 end

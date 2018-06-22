@@ -1,7 +1,6 @@
 # An immutable resource can only be recorded once. And further messages with the same
 # uuid will be ignored. Even if their content is different.
 module ImmutableResourceTools
-
   extend ActiveSupport::Concern
 
   module ClassMethods

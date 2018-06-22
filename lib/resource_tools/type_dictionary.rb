@@ -1,15 +1,13 @@
 module ResourceTools::TypeDictionary
-
   RECORD_NOT_UNIQUE_RETRIES = 3
 
   module ClassMethods
-
     attr_reader :default_description
 
     def for_key(key)
       tries = 0
       begin
-        self.preregistration_required? ? where(key:key).first : create_with(description:default_description).find_or_create_by(key:key)
+        self.preregistration_required? ? where(key: key).first : create_with(description: default_description).find_or_create_by(key: key)
       rescue ActiveRecord::RecordNotUnique => e
         # If we have two similar events arriving at the same time, we might conceivably run into a
         # race condition. We retry a few times, then give up and re-raise our exception;
@@ -32,14 +30,12 @@ module ResourceTools::TypeDictionary
 
     def preregistration_required?
       # Default to false
-      @preregistration_required||false
+      @preregistration_required || false
     end
-
   end
 
   def self.included(base)
     base.class_eval do
-
       validates_presence_of :key
       validates_uniqueness_of :key
 
@@ -54,7 +50,6 @@ module ResourceTools::TypeDictionary
   module HasDictionary
     def self.included(base)
       base.class_eval do
-
         type_assn = "#{self.name.downcase}_type"
         type_class = "#{self.name}Type".constantize
 
@@ -63,9 +58,7 @@ module ResourceTools::TypeDictionary
           key_object = assn_key.is_a?(String) ? type_class.for_key(assn_key) : assn_key
           super(key_object)
         end
-
       end
     end
   end
-
 end

@@ -10,14 +10,14 @@ require './db/seeds/event_types.rb'
 require './db/seeds/role_types.rb'
 require './db/seeds/subject_types.rb'
 
-EVENT_TYPES.each do |key,description|
-  EventType.create!(key:key,description:description)
+EVENT_TYPES.each do |key, description|
+  EventType.create!(key: key, description: description)
 end
 
-ROLE_TYPES.each do |key,description|
-  RoleType.create!(key:key,description:description)
+ROLE_TYPES.each do |key, description|
+  RoleType.create!(key: key, description: description)
 end
 
-SUBJECT_TYPES.each do |key,description|
-  SubjectType.create!(key:key,description:description)
+SUBJECT_TYPES.each do |key, description|
+  SubjectType.create!(key: key, description: description)
 end

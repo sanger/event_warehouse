@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe EventType do
-
   it_behaves_like 'a type dictionary'
 
   it 'should have its default description set by the config' do

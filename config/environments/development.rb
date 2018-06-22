@@ -43,5 +43,4 @@ EventWarehouse::Application.configure do
 
   # Added for rails 4
   config.eager_load = false
-
 end

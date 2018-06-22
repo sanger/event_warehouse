@@ -5,7 +5,6 @@ module ResourceTools
   include ResourceTools::Json
 
   included do |base|
-
     # scope :updating, lambda { |r| where(:uuid => r.uuid).current }
 
     # The original data information is stored here
@@ -16,8 +15,8 @@ module ResourceTools
     # we're probably not capturing all of the right messages.
     before_save :remember_if_we_are_a_new_record
 
-    scope :for_lims,  lambda { |lims| where(lims_id:lims) }
-    scope :with_uuid, lambda { |uuid| where(uuid:uuid)}
+    scope :for_lims,  lambda { |lims| where(lims_id: lims) }
+    scope :with_uuid, lambda { |uuid| where(uuid: uuid) }
   end
 
   def remember_if_we_are_a_new_record
@@ -26,5 +25,5 @@ module ResourceTools
   end
   private :remember_if_we_are_a_new_record
 
-  IGNOREABLE_ATTRIBUTES = [ 'dont_use_id' ]
+  IGNOREABLE_ATTRIBUTES = ['dont_use_id']
 end

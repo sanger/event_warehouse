@@ -2,19 +2,18 @@ require 'spec_helper'
 
 # As Event is effectively our main API we conduct integration tests through here
 describe Event do
-
-  ExpectedSubject = Struct.new(:uuid,:friendly_name,:subject_type,:role_type)
+  ExpectedSubject = Struct.new(:uuid, :friendly_name, :subject_type, :role_type)
 
   let(:example_lims) { 'postal_service' }
   let(:registered_event_type) { 'delivery' }
   let(:missing_event_type) { 'package_lost' }
-  let(:expected_roles) { ['sender','recipient','package'] }
+  let(:expected_roles) { ['sender', 'recipient', 'package'] }
   let(:expected_subjects) do
     [
-      ExpectedSubject.new('00000000-1111-2222-3333-555555555555','alice@example.com','person','sender'),
+      ExpectedSubject.new('00000000-1111-2222-3333-555555555555', 'alice@example.com', 'person', 'sender'),
       # Bob is pre-registered by the tests
-      ExpectedSubject.new('00000000-1111-2222-3333-666666666666','existing_bob@example.com','person','recipient'),
-      ExpectedSubject.new('00000000-1111-2222-3333-777777777777','Chuck','plant','package'),
+      ExpectedSubject.new('00000000-1111-2222-3333-666666666666', 'existing_bob@example.com', 'person', 'recipient'),
+      ExpectedSubject.new('00000000-1111-2222-3333-777777777777', 'Chuck', 'plant', 'package'),
     ]
   end
 
@@ -26,7 +25,7 @@ describe Event do
       "event_type" => event_type,
       "occured_at" => "2012-03-11 10:22:42",
       "user_identifier" => "postmaster@example.com",
-      "subjects"=>[
+      "subjects" => [
         {
           "role_type" => "sender",
           "subject_type" => "person",
@@ -46,7 +45,7 @@ describe Event do
           "uuid" => "00000000-1111-2222-3333-777777777777"
         }
       ],
-      "metadata"=> metadata
+      "metadata" => metadata
     }
   end
 
@@ -60,9 +59,9 @@ describe Event do
   # We have a single pre-registered event type
   before(:example) do
     @pre_count = Event.count
-    create(:event_type, key:registered_event_type)
+    create(:event_type, key: registered_event_type)
     # preregister one of our subjects so we can check we look stuff up correctly
-    create(:subject,friendly_name:'existing_bob@example.com',uuid:'00000000-1111-2222-3333-666666666666',subject_type:'person')
+    create(:subject, friendly_name: 'existing_bob@example.com', uuid: '00000000-1111-2222-3333-666666666666', subject_type: 'person')
   end
 
   it_behaves_like 'it has a type dictionary'
@@ -86,14 +85,13 @@ describe Event do
       it 'should have the expected uuid' do
         expect(described_class.last.uuid.to_s).to eq(event_uuid)
       end
-
     end
 
     shared_examples_for 'it registers metadata' do
       it 'should have 2 metadata with the right values' do
         expect(described_class.last.metadata.count).to eq(2)
-        metadata.each do |key,value|
-          expect(described_class.last.metadata.where(key:key).first.value).to eq(value)
+        metadata.each do |key, value|
+          expect(described_class.last.metadata.where(key: key).first.value).to eq(value)
         end
       end
     end
@@ -101,7 +99,7 @@ describe Event do
     shared_examples_for 'it finds and registers subjects' do
       it 'records all roles' do
         expect(described_class.last.roles.count).to eq(expected_roles.length)
-        registered_roles = described_class.last.roles.map {|role| role.role_type.key }
+        registered_roles = described_class.last.roles.map { |role| role.role_type.key }
         expected_roles.each do |expected_role|
           expect(registered_roles.delete(expected_role)).to eq(expected_role)
         end
@@ -113,9 +111,9 @@ describe Event do
 
       it 'records all subjects' do
         expect(described_class.last.subjects.count).to eq(expected_subjects.length)
-        registered_subjects = described_class.last.subjects.map {|s| [s.uuid.to_s, s.friendly_name, s.subject_type.key]}
+        registered_subjects = described_class.last.subjects.map { |s| [s.uuid.to_s, s.friendly_name, s.subject_type.key] }
         expected_subjects.each do |expected|
-          found = registered_subjects.detect {|s| s.first == expected.uuid }
+          found = registered_subjects.detect { |s| s.first == expected.uuid }
           expect(found).to_not be_nil
           expect(found[1]).to eq(expected.friendly_name)
           expect(found[2]).to eq(expected.subject_type)
@@ -123,13 +121,12 @@ describe Event do
       end
 
       it 'assigns subject the right roles' do
-        registered_roles = described_class.last.roles.map {|role| [role.subject.uuid.to_s,role.role_type.key] }
+        registered_roles = described_class.last.roles.map { |role| [role.subject.uuid.to_s, role.role_type.key] }
         expected_subjects.each do |expected|
-          matching_role = registered_roles.detect {|r| r.first == expected.uuid }
+          matching_role = registered_roles.detect { |r| r.first == expected.uuid }
           expect(matching_role.last).to eq(expected.role_type)
         end
       end
-
     end
 
     shared_examples_for "an ignored event" do
@@ -156,7 +153,6 @@ describe Event do
     end
 
     context "when pre-registration is not required" do
-
       before(:context) do
         EventType.preregistration_required false
       end
@@ -167,11 +163,9 @@ describe Event do
       it_behaves_like 'it registers metadata'
       it_behaves_like 'it finds and registers subjects'
     end
-
   end
 
   context 'repeat message reciept' do
-
     let(:event_type) { registered_event_type }
 
     before(:example) do
@@ -180,8 +174,7 @@ describe Event do
     end
 
     it 'should not register a new event with the same uuid' do
-      expect { described_class.create_or_update_from_json(json, example_lims) }.to raise_error(ActiveRecord::RecordInvalid,'Validation failed: Uuid has already been taken')
+      expect { described_class.create_or_update_from_json(json, example_lims) }.to raise_error(ActiveRecord::RecordInvalid, 'Validation failed: Uuid has already been taken')
     end
-
   end
 end
