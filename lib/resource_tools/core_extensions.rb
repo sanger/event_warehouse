@@ -19,23 +19,8 @@ module ResourceTools::CoreExtensions
       dup.delete_if { |k, _| keys.include?(k) }
     end
   end
-
-  module Numeric
-    extend ActiveSupport::Concern
-
-    included do
-      delegate :numeric_tolerance, to: 'self.class'
-    end
-
-    module ClassMethods
-      def numeric_tolerance
-        @numeric_tolerance ||= EventWarehouse::Application.config.numeric_tolerance
-      end
-    end
-  end
 end
 
 # Extend the core classes with the behaviour we need
 class Array; include ResourceTools::CoreExtensions::Array; end
 class Hash; include ResourceTools::CoreExtensions::Hash; end
-class Numeric; include ResourceTools::CoreExtensions::Numeric; end
