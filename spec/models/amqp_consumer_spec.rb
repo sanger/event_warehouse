@@ -19,10 +19,13 @@ describe AmqpConsumer do
   end
   let(:prefetch_count) { 50 }
   let(:queue_name) { 'queue' }
-  let(:deadletter_settings) { ActiveSupport::Configurable::Configuration.new(deactivated: true, exchange: 'deadletters', routing_key: 'test.deadletter') }
+  let(:deadletter_disabled) { true }
+  let(:deadletter_settings) { ActiveSupport::Configurable::Configuration.new(deactivated: deadletter_disabled, exchange: 'deadletters', routing_key: 'test.deadletter') }
   let(:mock_client) { instance_double(AMQP::Session) }
   let(:mock_chanel) { instance_double(AMQP::Channel) }
   let(:mock_queue) { instance_double(AMQP::Queue) }
+  let(:mock_exchange) { instance_double(AMQP::Exchange) }
+  let(:chanel_creation) { expect(AMQP::Channel).to receive(:new).with(mock_client).and_return(mock_chanel) }
 
   subject(:amqp_consumer) { AmqpConsumer.new(dummy_config) }
 
@@ -30,7 +33,7 @@ describe AmqpConsumer do
     expect(AMQP).to receive(:start).with('exchange_url') do |_, &block|
       block.call(mock_client, true)
     end
-    expect(AMQP::Channel).to receive(:new).with(mock_client).and_return(mock_chanel)
+    chanel_creation
     expect(mock_client).to receive(:on_error)
     expect(mock_client).to receive(:on_recovery)
 
@@ -51,22 +54,66 @@ describe AmqpConsumer do
   describe 'receiving a message' do
     # We can't use an instance double here, as routing_key is handled by method_missing, which the
     # instance
-    let(:metadata) { double('AMQP::Header', ack: true, delivery_tag: 'devlivery_tag', routing_key: 'queue', redelivered?: false) }
+    let(:metadata) { double('AMQP::Header', ack: true, delivery_tag: 'devlivery_tag', routing_key: 'queue', redelivered?: redelivered) }
     before do
       expect(mock_queue).to receive(:subscribe).with(ack: true) do |_, &block|
         block.call(metadata, payload)
       end
     end
 
-    context "invalid payload" do
-      let(:payload) { "Not a valid message!" }
-      it 'processes the message' do
-        expect(mock_chanel).to receive(:reject).with('devlivery_tag', true)
-        amqp_consumer.run
+    context 'invalid payload' do
+      let(:payload) { 'Not a valid message!' }
+      context 'on the first run' do
+        let(:redelivered) { false }
+
+        context 'without deadlettering' do
+          it 'processes the message' do
+            expect(mock_chanel).to receive(:reject).with('devlivery_tag', true)
+            amqp_consumer.run
+          end
+        end
+
+        context 'with deadlettering' do
+          let(:deadletter_disabled) { false }
+          let(:mock_dl_chanel) { instance_double(AMQP::Channel, 'Deadletter Chanel') }
+          # Execution order here is important, but it is a result of the way the code behaves, rather than a pre-requisite
+          let(:chanel_creation) { expect(AMQP::Channel).to receive(:new).with(mock_client).and_return(mock_dl_chanel, mock_chanel) }
+
+          it 'processes the message' do
+            expect(mock_dl_chanel).to receive(:direct).with('deadletters', passive: true)
+            expect(mock_chanel).to receive(:reject).with('devlivery_tag', true)
+            amqp_consumer.run
+          end
+        end
+      end
+      context 'on the second run' do
+        let(:redelivered) { true }
+
+        context 'without deadlettering' do
+          it 'processes the message' do
+            expect(mock_chanel).to receive(:reject).with('devlivery_tag', false)
+            amqp_consumer.run
+          end
+        end
+
+        context 'with deadlettering' do
+          let(:deadletter_disabled) { false }
+          let(:mock_dl_chanel) { instance_double(AMQP::Channel, 'Deadletter Chanel') }
+          # Execution order here is important, but it is a result of the way the code behaves, rather than a pre-requisite
+          let(:chanel_creation) { expect(AMQP::Channel).to receive(:new).with(mock_client).and_return(mock_dl_chanel, mock_chanel) }
+
+          it 'processes the message' do
+            expect(mock_dl_chanel).to receive(:direct).with('deadletters', passive: true).and_return(mock_exchange)
+            expect(mock_chanel).to receive(:reject).with('devlivery_tag', false)
+            expect(mock_exchange).to receive(:publish)
+            amqp_consumer.run
+          end
+        end
       end
     end
 
-    context "valid payload" do
+    context 'valid payload' do
+      let(:redelivered) { false }
       let(:payload) do
         {
           'event' => {

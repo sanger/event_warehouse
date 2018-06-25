@@ -81,7 +81,6 @@ class AmqpConsumer
     exchange = channel.direct(deadletter.exchange, passive: true)
     lambda do |metadata, payload, exception|
       warn(metadata) { "Dead lettering due to #{exception.message}" }
-
       exchange.publish({
         routing_key: metadata.routing_key,
         exception: { message: exception.message, backtrace: exception.backtrace },
@@ -129,7 +128,6 @@ class AmqpConsumer
             WorkerDeath.failure(exception).deliver
             client.close { EventMachine.stop }
           else
-
             channel.reject(metadata.delivery_tag, requeue_message)
             unless requeue_message
               deadletter.call(metadata, payload, exception)
