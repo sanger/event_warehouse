@@ -7,6 +7,9 @@ class Subject < ActiveRecord::Base
   validates :uuid, uniqueness: true
 
   def self.lookup(subject)
-    create_with(friendly_name: subject[:friendly_name], subject_type: subject[:subject_type]).find_or_create_by(uuid: subject[:uuid])
+    create_with(
+      friendly_name: subject[:friendly_name],
+      subject_type: subject[:subject_type]
+    ).find_or_create_by(uuid: subject[:uuid])
   end
 end

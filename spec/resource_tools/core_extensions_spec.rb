@@ -124,7 +124,8 @@ module ResourceTools::CoreExtensions
       context 'when it is unknown' do
         subject { 'Unknown' }
         it 'raises an exception' do
-          expect { subject.to_boolean_from_arguments }.to raise_error RuntimeError, 'Cannot convert "Unknown" to a boolean safely!'
+          expect { subject.to_boolean_from_arguments }
+            .to raise_error RuntimeError, 'Cannot convert "Unknown" to a boolean safely!'
         end
       end
     end

@@ -20,7 +20,13 @@ describe AmqpConsumer do
   let(:prefetch_count) { 50 }
   let(:queue_name) { 'queue' }
   let(:deadletter_disabled) { true }
-  let(:deadletter_settings) { ActiveSupport::Configurable::Configuration.new(deactivated: deadletter_disabled, exchange: 'deadletters', routing_key: 'test.deadletter') }
+  let(:deadletter_settings) do
+    ActiveSupport::Configurable::Configuration.new(
+      deactivated: deadletter_disabled,
+      exchange: 'deadletters',
+      routing_key: 'test.deadletter'
+    )
+  end
   let(:mock_client) { instance_double(AMQP::Session) }
   let(:mock_chanel) { instance_double(AMQP::Channel) }
   let(:mock_queue) { instance_double(AMQP::Queue) }
@@ -54,7 +60,9 @@ describe AmqpConsumer do
   describe 'receiving a message' do
     # We can't use an instance double here, as routing_key is handled by method_missing, which the
     # instance
-    let(:metadata) { double('AMQP::Header', ack: true, delivery_tag: 'devlivery_tag', routing_key: 'queue', redelivered?: redelivered) }
+    let(:metadata) do
+      double('AMQP::Header', ack: true, delivery_tag: 'devlivery_tag', routing_key: 'queue', redelivered?: redelivered)
+    end
     before do
       expect(mock_queue).to receive(:subscribe).with(ack: true) do |_, &block|
         block.call(metadata, payload)
@@ -76,8 +84,11 @@ describe AmqpConsumer do
         context 'with deadlettering' do
           let(:deadletter_disabled) { false }
           let(:mock_dl_chanel) { instance_double(AMQP::Channel, 'Deadletter Chanel') }
-          # Execution order here is important, but it is a result of the way the code behaves, rather than a pre-requisite
-          let(:chanel_creation) { expect(AMQP::Channel).to receive(:new).with(mock_client).and_return(mock_dl_chanel, mock_chanel) }
+          # Execution order here is important, but it is a result of the way the code behaves,
+          # rather than a pre-requisite
+          let(:chanel_creation) do
+            expect(AMQP::Channel).to receive(:new).with(mock_client).and_return(mock_dl_chanel, mock_chanel)
+          end
 
           it 'processes the message' do
             expect(mock_dl_chanel).to receive(:direct).with('deadletters', passive: true)
@@ -99,8 +110,11 @@ describe AmqpConsumer do
         context 'with deadlettering' do
           let(:deadletter_disabled) { false }
           let(:mock_dl_chanel) { instance_double(AMQP::Channel, 'Deadletter Chanel') }
-          # Execution order here is important, but it is a result of the way the code behaves, rather than a pre-requisite
-          let(:chanel_creation) { expect(AMQP::Channel).to receive(:new).with(mock_client).and_return(mock_dl_chanel, mock_chanel) }
+          # Execution order here is important, but it is a result of the way the code behaves,
+          # rather than a pre-requisite
+          let(:chanel_creation) do
+            expect(AMQP::Channel).to receive(:new).with(mock_client).and_return(mock_dl_chanel, mock_chanel)
+          end
 
           it 'processes the message' do
             expect(mock_dl_chanel).to receive(:direct).with('deadletters', passive: true).and_return(mock_exchange)

@@ -28,14 +28,14 @@ class AmqpConsumer
 
   # Override the logging behaviour so that we have consistent message format
   %i[debug warn info error].each do |level|
-    line = __LINE__
-    class_eval(%{
-      def #{level}(metadata = nil, &message)
-        identifier = metadata.present? ? "AMQP Consumer (\#{metadata.delivery_tag.inspect}:\#{metadata.routing_key.inspect}): " : ""
-        super() { p "\#{identifier}\#{message.call}" }
-      end
-      private :#{level}
-    }, __FILE__, line)
+    define_method(level) do |metadata = nil, &message|
+      identifier = if metadata.present?
+                     "AMQP Consumer (#{metadata.delivery_tag.inspect}:#{metadata.routing_key.inspect}): "
+                   else
+                     ''
+                   end
+      super() { "#{identifier}#{message.call}" }
+    end
   end
 
   def empty_queue_disconnect_interval
@@ -147,7 +147,8 @@ class AmqpConsumer
     # We can't just use the exception class, as many Rails MySQL exceptions share the same class
     if exception.is_a? ActiveRecord::StatementInvalid
       # Example exceptions, we may need to add more in future:
-      # <ActiveRecord::StatementInvalid: Mysql2::Error: closed MySQL connection: SELECT sleep(10) FROM studies;> Mysql2::Error: closed MySQL connection: SELECT sleep(10) FROM studies; Connection closed.
+      # <ActiveRecord::StatementInvalid: Mysql2::Error: closed MySQL connection: SELECT sleep(10) FROM studies;>
+      # Mysql2::Error: closed MySQL connection: SELECT sleep(10) FROM studies; Connection closed.
       [/Mysql2::Error: closed MySQL connection:/, /Mysql2::Error: MySQL server has gone away/].each do |regex|
         return true if regex.match(exception.message).present?
       end
