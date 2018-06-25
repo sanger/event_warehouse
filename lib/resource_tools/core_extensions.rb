@@ -20,15 +20,6 @@ module ResourceTools::CoreExtensions
     end
   end
 
-  module String
-    def to_boolean_from_arguments
-      if %w[true yes].include?(downcase) then true
-      elsif %w[false no].include?(downcase) then false
-      else raise "Cannot convert #{inspect} to a boolean safely!"
-      end
-    end
-  end
-
   module Numeric
     extend ActiveSupport::Concern
 
@@ -42,28 +33,9 @@ module ResourceTools::CoreExtensions
       end
     end
   end
-
-  module NilClass
-    def latest(_object)
-      yield(nil)
-    end
-  end
-
-  module SelfReferencingBoolean
-    def to_boolean_from_arguments
-      self
-    end
-  end
 end
 
 # Extend the core classes with the behaviour we need
 class Array; include ResourceTools::CoreExtensions::Array; end
 class Hash; include ResourceTools::CoreExtensions::Hash; end
-class String; include ResourceTools::CoreExtensions::String; end
 class Numeric; include ResourceTools::CoreExtensions::Numeric; end
-class NilClass
-  include ResourceTools::CoreExtensions::NilClass
-  include ResourceTools::CoreExtensions::SelfReferencingBoolean
-end
-class TrueClass; include ResourceTools::CoreExtensions::SelfReferencingBoolean; end
-class FalseClass; include ResourceTools::CoreExtensions::SelfReferencingBoolean; end
