@@ -36,6 +36,7 @@ group :development do
   gem 'guard-bundler'
   gem 'guard-rspec'
   gem 'rubocop'
+  gem 'travis'
 end
 
 group :deployment do
