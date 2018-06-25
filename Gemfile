@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 
 # TODO: We pretty much just use active record and active mailer, do we need rails?
 gem 'mysql2', '~> 0.4'
-gem 'rails', '~> 5.0'
+gem 'rails', '~> 5.2'
 
 # Rails dependencies
 gem 'bootsnap'
