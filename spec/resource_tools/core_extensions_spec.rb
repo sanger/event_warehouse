@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-module ResourceTools::CoreExtensions
+describe ResourceTools::CoreExtensions do
   describe NilClass do
     context '#latest' do
       let(:callback) do
@@ -172,7 +172,8 @@ module ResourceTools::CoreExtensions
       end
 
       it 'does not modify an array of hashes' do
-        expect(::Array.convert([{ example: 'example' }, { example: 'example' }])).to eq([{ example: 'example' }, { example: 'example' }])
+        expect(::Array.convert([{ example: 'example' }, { example: 'example' }]))
+          .to eq([{ example: 'example' }, { example: 'example' }])
       end
     end
   end

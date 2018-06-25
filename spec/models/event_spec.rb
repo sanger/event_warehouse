@@ -63,7 +63,10 @@ describe Event do
     @pre_count = Event.count
     create(:event_type, key: registered_event_type)
     # preregister one of our subjects so we can check we look stuff up correctly
-    create(:subject, friendly_name: 'existing_bob@example.com', uuid: '00000000-1111-2222-3333-666666666666', subject_type: 'person')
+    create(:subject,
+           friendly_name: 'existing_bob@example.com',
+           uuid: '00000000-1111-2222-3333-666666666666',
+           subject_type: 'person')
   end
 
   it_behaves_like 'it has a type dictionary'
@@ -113,7 +116,9 @@ describe Event do
 
       it 'records all subjects' do
         expect(described_class.last.subjects.count).to eq(expected_subjects.length)
-        registered_subjects = described_class.last.subjects.map { |s| [s.uuid.to_s, s.friendly_name, s.subject_type.key] }
+        registered_subjects = described_class.last.subjects.map do |s|
+          [s.uuid.to_s, s.friendly_name, s.subject_type.key]
+        end
         expected_subjects.each do |expected|
           found = registered_subjects.detect { |s| s.first == expected.uuid }
           expect(found).to_not be_nil
@@ -176,7 +181,8 @@ describe Event do
     end
 
     it 'should not register a new event with the same uuid' do
-      expect { described_class.create_or_update_from_json(json, example_lims) }.to raise_error(ActiveRecord::RecordInvalid, 'Validation failed: Uuid has already been taken')
+      expect { described_class.create_or_update_from_json(json, example_lims) }
+        .to raise_error(ActiveRecord::RecordInvalid, 'Validation failed: Uuid has already been taken')
     end
   end
 end

@@ -30,7 +30,7 @@ class AmqpConsumer
   %i[debug warn info error].each do |level|
     define_method(level) do |metadata = nil, &message|
       identifier = if metadata.present?
-                     "AMQP Consumer (#{metadata.delivery_tag.inspect}:#{metadata.routing_key.inspect}): "
+                     "(#{metadata.delivery_tag.inspect}:#{metadata.routing_key.inspect}): "
                    else
                      ''
                    end
