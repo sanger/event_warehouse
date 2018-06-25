@@ -4,14 +4,17 @@ source 'https://rubygems.org'
 
 # TODO: We pretty much just use active record and active mailer, do we need rails?
 gem 'mysql2', '~> 0.4'
-gem 'rails', '~> 4.2'
+gem 'rails', '~> 5.0'
+
+# Rails dependencies
+gem 'bootsnap'
 
 # TODO: COnsider switching to Bunny if possible
 gem 'amqp', '~> 1.5'
 
 # Replaces use of lib/uuidable.rb as the latter was provind to
 # be a bit brittle. Allows use of binary uuid columns.
-gem 'activeuuid'
+gem 'mysql-binuuid-rails'
 
 # We use a special version of hashie to bypass rails protected attributes.
 # Consider removing Hashie entirely

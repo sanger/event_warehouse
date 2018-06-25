@@ -2,6 +2,8 @@
 
 require 'amqp'
 
+# Subscribes to a message queue, and passes the messages into the correct object.
+# Need to be simplified
 class AmqpConsumer
   include Logging
 

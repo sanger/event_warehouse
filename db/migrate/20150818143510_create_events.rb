@@ -6,10 +6,10 @@ class CreateEvents < ActiveRecord::Migration
       t.string :lims_id,
                null: false,
                comment: 'Identifier for the originating LIMS. eg. SQSCP for Sequencesacape'
-      t.uuid :uuid,
-             null: false,
-             comment: 'A binary encoded UUID use HEX(uuid) to retrieve the original (minus dashes)',
-             limit: 16
+      t.binary :uuid,
+               null: false,
+               comment: 'A binary encoded UUID use HEX(uuid) to retrieve the original (minus dashes)',
+               limit: 16
       t.integer :event_type_id,
                 null: false,
                 comment: 'References the event type'

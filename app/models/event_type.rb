@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
-class EventType < ActiveRecord::Base
+# A dictionary of observed or accepted event types with a description.
+# Associated with an event and describes the nature of the event.
+class EventType < ApplicationRecord
   include ResourceTools::TypeDictionary
 
   has_default_description EventWarehouse::Application.config.default_event_type_description

@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
-class Event < ActiveRecord::Base
+#
+# A single action that can occur, and may be of interest to multiple parties.
+# Events may be associated with one or more Subjects, and may have any number of metadata.
+#
+class Event < ApplicationRecord
   include ResourceTools
   include ImmutableResourceTools
   include ResourceTools::TypeDictionary::HasDictionary
@@ -8,13 +12,15 @@ class Event < ActiveRecord::Base
   has_many :roles
   has_many :subjects, through: :roles
 
-  has_many :metadata do
+  has_many :metadata, inverse_of: :event do
     def build_from_json(metadata_hash)
       build(metadata_hash.map do |key, value|
         { key: key, value: value }
       end)
     end
   end
+
+  attribute :uuid, MySQLBinUUID::Type.new
 
   validates :event_type, presence: true
   validates :lims_id, presence: true

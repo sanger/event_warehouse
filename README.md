@@ -19,7 +19,7 @@ Glossary
 - **RoleType** A property of the association of an event with a subject. Defines the way in which the subject is associated with the event.
 - **SubjectType** A dictionary of subject types.
 
-- **EventSubject** An association between an event and a subject. Defines the role a subject plays in the event.
+- **Role** An association between an event and a subject. Defines the role a subject plays in the event.
 
 - **lims** Present on event, and included as a field in the event message (see Message Format), identifies the originating system. Allows multiple systems to share an event warehouse. (The term LIMS stands for 'Laboratory Information Management System' and reflects the initial use of this event tracker)
 - **friendly_name** Present on subject. A human readable, commonly used identifier for the subject. Uniqueness is recommended, but not enforced. In the event that two subjects exist with the same friendly name, uuid and subject type can assist with disambiguation.

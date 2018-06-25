@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Wraps the rails logger, and prepends each message with the originating class
 module Logging
   %i[debug info warn error].each do |level|
     define_method(level) do |&message|

@@ -1,7 +1,13 @@
 # frozen_string_literal: true
 
-class Subject < ActiveRecord::Base
+# Something associated with a event.
+# An subject can be considered an interested party, either because it was directly subject to an event,
+# or because it is indirectly affected. Subjects may belong to many events.
+# While their subject type will remain constant, the role may be different for each event.
+class Subject < ApplicationRecord
   include ResourceTools::TypeDictionary::HasDictionary
+
+  attribute :uuid, MySQLBinUUID::Type.new
 
   validates :subject_type, :friendly_name, :uuid, presence: true
   validates :uuid, uniqueness: true
