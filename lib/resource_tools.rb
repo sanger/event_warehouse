@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 module ResourceTools
-  require 'resource_tools/core_extensions'
-
   extend ActiveSupport::Concern
   include ResourceTools::Json
 
