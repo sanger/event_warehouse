@@ -8,11 +8,12 @@ module ResourceTools::Json
       create_or_update(json.collection_from(json_data, lims))
     end
 
+    private
+
     def json(&block)
       const_set(:JsonHandler, Class.new(ResourceTools::Json::Handler)) unless const_defined?(:JsonHandler)
       const_get(:JsonHandler).tap { |json_handler| json_handler.instance_eval(&block) if block_given? }
     end
-    private :json
   end
 
   class Handler < Hashie::Mash

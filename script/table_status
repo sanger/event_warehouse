@@ -9,11 +9,6 @@
 require File.expand_path('../config/environment', __dir__)
 
 module ActiveRecord::TableStatus
-  def rows_in(name)
-    select_one("SELECT count(*) AS total FROM #{quote_table_name(name)}")['total']
-  end
-  private :rows_in
-
   def each_table(ignore = [])
     paired, unpaired = (tables - ignore).group_by { |name| name.sub(/^current_/, '') }.partition { |_, names| names.size > 1 }
     paired.each do |name, _|
@@ -25,6 +20,12 @@ module ActiveRecord::TableStatus
     unpaired.each do |name, _|
       yield(name, rows_in(name), '-', '-', '-')
     end
+  end
+
+  private
+
+  def rows_in(name)
+    select_one("SELECT count(*) AS total FROM #{quote_table_name(name)}")['total']
   end
 end
 

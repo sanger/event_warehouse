@@ -30,12 +30,13 @@ class Load < Thor
   end
 
   no_tasks do
+    private
+
     def consumer(queue_configuration, &block)
       AmqpConsumer.new(EventWarehouse::Application.config.amqp.send(queue_configuration)).tap do |consumer|
         consumer.instance_eval(&block) if block_given?
       end.run
     end
-    private :consumer
   end
 end
 

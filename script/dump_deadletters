@@ -109,10 +109,11 @@ class IndentWriter
     @current_indent = 0
   end
 
+  private
+
   def output_indent
     io.write('  ' * @current_indent)
   end
-  private :output_indent
 end
 
 class DeadLetterDumper < Thor

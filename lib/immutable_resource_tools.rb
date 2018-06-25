@@ -6,6 +6,8 @@ module ImmutableResourceTools
   extend ActiveSupport::Concern
 
   module ClassMethods
+    private
+
     def create_or_update(attributes)
       # return false if with_uuid(new_atts["uuid"]).exists?
       new_atts = attributes.reverse_merge(data: attributes)
@@ -13,6 +15,5 @@ module ImmutableResourceTools
       return nil if new_record.ignorable?
       new_record.save!
     end
-    private :create_or_update
   end
 end

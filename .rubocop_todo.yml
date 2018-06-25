@@ -100,12 +100,6 @@ Rails/TimeZone:
   Exclude:
     - 'script/dump_deadletters'
 
-# Offense count: 17
-# Configuration parameters: .
-# SupportedStyles: inline, group
-Style/AccessModifierDeclarations:
-  EnforcedStyle: inline
-
 # Offense count: 5
 # Cop supports --auto-correct.
 # Configuration parameters: AutoCorrect, EnforcedStyle.
@@ -183,4 +177,4 @@ Style/Semicolon:
 # Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
 # URISchemes: http, https
 Metrics/LineLength:
-  Max: 202
+  Max: 900
