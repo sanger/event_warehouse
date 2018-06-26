@@ -8,6 +8,7 @@ AllCops:
     - config/initializers/secret_token.rb
     - script/rails
     - bin/*
+    - vendor/**/*
 Metrics/BlockLength:
   ExcludedMethods:
     - describe
