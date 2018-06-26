@@ -17,3 +17,6 @@
 
 # Ignore simplecove test coverage reports
 /coverage
+
+# Ignore spec info
+/spec/examples.txt

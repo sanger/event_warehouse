@@ -8,6 +8,7 @@ gem 'rails', '~> 5.2'
 
 # Rails dependencies
 gem 'bootsnap'
+gem 'puma'
 
 # TODO: COnsider switching to Bunny if possible
 gem 'amqp', '~> 1.5'
@@ -22,12 +23,15 @@ gem 'rest-client'
 # For JSON API support
 gem 'jsonapi-rails', '~> 0.3'
 gem 'jsonapi_suite', '~> 0.7'
+gem 'jsonapi_spec_helpers'
+gem 'kaminari' # Pagination. Used by jsonapi_suite
 
 group :test, :development do
   gem 'database_cleaner'
   # Easier testing of AMQP client
   gem 'factory_bot_rails'
   gem 'pry'
+  gem 'pry-byebug', platform: :mri
   gem 'rspec-rails'
   gem 'simplecov'
 end

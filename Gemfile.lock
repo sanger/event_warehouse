@@ -59,6 +59,7 @@ GEM
     bootsnap (1.3.0)
       msgpack (~> 1.0)
     builder (3.2.3)
+    byebug (10.0.2)
     coderay (1.1.2)
     concurrent-ruby (1.0.5)
     crass (1.0.4)
@@ -134,12 +135,26 @@ GEM
       jsonapi-serializable (~> 0.3.0)
     jsonapi_errorable (0.9.0)
       jsonapi-serializable (~> 0.1)
+    jsonapi_spec_helpers (0.4.10)
+      rspec (~> 3.0)
     jsonapi_suite (0.7.0)
       actionpack (>= 4.1, < 6)
       activesupport (>= 4.1, < 6)
       jsonapi_compliable (~> 0.11)
       jsonapi_errorable (~> 0.6)
       strong_resources (~> 0.6)
+    kaminari (1.1.1)
+      activesupport (>= 4.1.0)
+      kaminari-actionview (= 1.1.1)
+      kaminari-activerecord (= 1.1.1)
+      kaminari-core (= 1.1.1)
+    kaminari-actionview (1.1.1)
+      actionview
+      kaminari-core (= 1.1.1)
+    kaminari-activerecord (1.1.1)
+      activerecord
+      kaminari-core (= 1.1.1)
+    kaminari-core (1.1.1)
     launchy (2.4.3)
       addressable (~> 2.3)
     listen (3.1.5)
@@ -187,6 +202,10 @@ GEM
     pry (0.11.3)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
+    pry-byebug (3.6.0)
+      byebug (~> 10.0)
+      pry (~> 0.10)
+    puma (3.11.4)
     pusher-client (0.6.2)
       json
       websocket (~> 1.0)
@@ -314,12 +333,16 @@ DEPENDENCIES
   guard-rspec
   hashie-forbidden_attributes
   jsonapi-rails (~> 0.3)
+  jsonapi_spec_helpers
   jsonapi_suite (~> 0.7)
+  kaminari
   migration_comments
   mysql-binuuid-rails
   mysql2 (~> 0.4)
   pry
+  pry-byebug
   psd_logger!
+  puma
   rails (~> 5.2)
   rest-client
   rspec-rails
