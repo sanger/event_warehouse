@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Add the metadata table to store key value pairs describing an event
 class CreateMetadata < ActiveRecord::Migration
   def change
     create_table :metadata do |t|

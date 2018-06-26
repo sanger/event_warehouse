@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Add the subject_types table to store the subject type dictionary
 class CreateSubjectTypes < ActiveRecord::Migration
   def change
     create_table :subject_types do |t|

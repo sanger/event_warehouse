@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Add the role_types table to store the role type dictionary
 class CreateRoleTypes < ActiveRecord::Migration
   def change
     create_table :role_types do |t|

@@ -177,7 +177,6 @@ describe Event do
 
     before(:example) do
       create(:event, uuid: event_uuid)
-      @pre_count = Event.count
     end
 
     it 'should not register a new event with the same uuid' do

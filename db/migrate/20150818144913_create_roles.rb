@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Add the roles table to associated subjects with events
 class CreateRoles < ActiveRecord::Migration
   def change
     create_table :roles do |t|

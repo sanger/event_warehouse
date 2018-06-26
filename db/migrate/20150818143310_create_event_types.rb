@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Add the event_types table to store the event type dictionary
 class CreateEventTypes < ActiveRecord::Migration
   def change
     create_table :event_types do |t|

@@ -9,10 +9,10 @@ class Event < ApplicationRecord
   include ImmutableResourceTools
   include ResourceTools::TypeDictionary::HasDictionary
 
-  has_many :roles
+  has_many :roles, dependent: :destroy
   has_many :subjects, through: :roles
 
-  has_many :metadata, inverse_of: :event do
+  has_many :metadata, inverse_of: :event, dependent: :destroy do
     def build_from_json(metadata_hash)
       build(metadata_hash.map do |key, value|
         { key: key, value: value }

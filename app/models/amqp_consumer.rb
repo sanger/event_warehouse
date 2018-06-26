@@ -99,16 +99,7 @@ class AmqpConsumer
     channel.queue(queue, passive: true) do |queue, _queue_declared|
       info { 'Waiting for messages ...' }
 
-      unless empty_queue_disconnect_interval.zero?
-        EventMachine.add_periodic_timer(empty_queue_disconnect_interval) do
-          queue.status do |messages_in_queue, _|
-            if messages_in_queue.zero?
-              info { 'Queue has no messages, quitting ...' }
-              channel.close { EventMachine.stop }
-            end
-          end
-        end
-      end
+      stop_when_queue_empty(channel, queue) unless empty_queue_disconnect_interval.zero?
 
       queue.subscribe(ack: true) do |metadata, payload|
         debug { "Message received from queue: #{payload.inspect}" }
@@ -138,9 +129,20 @@ class AmqpConsumer
 
           end
         end
-      rescue NameError, StandardError => exception
+      rescue StandardError => exception
         error(metadata) { exception.message }
         debug(metadata) { payload }
+      end
+    end
+  end
+
+  def stop_when_queue_empty(channel, queue)
+    EventMachine.add_periodic_timer(empty_queue_disconnect_interval) do
+      queue.status do |messages_in_queue, _|
+        if messages_in_queue.zero?
+          info { 'Queue has no messages, quitting ...' }
+          channel.close { EventMachine.stop }
+        end
       end
     end
   end

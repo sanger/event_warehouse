@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Add foreign keys to ensure data integrity
 class AddForeignKeys < ActiveRecord::Migration
   def change
     add_foreign_key :events,   :event_types

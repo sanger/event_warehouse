@@ -16,12 +16,12 @@ class Load < Thor
   def deadletter
     consumer(:deadletter) do
       # Messages from the dead letter queue are in a different format.
-      def received(metadata, payload)
+      define_method(:received) do |metadata, payload|
         insert_record(metadata, ActiveSupport::JSON.decode(ActiveSupport::JSON.decode(payload)['message']))
       end
 
       # Dead lettering of dead letters make no sense, so just log the information for later.
-      def prepare_deadlettering(_)
+      define_method(:prepare_deadlettering) do
         lambda do |metadata, payload, exception|
           error(metadata) { "Cannot process message due to #{exception.message}: #{payload.inspect}" }
         end

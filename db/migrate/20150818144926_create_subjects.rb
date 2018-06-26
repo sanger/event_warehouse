@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Create the subjects table to store things that are associated with events
 class CreateSubjects < ActiveRecord::Migration
   def change
     create_table :subjects do |t|

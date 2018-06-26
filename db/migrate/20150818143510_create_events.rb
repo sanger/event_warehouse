@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Create the events table to store events
 class CreateEvents < ActiveRecord::Migration
   def change
     create_table :events do |t|

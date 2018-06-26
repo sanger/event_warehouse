@@ -29,6 +29,7 @@ Metrics/BlockLength:
     - let!
     - factory
     - define
+    - shared_examples_for
     - guard
 Metrics/LineLength:
   Max: 120
