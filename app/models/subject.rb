@@ -12,6 +12,9 @@ class Subject < ApplicationRecord
   validates :subject_type, :friendly_name, :uuid, presence: true
   validates :uuid, uniqueness: true
 
+  has_many :roles, inverse_of: :subject, dependent: :restrict_with_exception
+  has_many :events, through: :roles
+
   def self.lookup(subject)
     create_with(
       friendly_name: subject[:friendly_name],

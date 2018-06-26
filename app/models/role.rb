@@ -5,6 +5,6 @@
 class Role < ApplicationRecord
   include ResourceTools::TypeDictionary::HasDictionary
 
-  belongs_to :subject
-  belongs_to :event
+  belongs_to :subject, inverse_of: :roles
+  belongs_to :event, inverse_of: :roles
 end

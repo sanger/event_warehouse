@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require 'rails_helper'
 
-describe ResourceTools::Json::Handler do
+RSpec.describe ResourceTools::Json::Handler do
   class Json < ResourceTools::Json::Handler
     translate('key' => 'translated')
   end

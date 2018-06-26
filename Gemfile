@@ -11,9 +11,6 @@ gem 'bootsnap'
 
 # TODO: COnsider switching to Bunny if possible
 gem 'amqp', '~> 1.5'
-
-# Replaces use of lib/uuidable.rb as the latter was provind to
-# be a bit brittle. Allows use of binary uuid columns.
 gem 'mysql-binuuid-rails'
 
 # We use a special version of hashie to bypass rails protected attributes.
@@ -21,6 +18,10 @@ gem 'mysql-binuuid-rails'
 gem 'hashie-forbidden_attributes'
 gem 'migration_comments'
 gem 'rest-client'
+
+# For JSON API support
+gem 'jsonapi-rails', '~> 0.3'
+gem 'jsonapi_suite', '~> 0.7'
 
 group :test, :development do
   gem 'database_cleaner'

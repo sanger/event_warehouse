@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require 'rails_helper'
 
 # The AmqpConsumer handles queue subscription and message receipt
-describe AmqpConsumer do
+RSpec.describe AmqpConsumer do
   # Ran into a few issues trying to use evented_spec as I kept receiving
   # an undefined_method amqp error. The library hasn't been updated for
   # several years.
@@ -61,7 +61,7 @@ describe AmqpConsumer do
     # We can't use an instance double here, as routing_key is handled by method_missing, which the
     # instance
     let(:metadata) do
-      double('AMQP::Header', ack: true, delivery_tag: 'devlivery_tag', routing_key: 'queue', redelivered?: redelivered)
+      double('AMQP::Header', ack: true, delivery_tag: 'delivery_tag', routing_key: 'queue', redelivered?: redelivered)
     end
     before do
       expect(mock_queue).to receive(:subscribe).with(ack: true) do |_, &block|
@@ -76,7 +76,7 @@ describe AmqpConsumer do
 
         context 'without deadlettering' do
           it 'processes the message' do
-            expect(mock_chanel).to receive(:reject).with('devlivery_tag', true)
+            expect(mock_chanel).to receive(:reject).with('delivery_tag', true)
             amqp_consumer.run
           end
         end
@@ -92,7 +92,7 @@ describe AmqpConsumer do
 
           it 'processes the message' do
             expect(mock_dl_chanel).to receive(:direct).with('deadletters', passive: true)
-            expect(mock_chanel).to receive(:reject).with('devlivery_tag', true)
+            expect(mock_chanel).to receive(:reject).with('delivery_tag', true)
             amqp_consumer.run
           end
         end
@@ -102,7 +102,7 @@ describe AmqpConsumer do
 
         context 'without deadlettering' do
           it 'processes the message' do
-            expect(mock_chanel).to receive(:reject).with('devlivery_tag', false)
+            expect(mock_chanel).to receive(:reject).with('delivery_tag', false)
             amqp_consumer.run
           end
         end
@@ -118,7 +118,7 @@ describe AmqpConsumer do
 
           it 'processes the message' do
             expect(mock_dl_chanel).to receive(:direct).with('deadletters', passive: true).and_return(mock_exchange)
-            expect(mock_chanel).to receive(:reject).with('devlivery_tag', false)
+            expect(mock_chanel).to receive(:reject).with('delivery_tag', false)
             expect(mock_exchange).to receive(:publish)
             amqp_consumer.run
           end
@@ -155,12 +155,14 @@ describe AmqpConsumer do
                 'uuid' => '00000000-1111-2222-3333-777777777777'
               }
             ],
-            'metadata' => metadata
+            'metadata' => { 'courier' => 'Pony Express' }
           },
           'lims' => 'lims'
         }.to_json
       end
       it 'processes the message' do
+        # Shouldn't actually trigger this, but it makes debugging easier to follow
+        allow(mock_chanel).to receive(:reject)
         expect { amqp_consumer.run }.to change { Event.count }.by(1)
       end
     end

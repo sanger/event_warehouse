@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require 'rails_helper'
 
-describe Subject do
+RSpec.describe Subject do
   it_behaves_like 'it has a type dictionary'
 
   let(:uuid) { '00000000-1111-2222-3333-666666666666' }

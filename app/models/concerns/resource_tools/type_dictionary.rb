@@ -7,7 +7,7 @@ module ResourceTools::TypeDictionary
   RECORD_NOT_UNIQUE_RETRIES = 3
 
   class_methods do
-    attr_accessor :default_description
+    attr_accessor :default_description, :preregistration_required
 
     def for_key(key)
       tries = 0
@@ -15,7 +15,7 @@ module ResourceTools::TypeDictionary
         if preregistration_required?
           find_by(key: key)
         else
-          create_with(description: default_description).find_or_create_by(key: key)
+          create_with(description: default_description).find_or_create_by!(key: key)
         end
       rescue ActiveRecord::RecordNotUnique => e
         # If we have two similar events arriving at the same time, we might conceivably run into a
@@ -26,10 +26,6 @@ module ResourceTools::TypeDictionary
       end
     end
 
-    def preregistration_required(bool)
-      @preregistration_required = bool
-    end
-
     def preregistration_required?
       # Default to false
       @preregistration_required || false
@@ -37,10 +33,10 @@ module ResourceTools::TypeDictionary
   end
 
   included do
-    validates_presence_of :key
-    validates_uniqueness_of :key
+    validates :key, presence: true
+    validates :key, uniqueness: true
 
-    validates_presence_of :description
+    validates :description, presence: true
   end
 
   # Include in MyClass to set up MyClassType associations and setters

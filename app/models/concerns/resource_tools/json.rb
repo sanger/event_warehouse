@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+# Handle JSON parsing.
+# Currently uses Hashie, but we can probably eliminate that for something
+# more lightweight
 module ResourceTools::Json
   extend ActiveSupport::Concern
 

@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require 'rails_helper'
 
 # As Event is effectively our main API we conduct integration tests through here
-describe Event do
+RSpec.describe Event do
   ExpectedSubject = Struct.new(:uuid, :friendly_name, :subject_type, :role_type)
 
   let(:example_lims) { 'postal_service' }
@@ -72,7 +72,9 @@ describe Event do
   it_behaves_like 'it has a type dictionary'
 
   context 'message receipt' do
+    let(:preregistration_required) { false }
     before(:example) do
+      allow(EventType).to receive(:preregistration_required?).and_return preregistration_required
       described_class.create_or_update_from_json(json, example_lims)
     end
 
@@ -143,9 +145,7 @@ describe Event do
     end
 
     context 'when pre-registration is required' do
-      before(:context) do
-        EventType.preregistration_required true
-      end
+      let(:preregistration_required) { true }
 
       context 'and the event type is registered' do
         let(:event_type) { registered_event_type }
@@ -155,15 +155,13 @@ describe Event do
 
       context 'and the event type is unregistered' do
         let(:event_type) { missing_event_type }
+
         it_behaves_like 'an ignored event'
       end
     end
 
     context 'when pre-registration is not required' do
-      before(:context) do
-        EventType.preregistration_required false
-      end
-
+      let(:preregistration_required) { false }
       let(:event_type) { missing_event_type }
 
       it_behaves_like 'a recorded event'

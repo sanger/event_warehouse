@@ -9,7 +9,7 @@ class Event < ApplicationRecord
   include ImmutableResourceTools
   include ResourceTools::TypeDictionary::HasDictionary
 
-  has_many :roles, dependent: :destroy
+  has_many :roles, dependent: :destroy, inverse_of: :event
   has_many :subjects, through: :roles
 
   has_many :metadata, inverse_of: :event, dependent: :destroy do
@@ -34,7 +34,7 @@ class Event < ApplicationRecord
 
   def subjects=(subject_array)
     role_array = subject_array.map do |subject_data|
-      role_type = subject_data.delete(:role_type)
+      role_type = subject_data[:role_type]
       subject = Subject.lookup(subject_data)
       { role_type: role_type, subject: subject }
     end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-shared_examples_for 'a type dictionary' do
+RSpec.shared_examples_for 'a type dictionary' do
   let(:example_key) { 'example_key' }
   let(:type_lookup) { described_class.for_key(example_key) }
 
@@ -32,16 +32,16 @@ shared_examples_for 'a type dictionary' do
     let(:expected_description) { described_class.default_description }
 
     context 'and registration in not required' do
-      before(:context) do
-        described_class.preregistration_required false
+      before do
+        allow(described_class).to receive(:preregistration_required?).and_return(false)
       end
 
       it_behaves_like 'returns a matching element'
     end
 
     context 'and registration is required' do
-      before(:context) do
-        described_class.preregistration_required true
+      before do
+        allow(described_class).to receive(:preregistration_required?).and_return(true)
       end
 
       it_behaves_like 'finds no element'

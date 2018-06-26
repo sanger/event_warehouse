@@ -12,5 +12,5 @@ class RoleType < ApplicationRecord
   include ResourceTools::TypeDictionary
 
   self.default_description = EventWarehouse::Application.config.default_role_type_description
-  preregistration_required false
+  self.preregistration_required = false
 end

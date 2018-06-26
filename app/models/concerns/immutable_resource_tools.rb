@@ -4,7 +4,7 @@
 # uuid will be ignored. Even if their content is different.
 module ImmutableResourceTools
   extend ActiveSupport::Concern
-
+  # Class Methods extend the resource automatically thanks to ActiveSupport::Concern
   module ClassMethods
     private
 

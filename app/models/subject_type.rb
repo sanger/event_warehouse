@@ -7,5 +7,5 @@ class SubjectType < ApplicationRecord
   include ResourceTools::TypeDictionary
 
   self.default_description = EventWarehouse::Application.config.default_subject_type_description
-  preregistration_required false
+  self.preregistration_required = false
 end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-shared_examples_for 'it has a type dictionary' do
+RSpec.shared_examples_for 'it has a type dictionary' do
   let(:type_assn)  { :"#{described_class.name.underscore}_type" }
   let(:type_class) { "#{described_class.name}Type".constantize }
   let(:example)    { build(:"#{described_class.name.underscore}") }
