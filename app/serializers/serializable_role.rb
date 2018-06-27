@@ -15,4 +15,7 @@ class SerializableRole < JSONAPI::Serializable::Resource
   # attribute :name do
   #   @object.name.upcase
   # end
+  belongs_to :role_type
+  belongs_to :event
+  belongs_to :subject
 end

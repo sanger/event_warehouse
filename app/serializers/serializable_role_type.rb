@@ -17,4 +17,6 @@ class SerializableRoleType < JSONAPI::Serializable::Resource
   # end
   attribute :key
   attribute :description
+
+  has_many :roles
 end

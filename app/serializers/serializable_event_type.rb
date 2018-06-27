@@ -6,4 +6,6 @@ class SerializableEventType < JSONAPI::Serializable::Resource
 
   attribute :key
   attribute :description
+
+  has_many :events
 end

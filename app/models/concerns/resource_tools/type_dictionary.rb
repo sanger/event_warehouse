@@ -33,10 +33,13 @@ module ResourceTools::TypeDictionary
   end
 
   included do
+    described_assn = name.chomp('Type').pluralize.underscore
     validates :key, presence: true
     validates :key, uniqueness: true
 
     validates :description, presence: true
+
+    has_many :"#{described_assn}", dependent: :restrict_with_exception
   end
 
   # Include in MyClass to set up MyClassType associations and setters

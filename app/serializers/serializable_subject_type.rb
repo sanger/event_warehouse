@@ -17,4 +17,6 @@ class SerializableSubjectType < JSONAPI::Serializable::Resource
   # end
   attribute :key
   attribute :description
+
+  has_many :subjects
 end

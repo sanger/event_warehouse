@@ -17,4 +17,8 @@ class SerializableSubject < JSONAPI::Serializable::Resource
   # end
   attribute :friendly_name
   attribute :uuid
+
+  belongs_to :subject_type
+  has_many :roles
+  has_many :events
 end
