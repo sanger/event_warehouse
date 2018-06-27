@@ -22,8 +22,8 @@ gem 'rest-client'
 
 # For JSON API support
 gem 'jsonapi-rails', '~> 0.3'
-gem 'jsonapi_suite', '~> 0.7'
 gem 'jsonapi_spec_helpers'
+gem 'jsonapi_suite', '~> 0.7'
 gem 'kaminari' # Pagination. Used by jsonapi_suite
 
 group :test, :development do
