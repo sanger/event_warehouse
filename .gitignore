@@ -15,7 +15,7 @@
 /tmp
 /doc
 
-# Ignore simplecove test coverage reports
+# Ignore simplecov test coverage reports
 /coverage
 
 # Ignore spec info

@@ -22,7 +22,6 @@ gem 'rest-client'
 
 # For JSON API support
 gem 'jsonapi-rails', '~> 0.3'
-gem 'jsonapi_spec_helpers'
 gem 'jsonapi_suite', '~> 0.7'
 gem 'kaminari' # Pagination. Used by jsonapi_suite
 
@@ -33,13 +32,14 @@ group :test, :development do
   gem 'pry'
   gem 'pry-byebug', platform: :mri
   gem 'rspec-rails'
+  gem 'jsonapi_spec_helpers'
   gem 'simplecov'
 end
 
 group :development do
   gem 'guard'
-  gem 'guard-bundler'
-  gem 'guard-rspec'
+  gem 'guard-bundler', require: false
+  gem 'guard-rspec', require: false
   gem 'rubocop'
   gem 'travis'
 end
