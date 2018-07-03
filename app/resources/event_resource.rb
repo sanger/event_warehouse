@@ -10,9 +10,9 @@ class EventResource < ApplicationResource
            resource: RoleResource
 
   has_and_belongs_to_many :subjects,
-           scope: -> { Subject.all },
-           foreign_key: { roles: :event_id },
-           resource: SubjectResource
+                          scope: -> { Subject.all },
+                          foreign_key: { roles: :event_id },
+                          resource: SubjectResource
 
   belongs_to :event_type,
              scope: -> { EventType.all },
