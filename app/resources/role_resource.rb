@@ -2,7 +2,7 @@
 
 # Render Roles
 class RoleResource < ApplicationResource
-  type :role
+  type :roles
 
   belongs_to :event,
              scope: -> { Event.all },

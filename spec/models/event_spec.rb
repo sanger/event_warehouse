@@ -174,7 +174,7 @@ RSpec.describe Event do
     end
   end
 
-  context 'repeat message reciept' do
+  context 'repeat message receipt' do
     let(:event_type) { registered_event_type }
 
     before(:example) do

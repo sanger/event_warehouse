@@ -2,7 +2,7 @@
 
 # Render Event
 class EventResource < ApplicationResource
-  type :event
+  type :events
 
   has_many :roles,
            scope: -> { Role.all },
@@ -30,6 +30,6 @@ class EventResource < ApplicationResource
   end
 
   extra_field :metadata do |scope|
-    scope.includes(:metadata)
+    scope.include_metadata
   end
 end
