@@ -30,6 +30,6 @@
 #
 # For more information, see https://jsonapi-suite.github.io/jsonapi_spec_helpers/
 JsonapiSpecHelpers::Payload.register(:subject_type) do
-  key(:key, String)
-  key(:description, String)
+  key(:key, String, description: 'A short string identifying the nature of a subject')
+  key(:description, String, description: 'A brief description of the subject type')
 end

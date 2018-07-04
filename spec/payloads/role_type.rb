@@ -30,6 +30,6 @@
 #
 # For more information, see https://jsonapi-suite.github.io/jsonapi_spec_helpers/
 JsonapiSpecHelpers::Payload.register(:role_type) do
-  key(:key, String)
-  key(:description, String)
+  key(:key, String, description: 'A short string identifying the role a subject played in an event')
+  key(:description, String, description: 'A description of what the role type means')
 end
