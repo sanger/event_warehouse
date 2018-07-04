@@ -29,7 +29,5 @@ class EventResource < ApplicationResource
     scope.where('occured_at > ?', value)
   end
 
-  extra_field :metadata do |scope|
-    scope.include_metadata
-  end
+  extra_field :metadata, &:include_metadata
 end

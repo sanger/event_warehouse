@@ -93,7 +93,7 @@ RSpec.describe 'v1/events', type: :request do
 
     context 'fields' do
       it 'returns metadata' do
-        get "/api/v1/events", params: {
+        get '/api/v1/events', params: {
           extra_fields: { events: 'metadata' }
         }
         expect(json_ids(true)).to eq([event1.id, event2.id])

@@ -28,7 +28,7 @@ class Event < ApplicationRecord
 
   attribute :uuid, MySQLBinUUID::Type.new
 
-  scope :include_metadata, ->() { includes(:metadata_records) }
+  scope :include_metadata, ->(_) { includes(:metadata_records) }
 
   validates :event_type, presence: true
   validates :lims_id, presence: true
