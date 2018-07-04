@@ -18,4 +18,7 @@ class SubjectResource < ApplicationResource
                           scope: -> { Event.all },
                           foreign_key: { roles: :subject_id },
                           resource: EventResource
+
+  allow_filter :friendly_name
+  allow_filter :uuid
 end

@@ -101,6 +101,10 @@ RSpec.describe Event do
           expect(described_class.last.metadata.where(key: key).first.value).to eq(value)
         end
       end
+
+      it 'can reserialize metadata as a hash' do
+        expect(described_class.last.metadata_hash).to eq(metadata)
+      end
     end
 
     shared_examples_for 'it finds and registers subjects' do

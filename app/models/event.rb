@@ -18,6 +18,12 @@ class Event < ApplicationRecord
         { key: key, value: value }
       end)
     end
+
+    def to_h
+      each_with_object({}) do |metadatum, store|
+        store[metadatum.key] = metadatum.value
+      end
+    end
   end
 
   attribute :uuid, MySQLBinUUID::Type.new
@@ -43,6 +49,10 @@ class Event < ApplicationRecord
 
   def metadata=(metadata_hash)
     metadata.build_from_json(metadata_hash)
+  end
+
+  def metadata_hash
+    metadata.to_h
   end
 
   json do

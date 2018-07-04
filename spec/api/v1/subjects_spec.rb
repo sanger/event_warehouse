@@ -3,13 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe 'v1/subjects', type: :request do
-  let(:subject1) { create(:subject) }
-  let(:subject2) { create(:subject) }
-
-  before do
-    subject1
-    subject2
-  end
+  let!(:subject1) { create(:subject) }
+  let!(:subject2) { create(:subject) }
 
   describe '#index' do
     it 'lists subjects' do
@@ -17,6 +12,7 @@ RSpec.describe 'v1/subjects', type: :request do
       expect(json_ids(true)).to eq([subject1.id, subject2.id])
       assert_payload(:subject, subject1, json_items[0])
     end
+
     context 'when sideloading subject types' do
       let!(:subject_type1)  { subject1.subject_type }
       let!(:subject_type2)  { subject2.subject_type }
@@ -29,6 +25,28 @@ RSpec.describe 'v1/subjects', type: :request do
         expect(json_subject_types.length).to eq(2)
         assert_payload(:subject_type, subject_type1, json_subject_types[0])
         assert_payload(:subject_type, subject_type2, json_subject_types[1])
+      end
+    end
+
+    describe 'filtering' do
+      let!(:subject3) { create(:subject, friendly_name: subject1.friendly_name) }
+
+      context 'by friendly_name' do
+        it 'filters correctly' do
+          get '/api/v1/subjects', params: {
+            filter: { friendly_name: subject1.friendly_name }
+          }
+          expect(json_ids(true)).to match_array([subject1.id, subject3.id])
+        end
+      end
+
+      context 'by uuid' do
+        it 'filters correctly' do
+          get '/api/v1/subjects', params: {
+            filter: { uuid: subject1.uuid }
+          }
+          expect(json_ids(true)).to match_array([subject1.id])
+        end
       end
     end
   end
