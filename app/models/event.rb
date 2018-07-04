@@ -12,7 +12,7 @@ class Event < ApplicationRecord
   has_many :roles, dependent: :destroy, inverse_of: :event
   has_many :subjects, through: :roles
 
-  has_many :metadata, inverse_of: :event, dependent: :destroy do
+  has_many :metadata_records, inverse_of: :event, dependent: :destroy, class_name: 'Metadatum' do
     def build_from_json(metadata_hash)
       build(metadata_hash.map do |key, value|
         { key: key, value: value }
@@ -48,11 +48,11 @@ class Event < ApplicationRecord
   end
 
   def metadata=(metadata_hash)
-    metadata.build_from_json(metadata_hash)
+    metadata_records.build_from_json(metadata_hash)
   end
 
-  def metadata_hash
-    metadata.to_h
+  def metadata
+    metadata_records.to_h
   end
 
   json do

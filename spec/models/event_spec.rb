@@ -96,14 +96,14 @@ RSpec.describe Event do
 
     shared_examples_for 'it registers metadata' do
       it 'should have 2 metadata with the right values' do
-        expect(described_class.last.metadata.count).to eq(2)
+        expect(described_class.last.metadata_records.count).to eq(2)
         metadata.each do |key, value|
-          expect(described_class.last.metadata.where(key: key).first.value).to eq(value)
+          expect(described_class.last.metadata_records.where(key: key).first.value).to eq(value)
         end
       end
 
       it 'can reserialize metadata as a hash' do
-        expect(described_class.last.metadata_hash).to eq(metadata)
+        expect(described_class.last.metadata).to eq(metadata)
       end
     end
 

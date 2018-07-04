@@ -24,7 +24,5 @@ class SerializableEvent < JSONAPI::Serializable::Resource
   has_many :roles
   has_many :subjects
 
-  extra_attribute :metadata do
-    @object.metadata_hash
-  end
+  extra_attribute :metadata
 end
