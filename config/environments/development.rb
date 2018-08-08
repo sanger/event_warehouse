@@ -1,27 +1,70 @@
-EventWarehouse::Application.configure do
-  # NOTE: Much of this can probably be removed as we're not really using Rails, more AR.
+# frozen_string_literal: true
+
+Rails.application.configure do
+  # Settings specified here will take precedence over those in config/application.rb.
+
+  # In the development environment your application's code is reloaded on
+  # every request. This slows down response time but is perfect for development
+  # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
-  # config.whiny_nils = true
-  config.consider_all_requests_local       = true
-  config.action_controller.perform_caching = false
+
+  # Do not eager load code on boot.
+  config.eager_load = false
+
+  # Show full error reports.
+  config.consider_all_requests_local = true
+
+  # Enable/disable caching. By default caching is disabled.
+  # Run rails dev:cache to toggle caching.
+  if Rails.root.join('tmp', 'caching-dev.txt').exist?
+    config.action_controller.perform_caching = true
+
+    config.cache_store = :memory_store
+    config.public_file_server.headers = {
+      'Cache-Control' => "public, max-age=#{2.days.to_i}"
+    }
+  else
+    config.action_controller.perform_caching = false
+
+    config.cache_store = :null_store
+  end
+
+  # Store uploaded files on the local file system (see config/storage.yml for options)
+  config.active_storage.service = :local
+
+  # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
+
+  config.action_mailer.perform_caching = false
+
+  # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
-  # config.action_dispatch.best_standards_support = :builtin
-  # config.assets.compress = false
+
+  # Raise an error on page load if there are pending migrations.
+  config.active_record.migration_error = :page_load
+
+  # Highlight code that triggered database queries in logs.
+  config.active_record.verbose_query_logs = true
+
+  # Debug mode disables concatenation and preprocessing of assets.
+  # This option may cause significant delays in view rendering with a large
+  # number of complex assets.
   config.assets.debug = true
 
-  # Here is some ActiveRecord configuration that is useful
-  # But not rails 4 compatible!
-  # config.active_record.mass_assignment_sanitizer         = :strict
-  # config.active_record.auto_explain_threshold_in_seconds = 0.5
+  # Suppress logger output for asset requests.
+  config.assets.quiet = true
 
-  # Configure the numeric tolerance
-  config.numeric_tolerance = 0.05
+  # Raises error for missing translations
+  # config.action_view.raise_on_missing_translations = true
+
+  # Use an evented file watcher to asynchronously detect changes in source code,
+  # routes, locales, etc. This feature depends on the listen gem.
+  config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   # Configure the worker death messages
   config.worker_death_from    = 'example@example.com'
   config.worker_death_to      = 'example@example.com'
-  config.worker_death_restart = %Q{Please restart the worker.}
+  config.worker_death_restart = %(Please restart the worker.)
 
   # Configure the main AMQP consumer
   config.amqp.main.url                    = 'amqp://localhost:5672'
@@ -40,8 +83,4 @@ EventWarehouse::Application.configure do
   config.amqp.deadletter.requeue                         = true
   config.amqp.deadletter.reconnect_interval              = 10
   config.amqp.deadletter.empty_queue_disconnect_interval = 30
-
-  # Added for rails 4
-  config.eager_load = false
-
 end

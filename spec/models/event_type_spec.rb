@@ -1,7 +1,8 @@
-require 'spec_helper'
+# frozen_string_literal: true
 
-describe EventType do
+require 'rails_helper'
 
+RSpec.describe EventType do
   it_behaves_like 'a type dictionary'
 
   it 'should have its default description set by the config' do

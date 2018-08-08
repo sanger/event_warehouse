@@ -14,3 +14,9 @@
 /log/*.log
 /tmp
 /doc
+
+# Ignore simplecov test coverage reports
+/coverage
+
+# Ignore spec info
+/spec/examples.txt

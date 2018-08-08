@@ -1,8 +1,9 @@
-require 'spec_helper'
+# frozen_string_literal: true
 
-describe ResourceTools::Json::Handler do
+require 'rails_helper'
+
+RSpec.describe ResourceTools::Json::Handler do
   class Json < ResourceTools::Json::Handler
-    ignore('ignored')
     translate('key' => 'translated')
   end
 
@@ -27,14 +28,6 @@ describe ResourceTools::Json::Handler do
     it 'translates created_at to created' do
       subject['created_at'] = 'date'
       expect(subject['created']).to eq('date')
-    end
-  end
-
-  context 'ignores keys' do
-    subject { Json.new('ignored' => 'value') }
-
-    it 'ignores keys on construction' do
-      expect(subject).to_not have_key('ignored')
     end
   end
 end

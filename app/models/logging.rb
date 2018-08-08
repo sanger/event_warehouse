@@ -1,10 +1,10 @@
+# frozen_string_literal: true
+
+# Wraps the rails logger, and prepends each message with the originating class
 module Logging
-  [ :debug, :info, :warn, :error ].each do |level|
-    line = __LINE__ + 1
-    class_eval(%Q{
-      def #{level}(&message)
-        Rails.logger.#{level} { "\#{self.class.name}: \#{message.call}" }
-      end
-    }, __FILE__, line)
+  %i[debug info warn error].each do |level|
+    define_method(level) do |&message|
+      Rails.logger.public_send(level) { "#{self.class.name}: #{message.call}" }
+    end
   end
 end
