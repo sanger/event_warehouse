@@ -3,6 +3,8 @@
 source 'https://rubygems.org'
 
 # TODO: We pretty much just use active record and active mailer, do we need rails?
+
+gem 'daemons'
 gem 'mysql2', '~> 0.4'
 gem 'rails', '~> 5.2'
 
@@ -14,7 +16,6 @@ gem 'puma'
 gem 'amqp', '~> 1.5'
 gem 'mysql-binuuid-rails'
 gem 'whenever', require: false
-gem "daemons"
 # We use a special version of hashie to bypass rails protected attributes.
 # Consider removing Hashie entirely
 gem 'hashie-forbidden_attributes'
