@@ -9,9 +9,8 @@ before_script:
   > ./cc-test-reporter
 - chmod +x ./cc-test-reporter
 - "./cc-test-reporter before-build"
-- bundle exec rake db:setup
+- bundle exec rake db:create
 script:
-- bundle exec rake db:reset
 - bundle exec rubocop
 - bundle exec rspec
 after_script:
