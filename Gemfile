@@ -13,7 +13,8 @@ gem 'puma'
 # TODO: COnsider switching to Bunny if possible
 gem 'amqp', '~> 1.5'
 gem 'mysql-binuuid-rails'
-
+gem 'whenever', require: false
+gem "daemons"
 # We use a special version of hashie to bypass rails protected attributes.
 # Consider removing Hashie entirely
 gem 'hashie-forbidden_attributes'
@@ -36,7 +37,7 @@ group :test, :development do
   gem 'pry'
   gem 'pry-byebug', platform: :mri
   gem 'rspec-rails'
-  gem 'simplecov'
+  gem 'simplecov', require: false
   gem 'swagger-diff', '~> 1.1'
 end
 
@@ -48,6 +49,3 @@ group :development do
   gem 'travis'
 end
 
-group :deployment do
-  gem 'psd_logger', github: 'sanger/psd_logger'
-end
