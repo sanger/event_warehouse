@@ -7,10 +7,10 @@ RSpec.describe 'v1/event_types', type: :request do
   let!(:event_type2) { create(:event_type) }
 
   describe '#index' do
-    before do
-      event_type1
-      event_type2
-    end
+    # before do
+    #   event_type1
+    #   event_type2
+    # end
 
     it 'lists event_types' do
       get '/api/v1/event_types'
