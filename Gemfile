@@ -15,7 +15,6 @@ gem 'puma'
 # TODO: COnsider switching to Bunny if possible
 gem 'amqp', '~> 1.5'
 gem 'mysql-binuuid-rails'
-gem 'whenever', require: false
 # We use a special version of hashie to bypass rails protected attributes.
 # Consider removing Hashie entirely
 gem 'hashie-forbidden_attributes'
