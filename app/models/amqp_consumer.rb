@@ -121,11 +121,7 @@ class AmqpConsumer
             client.close { EventMachine.stop }
           else
             channel.reject(metadata.delivery_tag, requeue_message)
-            unless requeue_message
-              deadletter.call(metadata, payload, exception)
-              raise
-            end
-
+            deadletter.call(metadata, payload, exception) unless requeue_message
           end
         end
       rescue StandardError => exception
