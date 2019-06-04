@@ -18,6 +18,7 @@ tar \
   --exclude='./.travis.yml' \
   --exclude='./README*' \
   --exclude='./compile-build' \
+  --exclude='./coverage' \
   --exclude='./*.sublime-project' \
   --exclude='./log/*' \
   --exclude='./spec' \
