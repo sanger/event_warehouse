@@ -79,6 +79,11 @@ class AmqpConsumer
     return ->(m, _p, e) { warn(m) { "No dead lettering for #{e.message}: #{e.backtrace}" } } if deadletter.deactivated
 
     channel  = AMQP::Channel.new(client)
+
+    channel.on_error do |ch, channel_close|
+      error { "Channel-level exception on the dedletter channel: #{channel_close.reply_text}" }
+    end
+
     exchange = channel.direct(deadletter.exchange, passive: true)
     lambda do |metadata, payload, exception|
       warn(metadata) { "Dead lettering due to #{exception.message}" }
@@ -94,6 +99,11 @@ class AmqpConsumer
     info { "Connecting to queue #{queue.inspect} ..." }
 
     channel = AMQP::Channel.new(client)
+
+    channel.on_error do |ch, channel_close|
+      error { "Channel-level exception on the events channel: #{channel_close.reply_text}" }
+    end
+
     channel.prefetch(prefetch)
     channel.queue(queue, passive: true) do |queue, _queue_declared|
       info { 'Waiting for messages ...' }
@@ -101,7 +111,7 @@ class AmqpConsumer
       stop_when_queue_empty(channel, queue) unless empty_queue_disconnect_interval.zero?
 
       queue.subscribe(ack: true) do |metadata, payload|
-        debug { "Message received from queue: #{payload.inspect}" }
+        debug { "Message received from queue: #{metadata.routing_key}" }
         begin
           received(metadata, payload)
         rescue StandardError => exception
@@ -121,15 +131,11 @@ class AmqpConsumer
             client.close { EventMachine.stop }
           else
             channel.reject(metadata.delivery_tag, requeue_message)
-            unless requeue_message
-              deadletter.call(metadata, payload, exception)
-              raise
-            end
-
+            deadletter.call(metadata, payload, exception) unless requeue_message
           end
         end
       rescue StandardError => exception
-        error(metadata) { exception.message }
+        error(metadata) { "Uncaught exception: #{exception.message}" }
         debug(metadata) { payload }
       end
     end
