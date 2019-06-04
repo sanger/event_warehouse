@@ -76,7 +76,7 @@ GEM
       multipart-post (>= 1.2, < 3)
     faraday_middleware (0.12.2)
       faraday (>= 0.7.4, < 1.0)
-    ffi (1.9.25)
+    ffi (1.11.1)
     formatador (0.2.5)
     gh (0.15.1)
       addressable (~> 2.4.0)
@@ -207,7 +207,7 @@ GEM
     pry-byebug (3.6.0)
       byebug (~> 10.0)
       pry (~> 0.10)
-    puma (3.12.0)
+    puma (3.12.1)
     pusher-client (0.6.2)
       json
       websocket (~> 1.0)
@@ -361,4 +361,4 @@ DEPENDENCIES
   travis
 
 BUNDLED WITH
-   1.16.6
+   1.17.2
