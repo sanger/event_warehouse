@@ -43,6 +43,7 @@ RSpec.describe AmqpConsumer do
     expect(mock_client).to receive(:on_error)
     expect(mock_client).to receive(:on_recovery)
 
+    expect(mock_chanel).to receive(:on_error)
     expect(mock_chanel).to receive(:prefetch).with(prefetch_count)
     expect(mock_chanel).to receive(:queue).with(queue_name, passive: true) do |_, &block|
       block.call(mock_queue, true)
@@ -83,7 +84,7 @@ RSpec.describe AmqpConsumer do
 
         context 'with deadlettering' do
           let(:deadletter_disabled) { false }
-          let(:mock_dl_chanel) { instance_double(AMQP::Channel, 'Deadletter Chanel') }
+          let(:mock_dl_chanel) { instance_double(AMQP::Channel, 'Deadletter Chanel', on_error: nil) }
           # Execution order here is important, but it is a result of the way the code behaves,
           # rather than a pre-requisite
           let(:chanel_creation) do
@@ -109,7 +110,7 @@ RSpec.describe AmqpConsumer do
 
         context 'with deadlettering' do
           let(:deadletter_disabled) { false }
-          let(:mock_dl_chanel) { instance_double(AMQP::Channel, 'Deadletter Chanel') }
+          let(:mock_dl_chanel) { instance_double(AMQP::Channel, 'Deadletter Chanel', on_error: nil) }
           # Execution order here is important, but it is a result of the way the code behaves,
           # rather than a pre-requisite
           let(:chanel_creation) do
