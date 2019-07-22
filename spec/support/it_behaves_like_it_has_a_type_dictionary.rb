@@ -11,12 +11,13 @@ RSpec.shared_examples_for 'it has a type dictionary' do
   end
 
   context 'when setting the type' do
-    before(:example) do
-      expect(type_class).to receive(:for_key).with(key)
+    before do
+      allow(type_class).to receive(:for_key).with(key)
     end
 
     it 'finds the type from the provided key' do
       example.send(:"#{type_assn}=", key)
+      expect(type_class).to have_received(:for_key)
     end
   end
 end

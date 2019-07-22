@@ -45,7 +45,8 @@ RSpec.describe 'v1/event_types', type: :request do
     context 'when sideloading events' do
       let!(:event1)  { create(:event, event_type: event_type1) }
       let!(:event2)  { create(:event, event_type: event_type1) }
-      let!(:event3)  { create(:event, event_type: event_type2) }
+
+      before { create(:event, event_type: event_type2) }
 
       it 'returns relevant events in response' do
         get "/api/v1/event_types/#{event_type1.id}", params: {
