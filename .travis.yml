@@ -1,13 +1,28 @@
 language: ruby
-rvm:
-- 2.5.1
+dist: xenial
+services: mysql
+bundler_args: "--without deployment"
+cache:
+  bundler: true
 before_script:
-- 'curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter'
-- 'chmod +x ./cc-test-reporter'
-- './cc-test-reporter before-build'
-- bundle exec rake db:setup
+- curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64
+  > ./cc-test-reporter
+- chmod +x ./cc-test-reporter
+- "./cc-test-reporter before-build"
+- bundle exec rake db:create
 script:
-- bundle exec rake
 - bundle exec rubocop
+- bundle exec rspec
 after_script:
-- './cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT'
+- "./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT"
+before_deploy: "./compile-build"
+deploy:
+  provider: releases
+  file: release.tar.gz
+  file_glob: true
+  skip_cleanup: true
+  on:
+    tags: true
+    repo: radome/event_warehouse
+  api_key:
+    secure: nACwRX1xo7rdoejR3GmN7kFtD8TZh5X9t9AKj3NB9NmiwkgQhn6R8DtO6kEAh+urg8UbETMeQzyI93CzduqqdBIDMHNo5aJwrD//9taYVsTQ+Q6/J1ayD4eSP/wWJabq2guc2jYbaLcBGbyzJJkVB972S162jT9VjThEnC/ASydjtGK3Vo3WQnFO+S5Am/pIUJR0URwdOxGyhjFURgUX0EVlvRZosQtwpQPM8BzM4zBN+swYWzRtkxyri6uYZBwveHT+wpQboOmbbkisNw2wbfLQFV7xicLe/MEiFgxw21K5K2HSCnzATcvc0DGbcaj75jsb7aivfvO2jAFMJMecNmTuk+J2CxcTivKzEWc1erpyZ4nn8TtWHZLnJcAp6hAFwNmhxb3Mzie38Kzz3f+B7cU6NFYTcWBEPKBhAw1FqrLq126L9p5nCmW3vqYwmwNiyD6EnfHGfWLHLKdnZRdylTU9B2b/EIFUro0dKIw19j4OKTM5HicxR+8VXJw3Hyrk7PBL4YgFTH3jSHpaNEWxrRuCCCHZTOUKkKL4xVK3cjjSTCwPXwAeVu4ayEnPAFFfbVO2cUrIx58ikSqzk7oMf5ZzEz/Ul2j/E0lKqrA2IPKk0Pv+UuNCscyvK/xde7G9W/b8nQiSp+YezdGVDZi/2CFlhp2GfwvU6mKfP6axnLk=
