@@ -6,6 +6,7 @@
 module ResourceTools::Json
   extend ActiveSupport::Concern
 
+  # Class methods
   module ClassMethods
     def create_or_update_from_json(json_data, lims)
       create_or_update(json.collection_from(json_data, lims))
@@ -19,6 +20,7 @@ module ResourceTools::Json
     end
   end
 
+  # Handler
   class Handler < Hashie::Mash
     class_attribute :translations
     self.translations = {}
