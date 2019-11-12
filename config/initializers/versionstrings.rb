@@ -9,5 +9,3 @@ rescue LoadError
     RELEASE_NAME = 'Running locally'
   end
 end
-# Set the host-name on initialize
-Deployed::HOSTNAME = Socket.gethostname
