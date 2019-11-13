@@ -26,6 +26,6 @@ deploy:
   skip_cleanup: true
   on:
     tags: true
-    repo: radome/event_warehouse
+    repo: sanger/event_warehouse
   api_key:
     secure: nACwRX1xo7rdoejR3GmN7kFtD8TZh5X9t9AKj3NB9NmiwkgQhn6R8DtO6kEAh+urg8UbETMeQzyI93CzduqqdBIDMHNo5aJwrD//9taYVsTQ+Q6/J1ayD4eSP/wWJabq2guc2jYbaLcBGbyzJJkVB972S162jT9VjThEnC/ASydjtGK3Vo3WQnFO+S5Am/pIUJR0URwdOxGyhjFURgUX0EVlvRZosQtwpQPM8BzM4zBN+swYWzRtkxyri6uYZBwveHT+wpQboOmbbkisNw2wbfLQFV7xicLe/MEiFgxw21K5K2HSCnzATcvc0DGbcaj75jsb7aivfvO2jAFMJMecNmTuk+J2CxcTivKzEWc1erpyZ4nn8TtWHZLnJcAp6hAFwNmhxb3Mzie38Kzz3f+B7cU6NFYTcWBEPKBhAw1FqrLq126L9p5nCmW3vqYwmwNiyD6EnfHGfWLHLKdnZRdylTU9B2b/EIFUro0dKIw19j4OKTM5HicxR+8VXJw3Hyrk7PBL4YgFTH3jSHpaNEWxrRuCCCHZTOUKkKL4xVK3cjjSTCwPXwAeVu4ayEnPAFFfbVO2cUrIx58ikSqzk7oMf5ZzEz/Ul2j/E0lKqrA2IPKk0Pv+UuNCscyvK/xde7G9W/b8nQiSp+YezdGVDZi/2CFlhp2GfwvU6mKfP6axnLk=
