@@ -13,6 +13,7 @@ module ImmutableResourceTools
       new_atts = attributes.reverse_merge(data: attributes)
       new_record = new(new_atts)
       return nil if new_record.ignorable?
+
       new_record.save!
     end
   end

@@ -17,6 +17,7 @@ class SubjectsController < ApplicationController
     scope = jsonapi_scope(Subject.where(id: params[:id]))
     instance = scope.resolve.first
     raise JsonapiCompliable::Errors::RecordNotFound unless instance
+
     render_jsonapi(instance, scope: false)
   end
 end
