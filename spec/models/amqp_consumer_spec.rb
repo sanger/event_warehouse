@@ -7,6 +7,8 @@ RSpec.describe AmqpConsumer do
   # Ran into a few issues trying to use evented_spec as I kept receiving
   # an undefined_method amqp error. The library hasn't been updated for
   # several years.
+  subject(:amqp_consumer) { described_class.new(dummy_config) }
+
   let(:dummy_config) do
     ActiveSupport::Configurable::Configuration.new(
       url: 'exchange_url',
@@ -33,8 +35,6 @@ RSpec.describe AmqpConsumer do
   let(:mock_exchange) { instance_double(AMQP::Exchange) }
   let(:chanel_creation) { expect(AMQP::Channel).to receive(:new).with(mock_client).and_return(mock_chanel) }
 
-  subject(:amqp_consumer) { AmqpConsumer.new(dummy_config) }
-
   before do
     expect(AMQP).to receive(:start).with('exchange_url') do |_, &block|
       block.call(mock_client, true)
@@ -43,6 +43,7 @@ RSpec.describe AmqpConsumer do
     expect(mock_client).to receive(:on_error)
     expect(mock_client).to receive(:on_recovery)
 
+    expect(mock_chanel).to receive(:on_error)
     expect(mock_chanel).to receive(:prefetch).with(prefetch_count)
     expect(mock_chanel).to receive(:queue).with(queue_name, passive: true) do |_, &block|
       block.call(mock_queue, true)
@@ -63,6 +64,7 @@ RSpec.describe AmqpConsumer do
     let(:metadata) do
       double('AMQP::Header', ack: true, delivery_tag: 'delivery_tag', routing_key: 'queue', redelivered?: redelivered)
     end
+
     before do
       expect(mock_queue).to receive(:subscribe).with(ack: true) do |_, &block|
         block.call(metadata, payload)
@@ -71,6 +73,7 @@ RSpec.describe AmqpConsumer do
 
     context 'invalid payload' do
       let(:payload) { 'Not a valid message!' }
+
       context 'on the first run' do
         let(:redelivered) { false }
 
@@ -97,6 +100,7 @@ RSpec.describe AmqpConsumer do
           end
         end
       end
+
       context 'on the second run' do
         let(:redelivered) { true }
 
@@ -160,10 +164,11 @@ RSpec.describe AmqpConsumer do
           'lims' => 'lims'
         }.to_json
       end
+
       it 'processes the message' do
         # Shouldn't actually trigger this, but it makes debugging easier to follow
         allow(mock_chanel).to receive(:reject)
-        expect { amqp_consumer.run }.to change { Event.count }.by(1)
+        expect { amqp_consumer.run }.to change(Event, :count).by(1)
       end
     end
   end

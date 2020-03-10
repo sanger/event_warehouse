@@ -46,6 +46,9 @@ group :development do
   gem 'guard-bundler', require: false
   gem 'guard-rspec', require: false
   gem 'rubocop'
+  gem 'rubocop-performance'
+  gem 'rubocop-rails'
+  gem 'rubocop-rspec', require: false
   gem 'travis'
 end
 

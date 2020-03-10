@@ -60,7 +60,7 @@ RSpec.configure do |config|
   config.include JsonapiSpecHelpers
 
   # Disable excpetion handling for easier debugging
-  config.before :each do
+  config.before do
     JsonapiErrorable.disable!
   end
 

@@ -59,8 +59,8 @@ RSpec.describe Event do
   end
 
   # We have a single pre-registered event type
-  before(:example) do
-    @pre_count = Event.count
+  before do
+    @pre_count = described_class.count
     create(:event_type, key: registered_event_type)
     # preregister one of our subjects so we can check we look stuff up correctly
     create(:subject,
@@ -73,29 +73,30 @@ RSpec.describe Event do
 
   context 'message receipt' do
     let(:preregistration_required) { false }
-    before(:example) do
+
+    before do
       allow(EventType).to receive(:preregistration_required?).and_return preregistration_required
       described_class.create_or_update_from_json(json, example_lims)
     end
 
     shared_examples_for 'a recorded event' do
-      it 'should create an event' do
+      it 'creates an event' do
         expect(described_class.count - @pre_count).to eq(1)
       end
 
-      it 'should have the right event type' do
-        expect(described_class.last).to be_instance_of(Event)
+      it 'has the right event type' do
+        expect(described_class.last).to be_instance_of(described_class)
         expect(described_class.last.event_type).to be_instance_of(EventType)
         expect(described_class.last.event_type.key).to eq(event_type)
       end
 
-      it 'should have the expected uuid' do
+      it 'has the expected uuid' do
         expect(described_class.last.uuid.to_s).to eq(event_uuid)
       end
     end
 
     shared_examples_for 'it registers metadata' do
-      it 'should have 2 metadata with the right values' do
+      it 'has 2 metadata with the right values' do
         expect(described_class.last.metadata_records.count).to eq(2)
         metadata.each do |key, value|
           expect(described_class.last.metadata_records.where(key: key).first.value).to eq(value)
@@ -127,7 +128,7 @@ RSpec.describe Event do
         end
         expected_subjects.each do |expected|
           found = registered_subjects.detect { |s| s.first == expected.uuid }
-          expect(found).to_not be_nil
+          expect(found).not_to be_nil
           expect(found[1]).to eq(expected.friendly_name)
           expect(found[2]).to eq(expected.subject_type)
         end
@@ -143,7 +144,7 @@ RSpec.describe Event do
     end
 
     shared_examples_for 'an ignored event' do
-      it 'should not create an event' do
+      it 'does not create an event' do
         expect(described_class.count).to eq(0)
       end
     end
@@ -177,11 +178,11 @@ RSpec.describe Event do
   context 'repeat message receipt' do
     let(:event_type) { registered_event_type }
 
-    before(:example) do
+    before do
       create(:event, uuid: event_uuid)
     end
 
-    it 'should not register a new event with the same uuid' do
+    it 'does not register a new event with the same uuid' do
       expect { described_class.create_or_update_from_json(json, example_lims) }
         .to raise_error(ActiveRecord::RecordInvalid, 'Validation failed: Uuid has already been taken')
     end

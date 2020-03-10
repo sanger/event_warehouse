@@ -355,6 +355,9 @@ DEPENDENCIES
   rest-client
   rspec-rails
   rubocop
+  rubocop-performance
+  rubocop-rails
+  rubocop-rspec
   simplecov
   swagger-diff (~> 1.1)
   travis
