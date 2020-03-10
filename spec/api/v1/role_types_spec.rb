@@ -3,13 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe 'v1/role_types', type: :request do
-  let(:role_type1) { create(:role_type) }
-  let(:role_type2) { create(:role_type) }
-
-  before do
-    role_type1
-    role_type2
-  end
+  let!(:role_type1) { create(:role_type) }
+  let!(:role_type2) { create(:role_type) }
 
   describe '#index' do
     it 'lists role_types' do
