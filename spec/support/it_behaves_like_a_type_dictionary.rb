@@ -7,8 +7,13 @@ RSpec.shared_examples_for 'a type dictionary' do
   shared_examples_for 'returns a matching element' do
     it 'returns an appropriate type' do
       expect(type_lookup).to be_instance_of(described_class)
-      expect(type_lookup.key).to eq(example_key)
-      expect(type_lookup.description).to eq(expected_description)
+    end
+
+    it 'has the expected properties' do
+      expect(type_lookup).to have_attributes(
+        key: example_key,
+        description: expected_description
+      )
     end
   end
 
@@ -21,7 +26,7 @@ RSpec.shared_examples_for 'a type dictionary' do
   context 'when pre-existing' do
     let(:expected_description) { 'a pre-registered-description' }
 
-    before(:example) do
+    before do
       create(described_class.name.underscore.to_sym, key: example_key, description: expected_description)
     end
 
@@ -31,7 +36,7 @@ RSpec.shared_examples_for 'a type dictionary' do
   context 'when not pre-existing' do
     let(:expected_description) { described_class.default_description }
 
-    context 'and registration in not required' do
+    context 'when registration in not required' do
       before do
         allow(described_class).to receive(:preregistration_required?).and_return(false)
       end
@@ -39,7 +44,7 @@ RSpec.shared_examples_for 'a type dictionary' do
       it_behaves_like 'returns a matching element'
     end
 
-    context 'and registration is required' do
+    context 'when registration is required' do
       before do
         allow(described_class).to receive(:preregistration_required?).and_return(true)
       end

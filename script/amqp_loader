@@ -4,6 +4,7 @@
 require 'thor'
 require File.expand_path('../config/environment', __dir__)
 
+# Command line application for spawning amqp consumers
 class Load < Thor
   include Thor::Actions
 

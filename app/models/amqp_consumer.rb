@@ -28,18 +28,6 @@ class AmqpConsumer
 
   private
 
-  # Override the logging behaviour so that we have consistent message format
-  %i[debug warn info error].each do |level|
-    define_method(level) do |metadata = nil, &message|
-      identifier = if metadata.present?
-                     "(#{metadata.delivery_tag.inspect}:#{metadata.routing_key.inspect}): "
-                   else
-                     ''
-                   end
-      super() { "#{identifier}#{message.call}" }
-    end
-  end
-
   def empty_queue_disconnect_interval
     @config.empty_queue_disconnect_interval || 0
   end
