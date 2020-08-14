@@ -11,6 +11,12 @@ AllCops:
     - script/rails
     - bin/*
     - vendor/**/*
+    - .simplecov
+    - app/mailers/worker_death.rb
+    - config/environments/development.rb
+    - spec/models/event_spec.rb
+    - spec/rails_helper.rb
+    - spec/resource_tools/json_spec.rb
 Metrics/BlockLength:
   ExcludedMethods:
     - describe

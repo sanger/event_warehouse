@@ -6,7 +6,6 @@ class SubjectResource < ApplicationResource
 
   belongs_to :subject_type,
              scope: -> { SubjectType.all },
-             foreign_key: :subject_type_id,
              resource: SubjectTypeResource
 
   has_many :roles,

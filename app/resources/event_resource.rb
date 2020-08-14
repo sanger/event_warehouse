@@ -16,7 +16,6 @@ class EventResource < ApplicationResource
 
   belongs_to :event_type,
              scope: -> { EventType.all },
-             foreign_key: :event_type_id,
              resource: EventTypeResource
 
   allow_filter :uuid
