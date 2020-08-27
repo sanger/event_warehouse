@@ -2,6 +2,7 @@
 
 require 'rails_helper'
 
+# rubocop:disable RSpec/MultipleMemoizedHelpers
 RSpec.describe Subject do
   let(:lookup) { described_class.lookup(uuid: uuid, friendly_name: new_friendly_name, subject_type: new_subject_type) }
   let(:old_subject_type)  { 'old_type' }
@@ -34,3 +35,4 @@ RSpec.describe Subject do
     end
   end
 end
+# rubocop:enable RSpec/MultipleMemoizedHelpers

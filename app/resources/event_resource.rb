@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable Rails/RedundantForeignKey
 # Render Event
 class EventResource < ApplicationResource
   type :events
@@ -31,3 +32,4 @@ class EventResource < ApplicationResource
 
   extra_field :metadata, &:include_metadata
 end
+# rubocop:enable Rails/RedundantForeignKey

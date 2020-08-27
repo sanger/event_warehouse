@@ -3,12 +3,14 @@
 require 'rails_helper'
 
 RSpec.describe ResourceTools::Json::Handler do
-  class Json < ResourceTools::Json::Handler
-    translate('key' => 'translated')
+  let(:json_class) do
+    Class.new(described_class) do
+      translate('key' => 'translated')
+    end
   end
 
   describe '::translate' do
-    subject(:json) { Json.new }
+    subject(:json) { json_class.new }
 
     it 'does not translate keys by default' do
       json['key'] = 'value'

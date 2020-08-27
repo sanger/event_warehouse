@@ -2,6 +2,7 @@
 
 require 'rails_helper'
 
+# rubocop:disable RSpec/MultipleMemoizedHelpers
 # The AmqpConsumer handles queue subscription and message receipt
 RSpec.describe AmqpConsumer do
   # Ran into a few issues trying to use evented_spec as I kept receiving
@@ -173,3 +174,4 @@ RSpec.describe AmqpConsumer do
     end
   end
 end
+# rubocop:enable RSpec/MultipleMemoizedHelpers
