@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable Rails/RedundantForeignKey
 # Render Roles
 class RoleResource < ApplicationResource
   type :roles
@@ -19,3 +20,4 @@ class RoleResource < ApplicationResource
              foreign_key: :role_type_id,
              resource: RoleTypeResource
 end
+# rubocop:enable Rails/RedundantForeignKey

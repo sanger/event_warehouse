@@ -2,10 +2,9 @@
 
 require 'rails_helper'
 
+# rubocop:disable RSpec/MultipleMemoizedHelpers
 # As Event is effectively our main API we conduct integration tests through here
 RSpec.describe Event do
-  ExpectedSubject = Struct.new(:uuid, :friendly_name, :subject_type, :role_type)
-
   let(:example_lims) { 'postal_service' }
   let(:registered_event_type) { 'delivery' }
   let(:missing_event_type) { 'package_lost' }
@@ -60,6 +59,7 @@ RSpec.describe Event do
 
   # We have a single pre-registered event type
   before do
+    stub_const('ExpectedSubject', Struct.new(:uuid, :friendly_name, :subject_type, :role_type))
     @pre_count = described_class.count
     create(:event_type, key: registered_event_type)
     # preregister one of our subjects so we can check we look stuff up correctly
@@ -188,3 +188,4 @@ RSpec.describe Event do
     end
   end
 end
+# rubocop:enable RSpec/MultipleMemoizedHelpers
