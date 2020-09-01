@@ -3,6 +3,8 @@
 source 'https://rubygems.org'
 
 # TODO: We pretty much just use active record and active mailer, do we need rails?
+
+gem 'daemons'
 gem 'mysql2', '~> 0.4'
 gem 'rails', '~> 5.2'
 
@@ -13,7 +15,6 @@ gem 'puma'
 # TODO: COnsider switching to Bunny if possible
 gem 'amqp', '~> 1.5'
 gem 'mysql-binuuid-rails'
-
 # We use a special version of hashie to bypass rails protected attributes.
 # Consider removing Hashie entirely
 gem 'hashie-forbidden_attributes'
@@ -36,7 +37,7 @@ group :test, :development do
   gem 'pry'
   gem 'pry-byebug', platform: :mri
   gem 'rspec-rails'
-  gem 'simplecov'
+  gem 'simplecov', require: false
   gem 'swagger-diff', '~> 1.1'
 end
 
@@ -45,9 +46,9 @@ group :development do
   gem 'guard-bundler', require: false
   gem 'guard-rspec', require: false
   gem 'rubocop'
+  gem 'rubocop-performance'
+  gem 'rubocop-rails'
+  gem 'rubocop-rspec', require: false
   gem 'travis'
 end
 
-group :deployment do
-  gem 'psd_logger', github: 'sanger/psd_logger'
-end

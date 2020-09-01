@@ -7,11 +7,6 @@ RSpec.describe 'v1/event_types', type: :request do
   let!(:event_type2) { create(:event_type) }
 
   describe '#index' do
-    before do
-      event_type1
-      event_type2
-    end
-
     it 'lists event_types' do
       get '/api/v1/event_types'
       expect(json_ids(true)).to eq([event_type1.id, event_type2.id])
@@ -45,7 +40,8 @@ RSpec.describe 'v1/event_types', type: :request do
     context 'when sideloading events' do
       let!(:event1)  { create(:event, event_type: event_type1) }
       let!(:event2)  { create(:event, event_type: event_type1) }
-      let!(:event3)  { create(:event, event_type: event_type2) }
+
+      before { create(:event, event_type: event_type2) }
 
       it 'returns relevant events in response' do
         get "/api/v1/event_types/#{event_type1.id}", params: {

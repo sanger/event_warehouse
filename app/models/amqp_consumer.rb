@@ -28,18 +28,6 @@ class AmqpConsumer
 
   private
 
-  # Override the logging behaviour so that we have consistent message format
-  %i[debug warn info error].each do |level|
-    define_method(level) do |metadata = nil, &message|
-      identifier = if metadata.present?
-                     "(#{metadata.delivery_tag.inspect}:#{metadata.routing_key.inspect}): "
-                   else
-                     ''
-                   end
-      super() { "#{identifier}#{message.call}" }
-    end
-  end
-
   def empty_queue_disconnect_interval
     @config.empty_queue_disconnect_interval || 0
   end
@@ -78,9 +66,9 @@ class AmqpConsumer
   def prepare_deadlettering(client)
     return ->(m, _p, e) { warn(m) { "No dead lettering for #{e.message}: #{e.backtrace}" } } if deadletter.deactivated
 
-    channel  = AMQP::Channel.new(client)
+    channel = AMQP::Channel.new(client)
 
-    channel.on_error do |ch, channel_close|
+    channel.on_error do |_ch, channel_close|
       error { "Channel-level exception on the dedletter channel: #{channel_close.reply_text}" }
     end
 
@@ -100,7 +88,7 @@ class AmqpConsumer
 
     channel = AMQP::Channel.new(client)
 
-    channel.on_error do |ch, channel_close|
+    channel.on_error do |_ch, channel_close|
       error { "Channel-level exception on the events channel: #{channel_close.reply_text}" }
     end
 
@@ -114,7 +102,7 @@ class AmqpConsumer
         debug { "Message received from queue: #{metadata.routing_key}" }
         begin
           received(metadata, payload)
-        rescue StandardError => exception
+        rescue StandardError => e
           debug(metadata) { 'failed!' }
 
           # If this is the first time we've seen this message then we requeue.  If it's not to be requeued
@@ -123,19 +111,19 @@ class AmqpConsumer
 
           requeue_message = requeue? && !metadata.redelivered?
 
-          if !requeue_message && longterm_issue(exception)
+          if !requeue_message && longterm_issue(e)
             # It is our second attempt, and the issue is longterm
             channel.reject(metadata.delivery_tag, true)
-            error(metadata) { "Closing message client following: #{exception.message}" }
-            WorkerDeath.failure(exception).deliver
+            error(metadata) { "Closing message client following: #{e.message}" }
+            WorkerDeath.failure(e).deliver
             client.close { EventMachine.stop }
           else
             channel.reject(metadata.delivery_tag, requeue_message)
-            deadletter.call(metadata, payload, exception) unless requeue_message
+            deadletter.call(metadata, payload, e) unless requeue_message
           end
         end
-      rescue StandardError => exception
-        error(metadata) { "Uncaught exception: #{exception.message}" }
+      rescue StandardError => e
+        error(metadata) { "Uncaught exception: #{e.message}" }
         debug(metadata) { payload }
       end
     end

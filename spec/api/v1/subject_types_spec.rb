@@ -3,13 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe 'v1/subject_types', type: :request do
-  let(:subject_type1) { create(:subject_type) }
-  let(:subject_type2) { create(:subject_type) }
-
-  before do
-    subject_type1
-    subject_type2
-  end
+  let!(:subject_type1) { create(:subject_type) }
+  let!(:subject_type2) { create(:subject_type) }
 
   describe '#index' do
     it 'lists subject_types' do

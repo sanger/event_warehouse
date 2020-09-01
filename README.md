@@ -1,5 +1,9 @@
 Event Warehouse Builder
 -------------------------
+[![Build Status](https://travis-ci.org/radome/event_warehouse.svg?branch=test_openstack)](https://travis-ci.org/radome/event_warehouse)
+
+Description
+-----------
 RabbitMQ driven event warehouse system for source agnostic event reporting. Records events and associates them with any number of subjects, allowing easy answering of the question 'tell me everything that has happened to x.'
 
 Configuration

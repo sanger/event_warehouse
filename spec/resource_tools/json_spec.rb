@@ -3,31 +3,33 @@
 require 'rails_helper'
 
 RSpec.describe ResourceTools::Json::Handler do
-  class Json < ResourceTools::Json::Handler
-    translate('key' => 'translated')
+  let(:json_class) do
+    Class.new(described_class) do
+      translate('key' => 'translated')
+    end
   end
 
-  context 'supports translations' do
-    subject { Json.new }
+  describe '::translate' do
+    subject(:json) { json_class.new }
 
     it 'does not translate keys by default' do
-      subject['key'] = 'value'
-      expect(subject).to have_key('key')
+      json['key'] = 'value'
+      expect(json).to have_key('key')
     end
 
     it 'can translate keys' do
-      subject['key'] = 'value'
-      expect(subject).to have_key('translated')
+      json['key'] = 'value'
+      expect(json).to have_key('translated')
     end
 
     it 'translates updated_at to last_updated' do
-      subject['updated_at'] = 'date'
-      expect(subject['last_updated']).to eq('date')
+      json['updated_at'] = 'date'
+      expect(json['last_updated']).to eq('date')
     end
 
     it 'translates created_at to created' do
-      subject['created_at'] = 'date'
-      expect(subject['created']).to eq('date')
+      json['created_at'] = 'date'
+      expect(json['created']).to eq('date')
     end
   end
 end

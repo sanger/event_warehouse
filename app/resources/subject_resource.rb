@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable Rails/RedundantForeignKey
 # Render Subjects
 class SubjectResource < ApplicationResource
   type :subjects
@@ -22,3 +23,4 @@ class SubjectResource < ApplicationResource
   allow_filter :friendly_name
   allow_filter :uuid
 end
+# rubocop:enable Rails/RedundantForeignKey
