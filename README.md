@@ -87,3 +87,16 @@ Seeds
 The the files in the ./db/seeds/ directory are used to seed the dictionaries for event_types, role_types and subject_types. Each file contains on array of ['key','description'] arrays. They will automatically be inserted into the database when you run `rake db:seed`. In addition `rake dictionaries:update` may be used to automatically insert any missing records, or to update the descriptions of existing records. `rake dictionaries:update` will not remove dictionary entries which are missing from the seeds file.
 
 The existing entries correspond to the requirements of the Sanger, and are not required for normal operation.
+
+Development Environment
+-----------------------
+In order to run the events warehouse locally, you will need to:
+- create local databases: run `bundle exec rails db:create`;
+- configure local databases: run `bundle exec rails db:schema:load`;
+- seed local databases: run `bundle exec rails db:seed`;
+- have a RabbitMQ server running locally: this can be done through _brew services_;
+- start the consumer: in a terminal run `bundle exec ./bin/amqp_client start`;
+- create a new queue: the queue name should be as specified in the `development.rb` config file (e.g. `config.amqp.main.queue = 'queue'`);
+- bind an exhange to the new queue (with routing keys if appropriate): the exchange should be the one your publisher will write to.
+
+Any amqp processes can be stopped by running `bundle exec ./bin/amqp_client stop`.
