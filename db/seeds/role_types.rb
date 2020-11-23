@@ -9,5 +9,8 @@ ROLE_TYPES = [
   ['sample', 'A sample which was processed in this event'],
   ['library_source_labware', 'The plate or tube that entered the library prep process'],
   ['sequencing_source_labware', 'The library tube or strip tube entering a sequencing process'],
-  ['labware', 'The piece of labware, such as a plate or tube, which was processed in this event']
+  ['labware', 'The piece of labware, such as a plate or tube, which was processed in this event'],
+  ['robot', 'The robot on which processing occurred which led to the event'],
+  ['cherrypicking_source_labware', 'The labware that entered the cherrypicking process'],
+  ['cherrypicking_destination_labware', 'The labware created from a cherrypicking process']
 ].freeze
