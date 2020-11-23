@@ -32,5 +32,9 @@ SUBJECT_TYPES = [
     'submission',
     'A grouped series of work that has been requested. '\
     'Samples may belong to multiple submissions during their life-cycle'
+  ],
+  [
+    'robot',
+    'A robot capable of performing automating processes'
   ]
 ].freeze
