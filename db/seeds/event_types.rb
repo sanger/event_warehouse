@@ -49,5 +49,9 @@ EVENT_TYPES = [
   [
     'lh_beckman_cp_destination_created',
     'When the Beckman cherrypicking process has created a new destination plate'
+  ],
+  [
+    'lh_beckman_cp_destination_failed',
+    'When the Beckman cherrypicking process has destructively failed to create a destination plate'
   ]
 ].freeze
