@@ -29,5 +29,29 @@ EVENT_TYPES = [
   [
     'labware.received',
     'When a labware is received via Sequencescape Labwhere Reception'
+  ],
+  [
+    'lh_beckman_cp_source_completed',
+    'When a lighthouse source plate has been marked as completed during Beckman cherrypicking'
+  ],
+  [
+    'lh_beckman_cp_source_plate_unrecognised',
+    'When a lighthouse source plate is not recognised during Beckman cherrypicking'
+  ],
+  [
+    'lh_beckman_cp_source_no_plate_map_data',
+    'When a lighthouse source plate has no plate map data available for Beckman cherrypicking'
+  ],
+  [
+    'lh_beckman_cp_source_all_negatives',
+    'When a lighthouse source plate contains no positives for Beckman cherrypicking'
+  ],
+  [
+    'lh_beckman_cp_destination_created',
+    'When the Beckman cherrypicking process has created a new destination plate'
+  ],
+  [
+    'lh_beckman_cp_destination_failed',
+    'When the Beckman cherrypicking process has destructively failed to create a destination plate'
   ]
 ].freeze
