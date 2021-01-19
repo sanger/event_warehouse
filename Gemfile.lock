@@ -367,6 +367,7 @@ DEPENDENCIES
   puma
   rack-cors
   rails (~> 5.2)
+  rainbow
   rest-client
   rspec-rails
   rubocop
