@@ -51,5 +51,4 @@ group :development do
   gem 'rubocop-performance'
   gem 'rubocop-rails'
   gem 'rubocop-rspec', require: false
-  gem 'travis'
 end

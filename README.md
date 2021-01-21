@@ -1,6 +1,6 @@
 Event Warehouse Builder
 -------------------------
-[![Build Status](https://travis-ci.org/radome/event_warehouse.svg?branch=test_openstack)](https://travis-ci.org/radome/event_warehouse)
+![Ruby Lint and Test](https://github.com/sanger/event_warehouse/workflows/Ruby%20Lint%20and%20Test/badge.svg)
 
 Description
 -----------
