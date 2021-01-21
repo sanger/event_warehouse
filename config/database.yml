@@ -5,7 +5,7 @@ mysql: &MYSQL
   pool: 5
   username: root
   password:
-  host: localhost
+  host: <%= ENV.fetch('DBHOST','localhost') %>
   port: <%= ENV.fetch('DBPORT','3306') %>
 
 development:

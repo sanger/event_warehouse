@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# This li is mostly used via a rake task, so puts is fine, and the Rails.logger
+# This lib is mostly used via a rake task, so puts is fine, and the Rails.logger
 # output will mostly go unseen.
 # rubocop:disable Rails/Output
 

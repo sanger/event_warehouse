@@ -3,6 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe 'flat_events_view' do
+  # @note We use before_type_cast in a few places here, as the raw view SQL query doesn't cast its values.
+  # This is a little useful for testing the uuids (although oddly we need to reload to get the correct behaviour)
+  # but as the actual interface will be with the SQL directly, we don't actually care about the details of what
+  # comes back from
   let(:event) { create(:event, event_type: 'event_name') }
   let(:roles) { create_list :role, 3, event: event }
   let(:results) do
