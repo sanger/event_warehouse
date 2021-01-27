@@ -5,6 +5,7 @@ on:
     branches:
       - develop
       - master
+      - gpl769_test_cp_view
     paths-ignore:
       - "README.md"
     tags:
