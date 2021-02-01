@@ -3,7 +3,7 @@
 #
 # This file contains the seed data for running the integration tests from
 # the unified warehouse. Please do not remove it unless you modify the
-# corresponding code in the unified warehouse project, as there is a 
+# corresponding code in the unified warehouse project, as there is a
 # dependency on the tests run in there.
 #
 BECKMAN_RECORD = {
