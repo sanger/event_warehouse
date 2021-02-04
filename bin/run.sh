@@ -16,7 +16,6 @@ _main() {
     echo "Setting up for integration tests"
     RAILS_ENV=test bundle exec rake db:reset
     RAILS_ENV=test bundle exec rails runner /code/spec/data/integration/seed_for_unified_wh.rb
-    tail -f /dev/null
   fi
   exec "$@"
 }
