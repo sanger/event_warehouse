@@ -100,3 +100,22 @@ In order to run the events warehouse locally, you will need to:
 - bind an exhange to the new queue (with routing keys if appropriate): the exchange should be the one your publisher will write to.
 
 Any amqp processes can be stopped by running `bundle exec ./bin/amqp_client stop`.
+
+
+## Integration Tests Setup
+
+In order to run configure the event warehouse database for running
+integration tests in dependent projects:
+
+1. Setup the testing database
+
+```
+   bundle exec rake db:reset
+```
+
+1. Load the specific set of seeds for integration tests:
+
+```
+   RAILS_ENV=test bundle exec rails runner spec/data/integration/seed_for_unified_wh.rb
+
+```
