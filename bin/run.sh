@@ -4,7 +4,9 @@ set -Eeuxo pipefail
 if test "${INTEGRATION_TEST_SETUP:-}" = "true" ; then
   echo "Setting up for integration tests"
   RAILS_ENV=test bundle exec rake db:reset
-  RAILS_ENV=test bundle exec rails runner /code/spec/data/integration/seed_for_unified_wh.rb
+  if test -n $INTEGRATION_TEST_SEED ; then
+    RAILS_ENV=test bundle exec rails runner $INTEGRATION_TEST_SEED
+  fi
 fi
 
 echo "Starting the service"
