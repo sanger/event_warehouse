@@ -113,7 +113,9 @@ integration tests in dependent projects:
    bundle exec rake db:reset
 ```
 
-1. Load the specific set of seeds for integration tests:
+### For Integration test from Unified Warehouse
+
+1. Only for unified warehouse, load the specific set of seeds for integration tests:
 
 ```
    RAILS_ENV=test bundle exec rails runner spec/data/integration/seed_for_unified_wh.rb
