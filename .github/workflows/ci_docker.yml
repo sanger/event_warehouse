@@ -29,6 +29,13 @@ jobs:
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
           MYSQL_ROOT_PASSWORD: null
           MYSQL_DATABASE: event_warehouse_test
+      rmq:
+        image: rabbitmq:3
+        ports:
+          - 5672:5672
+        env:
+          RABBITMQ_DEFAULT_USER: guest
+          RABBITMQ_DEFAULT_PASS: guest
     steps:
       - uses: actions/checkout@v2
       - name: Build the Docker image
