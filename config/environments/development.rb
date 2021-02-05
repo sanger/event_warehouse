@@ -70,7 +70,7 @@ Rails.application.configure do
   config.worker_death_restart = %(Please restart the worker.)
 
   # Configure the main AMQP consumer
-  config.amqp.main.url                    = "amqp://#{ENV.fetch('RMQHOST','localhost')}:5672/"
+  config.amqp.main.url                    = "amqp://#{ENV.fetch('RMQHOST', 'localhost')}:5672/"
   config.amqp.main.queue                  = 'queue'
   config.amqp.main.prefetch               = 50
   config.amqp.main.requeue                = true
@@ -80,7 +80,7 @@ Rails.application.configure do
   config.amqp.main.deadletter.routing_key = 'test.deadletter'
 
   # Configure the deadletter AMQP consumer
-  config.amqp.deadletter.url                             = "amqp://#{ENV.fetch('RMQHOST','localhost')}:5672/"
+  config.amqp.deadletter.url                             = "amqp://#{ENV.fetch('RMQHOST', 'localhost')}:5672/"
   config.amqp.deadletter.queue                           = 'deadletters'
   config.amqp.deadletter.prefetch                        = 50
   config.amqp.deadletter.requeue                         = true
