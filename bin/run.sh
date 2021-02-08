@@ -16,10 +16,17 @@
 set -Eeuxo pipefail
 
 if test "${INTEGRATION_TEST_SETUP:-}" = "true" ; then
-  echo "Setting up for integration tests"
-  RAILS_ENV=test bundle exec rake db:reset
-  if test -n $INTEGRATION_TEST_SEED ; then
-    RAILS_ENV=test bundle exec rails runner $INTEGRATION_TEST_SEED
+  if test "${RAILS_ENV:-}" = "test"; then
+    echo "Setting up for integration tests"
+    bundle exec rake db:reset
+    if test -n $INTEGRATION_TEST_SEED ; then
+      bundle exec rails runner $INTEGRATION_TEST_SEED
+    fi
+  else
+    echo "You are providing the flag INTEGRATION_TEST_SETUP, but RAILS_ENV"
+    echo "is different from test, which it is a dangerous operation."
+    echo "This script will stop."
+    exit 1
   fi
 fi
 
