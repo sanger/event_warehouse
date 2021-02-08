@@ -113,6 +113,13 @@ integration tests in dependent projects:
    bundle exec rake db:reset
 ```
 
+This action can be performed automatically if you run the Docker container of the service
+and pass the environment variables:
+```
+RAILS_ENV="test"
+INTEGRATION_TEST_SETUP="true"
+```
+
 ### For Integration test from Unified Warehouse
 
 1. Only for unified warehouse, load the specific set of seeds for integration tests:
@@ -120,4 +127,12 @@ integration tests in dependent projects:
 ```
    RAILS_ENV=test bundle exec rails runner spec/data/integration/seed_for_unified_wh.rb
 
+```
+
+This action can be performed automatically if you run the Docker container of the service
+and pass the environment variables: 
+```
+RAILS_ENV="test"
+INTEGRATION_TEST_SETUP="true"
+INTEGRATION_TEST_SEED="/code/spec/data/integration/seed_for_unified_wh.rb"
 ```
