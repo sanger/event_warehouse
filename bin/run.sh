@@ -16,10 +16,10 @@
 set -Eeuxo pipefail
 
 if test "${INTEGRATION_TEST_SETUP:-}" = "true" ; then
-  if test "${RAILS_ENV:-}" = "test"; then
+  if test "${RAILS_ENV:-}" = "test" || test "${RAILS_ENV:-}" = "development"; then
     echo "Setting up for integration tests"
     bundle exec rake db:reset
-    if test -n $INTEGRATION_TEST_SEED ; then
+    if test -n "${INTEGRATION_TEST_SEED:-}" ; then
       bundle exec rails runner $INTEGRATION_TEST_SEED
     fi
   else
