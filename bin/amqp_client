@@ -33,13 +33,12 @@ class WorkerPool
   def load_rails!
     puts "Loading application..."
     require_relative '../config/environment'
-    # We need to disconnect before forking.
-    ActiveRecord::Base.connection.disconnect!
     puts "Loaded!"
   end
 
   def daemon(instance)
     Daemons.run_proc(server_name(instance), multiple: multiple, dir: @pid_dir, backtrace: true, log_output: true) do
+      load_rails!
       AmqpConsumer.new(EventWarehouse::Application.config.amqp.send(:main)).run
     end
   end
@@ -73,7 +72,6 @@ class AmqpClient
   end
 
   def run
-    worker_pool.load_rails! if preload_required?
     worker_pool.start!
   end
 
