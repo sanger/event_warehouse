@@ -14,7 +14,7 @@ class AmqpConsumer
   end
 
   def run
-    info { 'Starting AMQP consumer ...' }
+    puts 'Starting AMQP consumer ...'
 
     AMQP.start(url) do |client, _opened_ok|
       install_show_stopper_into(client)
@@ -51,13 +51,13 @@ class AmqpConsumer
         warn { "Connection has been disconnected, retrying at #{reconnect_interval}s" }
         connection.periodically_reconnect(reconnect_interval)
       else
-        error { "Connection error #{connection_close.reply_code}: #{connection_close.reply_text}" }
+        puts "Connection error #{connection_close.reply_code}: #{connection_close.reply_text}"
         EventMachine.stop # Brutally stop the consumer!
       end
     end
 
     client.on_recovery do |*_args|
-      info { 'Connection has recovered, rebuilding system ...' }
+      puts 'Connection has recovered, rebuilding system ...'
       build_client(client)
     end
   end
@@ -69,7 +69,7 @@ class AmqpConsumer
     channel = AMQP::Channel.new(client)
 
     channel.on_error do |_ch, channel_close|
-      error { "Channel-level exception on the dedletter channel: #{channel_close.reply_text}" }
+      puts "Channel-level exception on the dedletter channel: #{channel_close.reply_text}"
     end
 
     exchange = channel.direct(deadletter.exchange, passive: true)
@@ -84,26 +84,26 @@ class AmqpConsumer
   end
 
   def build_client(client, deadletter)
-    info { "Connecting to queue #{queue.inspect} ..." }
+    puts "Connecting to queue #{queue.inspect} ..."
 
     channel = AMQP::Channel.new(client)
 
     channel.on_error do |_ch, channel_close|
-      error { "Channel-level exception on the events channel: #{channel_close.reply_text}" }
+      puts "Channel-level exception on the events channel: #{channel_close.reply_text}"
     end
 
     channel.prefetch(prefetch)
     channel.queue(queue, passive: true) do |queue, _queue_declared|
-      info { 'Waiting for messages ...' }
+      puts 'Waiting for messages ...'
 
       stop_when_queue_empty(channel, queue) unless empty_queue_disconnect_interval.zero?
 
       queue.subscribe(ack: true) do |metadata, payload|
-        debug { "Message received from queue: #{metadata.routing_key}" }
+        puts "Message received from queue: #{metadata.routing_key}"
         begin
           received(metadata, payload)
         rescue StandardError => e
-          debug(metadata) { 'failed!' }
+          puts "Failed! Metadata: #{metadata}"
 
           # If this is the first time we've seen this message then we requeue.  If it's not to be requeued
           # then we deadletter it ourselves rather than using RabbitMQ's deadletter queueing which seems
@@ -114,7 +114,8 @@ class AmqpConsumer
           if !requeue_message && longterm_issue(e)
             # It is our second attempt, and the issue is longterm
             channel.reject(metadata.delivery_tag, true)
-            error(metadata) { "Closing message client following: #{e.message}" }
+            puts "Closing message client following: #{e.message}"
+            puts "Metadata: #{metadata}"
             WorkerDeath.failure(e).deliver
             client.close { EventMachine.stop }
           else
@@ -123,8 +124,9 @@ class AmqpConsumer
           end
         end
       rescue StandardError => e
-        error(metadata) { "Uncaught exception: #{e.message}" }
-        debug(metadata) { payload }
+        puts "Uncaught exception: #{e.message}"
+        puts "Payload: #{payload}"
+        puts "Metadata: #{metadata}"
       end
     end
   end
@@ -133,7 +135,7 @@ class AmqpConsumer
     EventMachine.add_periodic_timer(empty_queue_disconnect_interval) do
       queue.status do |messages_in_queue, _|
         if messages_in_queue.zero?
-          info { 'Queue has no messages, quitting ...' }
+          puts 'Queue has no messages, quitting ...'
           channel.close { EventMachine.stop }
         end
       end
@@ -157,7 +159,7 @@ class AmqpConsumer
   def install_show_stopper_into(client)
     %w[TERM INT].each do |signal|
       Signal.trap(signal, proc do
-        info { "Received #{signal} signal, so quitting ..." }
+        puts "Received #{signal} signal, so quitting ..."
         client.close { EventMachine.stop }
       end)
     end
