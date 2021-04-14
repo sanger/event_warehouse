@@ -1,19 +1,39 @@
-Event Warehouse Builder
--------------------------
+# Event Warehouse Builder
+
 ![Ruby Lint and Test](https://github.com/sanger/event_warehouse/workflows/Ruby%20Lint%20and%20Test/badge.svg)
 
-Description
------------
 RabbitMQ driven event warehouse system for source agnostic event reporting. Records events and associates them with any number of subjects, allowing easy answering of the question 'tell me everything that has happened to x.'
 
-Configuration
--------------
+## Requirements for Development
+
+## Development Environment
+
+In order to run the events warehouse locally, you will need to:
+
+1. Create the database, load the schema, and initialize it with the seed data:
+
+        bundle exec rails db:setup
+
+1. Have a RabbitMQ server running locally: this can be done through _brew services_;
+1. Start the consumer:
+
+        bundle exec ./bin/amqp_client start
+
+1. Create a new queue: the queue name should be as specified in the `development.rb` config file (e.g.
+`config.amqp.main.queue = 'queue'`);
+1. Bind an exhange to the new queue (with routing keys if appropriate): the exchange should be the one your publisher will write to.
+
+Any amqp processes can be stopped by running:
+
+    bundle exec ./bin/amqp_client stop
+
+## Configuration
+
 The default configuration is provided in ./config/application if follows the standard rails format. Environment specific configurations can be applied in the matching ./environments/environments_name.rb file.
 
 [event_type_preregistration] If set to true events will only be recorded if their event type is listed in the event dictionary. If false, new event types will be added to the dictionary automatically.
 
-Glossary
---------
+## Glossary
 
 - **Event** A single action that can occur, and may be of interest to multiple parties. Events may be associated with one or more Subjects, and may have any number of metadata.
 - **Subject** Something associated with a event. An subject can be considered an interested party, either because it was directly subject to an event, or because it is indirectly affected. Subjects may belong to many events. While their subject type will remain constant, the role may be different for each event.
@@ -28,8 +48,7 @@ Glossary
 - **lims** Present on event, and included as a field in the event message (see Message Format), identifies the originating system. Allows multiple systems to share an event warehouse. (The term LIMS stands for 'Laboratory Information Management System' and reflects the initial use of this event tracker)
 - **friendly_name** Present on subject. A human readable, commonly used identifier for the subject. Uniqueness is recommended, but not enforced. In the event that two subjects exist with the same friendly name, uuid and subject type can assist with disambiguation.
 
-Example
--------
+## Example
 
 Alice has a pot-plant called Chuck. She delivers this to Bob. This gets logged as an event. In this scenario you'd have a 'delivery' event; 'Alice' and 'Bob' would both be subjects, with a subject type of 'person,' their 'friendly_name' could be something like an email address or a login, these are easy to read but should also be unique. Alice would have a role of 'sender' and Bob of 'recipient'. Meanwhile Chuck would be another subject, with the type 'plant' and a 'friendly_name' of 'Chuck', the role however would be 'package'.
 
@@ -37,12 +56,11 @@ Note that when Bob decides to return the favour by sending Alice a cake, their r
 
 Meanwhile Eve is able to tell that all this is going on by tracking the entries being inserted into the database.
 
-Why normalized?
----------------
+## Why normalized?
+
 Events are highly varied in nature, and in terms of the number and types of subjects that may be associated with them. A standard denormalized structure would be tricky to achieve for all events. While we could insert one row per subject, this would make it tricky to form queries identifying events associated with two or more particular subjects.
 
-Message Format
---------------
+## Message Format
 
 All messages are received in JSON format via a message queue (RabbitMQ). The example below illustrates the scenario described in the 'Example' section. occurred_at records a timestamp for the event, whereas user_identifier records the person or process responsible for the event.
 
@@ -82,25 +100,11 @@ All messages are received in JSON format via a message queue (RabbitMQ). The exa
 }
 ```
 
-Seeds
------
+## Seeds
+
 The the files in the ./db/seeds/ directory are used to seed the dictionaries for event_types, role_types and subject_types. Each file contains on array of ['key','description'] arrays. They will automatically be inserted into the database when you run `rake db:seed`. In addition `rake dictionaries:update` may be used to automatically insert any missing records, or to update the descriptions of existing records. `rake dictionaries:update` will not remove dictionary entries which are missing from the seeds file.
 
 The existing entries correspond to the requirements of the Sanger, and are not required for normal operation.
-
-Development Environment
------------------------
-In order to run the events warehouse locally, you will need to:
-- create local databases: run `bundle exec rails db:create`;
-- configure local databases: run `bundle exec rails db:schema:load`;
-- seed local databases: run `bundle exec rails db:seed`;
-- have a RabbitMQ server running locally: this can be done through _brew services_;
-- start the consumer: in a terminal run `bundle exec ./bin/amqp_client start`;
-- create a new queue: the queue name should be as specified in the `development.rb` config file (e.g. `config.amqp.main.queue = 'queue'`);
-- bind an exhange to the new queue (with routing keys if appropriate): the exchange should be the one your publisher will write to.
-
-Any amqp processes can be stopped by running `bundle exec ./bin/amqp_client stop`.
-
 
 ## Integration Tests Setup
 
@@ -109,30 +113,23 @@ integration tests in dependent projects:
 
 1. Setup the testing database
 
-```
-   bundle exec rake db:reset
-```
+        bundle exec rake db:reset
 
-This action can be performed automatically if you run the Docker container of the service
-and pass the environment variables:
-```
-RAILS_ENV="test"
-INTEGRATION_TEST_SETUP="true"
-```
+This action can be performed automatically if you run the Docker container of the service and pass the environment
+variables:
+
+    RAILS_ENV="test"
+    INTEGRATION_TEST_SETUP="true"
 
 ### For Integration test from Unified Warehouse
 
 1. Only for unified warehouse, load the specific set of seeds for integration tests:
 
-```
-   RAILS_ENV=test bundle exec rails runner spec/data/integration/seed_for_unified_wh.rb
-
-```
+        RAILS_ENV=test bundle exec rails runner spec/data/integration/seed_for_unified_wh.rb
 
 This action can be performed automatically if you run the Docker container of the service
-and pass the environment variables: 
-```
-RAILS_ENV="test"
-INTEGRATION_TEST_SETUP="true"
-INTEGRATION_TEST_SEED="/code/spec/data/integration/seed_for_unified_wh.rb"
-```
+and pass the environment variables:
+
+    RAILS_ENV="test"
+    INTEGRATION_TEST_SETUP="true"
+    INTEGRATION_TEST_SEED="/code/spec/data/integration/seed_for_unified_wh.rb"
