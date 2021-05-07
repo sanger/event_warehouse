@@ -58,5 +58,8 @@ class Event < ApplicationRecord
   end
 
   json do
+    translate(
+      occurred_at: :occured_at
+    )
   end
 end
