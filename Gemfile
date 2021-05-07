@@ -2,7 +2,6 @@
 
 source 'https://rubygems.org'
 
-gem 'daemons'
 gem 'mysql2', '~> 0.4'
 gem 'rails', '~> 5.2'
 
@@ -10,8 +9,6 @@ gem 'rails', '~> 5.2'
 gem 'bootsnap'
 gem 'puma'
 
-# TODO: COnsider switching to Bunny if possible
-gem 'amqp', '~> 1.5'
 # RabbitMQ client
 gem 'sanger_warren'
 

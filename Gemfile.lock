@@ -45,9 +45,6 @@ GEM
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
     amq-protocol (2.3.2)
-    amqp (1.8.0)
-      amq-protocol (>= 2.2.0)
-      eventmachine
     arel (9.0.0)
     ast (2.4.2)
     bootsnap (1.5.1)
@@ -60,7 +57,6 @@ GEM
     concurrent-ruby (1.1.8)
     connection_pool (2.2.5)
     crass (1.0.6)
-    daemons (1.4.0)
     database_cleaner (2.0.1)
       database_cleaner-active_record (~> 2.0.0)
     database_cleaner-active_record (2.0.0)
@@ -72,7 +68,6 @@ GEM
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
     erubi (1.10.0)
-    eventmachine (1.2.7)
     factory_bot (6.1.0)
       activesupport (>= 5.0.0)
     factory_bot_rails (6.1.0)
@@ -328,9 +323,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  amqp (~> 1.5)
   bootsnap
-  daemons
   database_cleaner
   factory_bot_rails
   guard
