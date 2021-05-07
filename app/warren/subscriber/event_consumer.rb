@@ -78,8 +78,8 @@ module Warren
       end
 
       def extract_json
-        JSON.parse(payload)
-      rescue JSON::ParserError => e
+        Oj.load(payload)
+      rescue Oj::ParseError => e
         raise InvalidMessage, "Payload #{payload} is not JSON: #{e.message}"
       end
     end
