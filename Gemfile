@@ -2,8 +2,6 @@
 
 source 'https://rubygems.org'
 
-# TODO: We pretty much just use active record and active mailer, do we need rails?
-
 gem 'daemons'
 gem 'mysql2', '~> 0.4'
 gem 'rails', '~> 5.2'
@@ -14,7 +12,11 @@ gem 'puma'
 
 # TODO: COnsider switching to Bunny if possible
 gem 'amqp', '~> 1.5'
+# RabbitMQ client
+gem 'sanger_warren'
+
 gem 'mysql-binuuid-rails'
+
 # We use a special version of hashie to bypass rails protected attributes.
 # Consider removing Hashie entirely
 gem 'hashie-forbidden_attributes'
@@ -47,8 +49,8 @@ group :development do
   gem 'guard'
   gem 'guard-bundler', require: false
   gem 'guard-rspec', require: false
-  gem 'rubocop'
-  gem 'rubocop-performance'
-  gem 'rubocop-rails'
+  gem 'rubocop', require: false
+  gem 'rubocop-performance', require: false
+  gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
 end
