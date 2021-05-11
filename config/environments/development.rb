@@ -49,6 +49,8 @@ Rails.application.configure do
   # Disable sprockets
   config.assets.enabled = false
 
+  config.logger = ActiveSupport::Logger.new($stdout)
+
   # Debug mode disables concatenation and preprocessing of assets.
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.
