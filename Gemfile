@@ -29,8 +29,8 @@ gem 'jsonapi_spec_helpers', require: false
 gem 'kaminari' # Pagination. Used by jsonapi_suite
 gem 'rack-cors', require: 'rack/cors'
 
-gem 'rainbow'
 gem 'oj'
+gem 'rainbow'
 
 group :test, :development do
   gem 'database_cleaner'
