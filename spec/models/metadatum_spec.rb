@@ -7,6 +7,6 @@ RSpec.describe Metadatum do
   # - The FactoryBot lint tests
   # - The event specs, which provide a degree of integration testing
   it 'can be created' do
-    expect(described_class.new).to be_a(Metadatum)
+    expect(described_class.new).to be_a(described_class)
   end
 end

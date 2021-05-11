@@ -130,7 +130,7 @@ INTEGRATION_TEST_SETUP="true"
 ```
 
 This action can be performed automatically if you run the Docker container of the service
-and pass the environment variables: 
+and pass the environment variables:
 ```
 RAILS_ENV="test"
 INTEGRATION_TEST_SETUP="true"
