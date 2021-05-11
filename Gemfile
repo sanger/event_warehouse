@@ -14,9 +14,6 @@ gem 'sanger_warren'
 
 gem 'mysql-binuuid-rails'
 
-# We use a special version of hashie to bypass rails protected attributes.
-# Consider removing Hashie entirely
-gem 'hashie-forbidden_attributes'
 gem 'migration_comments'
 gem 'rest-client'
 
@@ -29,8 +26,8 @@ gem 'jsonapi_spec_helpers', require: false
 gem 'kaminari' # Pagination. Used by jsonapi_suite
 gem 'rack-cors', require: 'rack/cors'
 
-gem 'oj'
 gem 'rainbow'
+gem 'oj'
 
 group :test, :development do
   gem 'database_cleaner'

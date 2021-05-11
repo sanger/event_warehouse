@@ -95,9 +95,6 @@ GEM
       guard (~> 2.1)
       guard-compat (~> 1.1)
       rspec (>= 2.99.0, < 4.0)
-    hashie (4.1.0)
-    hashie-forbidden_attributes (0.1.1)
-      hashie (>= 3.0)
     http-accept (1.7.0)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
@@ -328,7 +325,6 @@ DEPENDENCIES
   guard
   guard-bundler
   guard-rspec
-  hashie-forbidden_attributes
   jsonapi-rails (~> 0.3)
   jsonapi_spec_helpers
   jsonapi_suite (~> 0.7)
