@@ -31,7 +31,6 @@ gem 'rainbow'
 
 group :test, :development do
   gem 'database_cleaner'
-  # Easier testing of AMQP client
   gem 'factory_bot_rails'
   gem 'pry'
   gem 'pry-byebug'

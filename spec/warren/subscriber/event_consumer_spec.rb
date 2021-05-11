@@ -4,9 +4,6 @@ require 'rails_helper'
 require 'warren/fox'
 
 RSpec.describe Warren::Subscriber::EventConsumer do
-  # Ran into a few issues trying to use evented_spec as I kept receiving
-  # an undefined_method amqp error. The library hasn't been updated for
-  # several years.
   subject(:event_consumer) { described_class.new(fox, delivery_info, properties, payload) }
 
   let(:fox) { instance_spy(Warren::Fox) }

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# Include in records to enable them to be created by the
-# AMQP builder.
+# Provides ability to may JSON input from {Warren::Subscriber::EventConsumer}
+# to an ActiveRecord::Base object.
 module ResourceTools
   extend ActiveSupport::Concern
   include ResourceTools::Json

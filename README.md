@@ -95,12 +95,7 @@ In order to run the events warehouse locally, you will need to:
 - configure local databases: run `bundle exec rails db:schema:load`;
 - seed local databases: run `bundle exec rails db:seed`;
 - have a RabbitMQ server running locally: this can be done through _brew services_;
-- start the consumer: in a terminal run `bundle exec ./bin/amqp_client start`;
-- create a new queue: the queue name should be as specified in the `development.rb` config file (e.g. `config.amqp.main.queue = 'queue'`);
-- bind an exhange to the new queue (with routing keys if appropriate): the exchange should be the one your publisher will write to.
-
-Any amqp processes can be stopped by running `bundle exec ./bin/amqp_client stop`.
-
+- start the consumer: in a terminal run `bundle exec warren consumer start`;
 
 ## Integration Tests Setup
 
