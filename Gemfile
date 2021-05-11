@@ -34,7 +34,7 @@ group :test, :development do
   # Easier testing of AMQP client
   gem 'factory_bot_rails'
   gem 'pry'
-  gem 'pry-byebug', platform: :mri
+  gem 'pry-byebug'
   gem 'rspec-rails'
   gem 'simplecov', require: false
   gem 'swagger-diff', '~> 1.1'
