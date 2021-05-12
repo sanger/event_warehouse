@@ -2,6 +2,12 @@
 
 module Warren
   module Subscriber
+    # We have a potential race condition, especially on {Subject} insert
+    # This will result in a 'ActiveRecord::RecordNotUnique' exception
+    # We retry the insert a few times, but limit it to prevent any unidentified
+    # bugs from sending us into an infinite loop.
+    RETRY_ATTEMPTS = 10
+
     # Warren powered event_consumer consumers
     # Takes events off the queue and records them in the warehouse
     # Takes messages from the psd.event_warehouse.event_consumer queue
@@ -60,7 +66,19 @@ module Warren
       # on return from the method assuming they haven't been handled already.
       # In the event of an uncaught exception, the message will be dead-lettered.
       def process
+        attempts ||= 0
         Event.transaction { Event.create_or_update_from_json(event_payload, lims) }
+      rescue ActiveRecord::RecordNotUnique => e
+        # If multiple messages are processed simultaneously we could end up
+        # with a race condition. In this case we just retry processing the message
+        # immediately. In most cases this will be sufficient, but in the unlikely
+        # event we hit another race condition, we'll try again.
+        # We give up eventually, just to avoid the situation where we get into
+        # an infinite loop due to unidentified bugs elsewhere in the code.
+        attempts += 1
+        raise e if attempts > RETRY_ATTEMPTS
+
+        retry
       end
 
       private
