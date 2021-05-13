@@ -4,7 +4,6 @@ require:
  - rubocop-rails
  - rubocop-rspec
 AllCops:
-  TargetRubyVersion: 2.5
   Exclude:
     - db/schema.rb
     - db/views_schema.rb
@@ -38,11 +37,7 @@ Metrics/LineLength:
   Max: 120
 Style/Documentation:
   Exclude:
-    - 'script/amqp_loader'
     - 'spec/**/*'
-    - lib/deployed_version.rb
-    - lib/psd_formatter.rb
-    - bin/amqp_loader.rb
 Style/NumericPredicate:
   Exclude:
     - lib/deployed_version.rb

@@ -14,22 +14,10 @@ module EventWarehouse
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.0
-    config.autoload_paths += ["#{config.root}/lib"]
-
-    # Settings in config/environments/* take precedence over those specified here.
-    # Application configuration can go into files in config/initializers
-    # -- all .rb files in that directory are automatically loaded after loading
-    # the framework and any gems in your application.
-    # Configure the worker death messages
-    config.worker_death_from    = 'Projects Exception Notifier <example@example.com>'
-    config.worker_death_to      = 'example@example.com'
-    config.worker_death_restart = 'Please restart the worker.'
-
-    # We're going to need a specialised configuration for our AMQP consumer
-    config.amqp                       = ActiveSupport::Configurable::Configuration.new
-    config.amqp.main                  = ActiveSupport::Configurable::Configuration.new
-    config.amqp.main.deadletter       = ActiveSupport::Configurable::Configuration.new
-    config.amqp.deadletter            = ActiveSupport::Configurable::Configuration.new
+    config.autoload_paths += [
+      "#{config.root}/lib",
+      "#{config.root}/app"
+    ]
 
     # Events must be preregistered in the event types dictionary before they are recorded
     config.event_type_preregistration = false

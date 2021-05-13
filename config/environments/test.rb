@@ -45,14 +45,4 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
-  # Configure the AMQP consumer
-  config.amqp.url                    = "amqp://#{ENV.fetch('RMQHOST', 'localhost')}:5672/"
-  config.amqp.queue                  = 'queue'
-  config.amqp.prefetch               = 50
-  config.amqp.requeue                = true
-  config.amqp.reconnect_interval     = 10
-
-  # Dead lettering in AMQP
-  config.amqp.deadletter.exchange    = 'deadletters'
-  config.amqp.deadletter.routing_key = 'test.deadletter'
 end

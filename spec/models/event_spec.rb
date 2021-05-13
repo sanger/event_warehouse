@@ -19,12 +19,13 @@ RSpec.describe Event do
   end
 
   let(:event_uuid) { '00000000-1111-2222-3333-444444444444' }
+  let(:occured_at) { 'occured_at' }
 
   let(:json) do
     {
       'uuid' => event_uuid,
       'event_type' => event_type,
-      'occured_at' => '2012-03-11 10:22:42',
+      occured_at => '2012-03-11 10:22:42',
       'user_identifier' => 'postmaster@example.com',
       'subjects' => [
         {
@@ -82,6 +83,19 @@ RSpec.describe Event do
     shared_examples_for 'a recorded event' do
       it 'creates an event' do
         expect(described_class.count - @pre_count).to eq(1)
+      end
+
+      context 'with an occurred_at attribute' do
+        # The column name 'occured_at' has an unfortunate mis-spelling,
+        # more so because fixing it will result in a potential breaking
+        # change for our users. This translation lets the correct spelling
+        # be used in event messages at least.
+        let(:occured_at) { 'occurred_at' }
+
+        it 'translates to occured_at' do
+          expect(described_class.count - @pre_count).to eq(1)
+          expect(described_class.last.occured_at).to eq(Time.zone.parse('2012-03-11 10:22:42'))
+        end
       end
 
       it 'has the right event type' do

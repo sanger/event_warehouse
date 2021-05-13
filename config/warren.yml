@@ -1,0 +1,31 @@
+# The Event Warehouse works in broadcast mode by default, if for some reason
+# you wish to change this, the easiest way to do so is to set the
+# ENV WARREN_TYPE.
+# For example
+# `WARREN_TYPE=log bundle exec rails s`
+# This will override the setting in warren.yml
+development:
+  type: broadcast
+  # Set to broadcast as we're pretty much just a consumer. Might need to revisit
+  # this if the API ever gets off the ground
+  config:
+    server:
+      host: localhost
+      port: 5672
+      username: guest
+      password: guest
+      vhost: /
+      frame_max: 0
+      heartbeat: 30
+    exchange: psd.sequencescape
+    routing_key_prefix: development
+# The test environment sets up a test message handler, which lets
+# you make assertions about which messages have been sent.
+# See: https://rubydoc.info/gems/sanger_warren/Warren/Handler/Test
+test:
+  type: test
+  config:
+    routing_key_prefix: test
+# You are encouraged to use the WARREN_CONNECTION_URI environmental
+# variable to configure your production environment. Under no
+# circumstances should you commit sensitive information in the file.
