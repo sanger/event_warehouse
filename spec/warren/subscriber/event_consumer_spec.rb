@@ -11,7 +11,7 @@ RSpec.describe Warren::Subscriber::EventConsumer do
   let(:properties) { instance_spy(Bunny::MessageProperties) }
 
   describe '#process' do
-    context 'when a non-JSON payload' do
+    context 'when there is a non-JSON payload' do
       let(:payload) { 'Not a valid message!' }
 
       it 'raises Warren::Subscriber::EventConsumer::InvalidMessage' do
@@ -69,7 +69,7 @@ RSpec.describe Warren::Subscriber::EventConsumer do
       end
     end
 
-    context 'when a valid payload' do
+    context 'when there is a valid payload' do
       let(:payload) do
         {
           'event' => {
@@ -159,7 +159,7 @@ RSpec.describe Warren::Subscriber::EventConsumer do
       end
     end
 
-    context 'when we repeatedly a race condition' do
+    context 'when we repeatedly hit a race condition' do
       let(:payload) do
         {
           'event' => {
