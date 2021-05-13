@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# This script provides the funcionality to use the service for
+# This script provides the functionality to use the service for
 # testing purposes inside a Docker container. It allows you to
 #
 # - Initialize the testing database when INTEGRATION_TEST_SETUP is set
