@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Provides ability to may JSON input from {Warren::Subscriber::EventConsumer}
+# Provides ability to map JSON input from {Warren::Subscriber::EventConsumer}
 # to an ActiveRecord::Base object.
 module ResourceTools
   extend ActiveSupport::Concern
