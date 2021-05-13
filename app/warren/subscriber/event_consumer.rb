@@ -2,10 +2,7 @@
 
 module Warren
   module Subscriber
-    # We have a potential race condition, especially on {Subject} insert
-    # This will result in a 'ActiveRecord::RecordNotUnique' exception
-    # We retry the insert a few times, but limit it to prevent any unidentified
-    # bugs from sending us into an infinite loop.
+    # Number of times to retry on race condition to avoid infinite loops
     RETRY_ATTEMPTS = 10
 
     # Warren powered event_consumer consumers
