@@ -6,7 +6,7 @@ event_consumer:
     options:
       :durable: true
       :arguments:
-        x-dead-letter-exchange: event_consumer.dead-letters
+        x-dead-letter-exchange: psd.event_consumer.dead-letters
     bindings:
     - exchange:
         name: psd.sequencescape
@@ -17,13 +17,13 @@ event_consumer:
         :routing_key: "%{routing_key_prefix}.event.#"
   subscribed_class: Warren::Subscriber::EventConsumer
   dead_letters:
-    name: event_consumer.dead-letters
+    name: psd.event_consumer.dead-letters
     options:
       :durable: true
       :arguments: {}
     bindings:
     - exchange:
-        name: event_consumer.dead-letters
+        name: psd.event_consumer.dead-letters
         options:
           :type: fanout
           :durable: true
