@@ -1,8 +1,8 @@
-# By default the development environment just logs the message and
-# payload. If you wish to enable broadcasting in development mode,
-# the easiest way to do so is to set the ENV WARREN_TYPE.
+# The Event Warehouse works in broadcast mode by default, if for some reason
+# you wish to change this, the easiest way to do so is to set the
+# ENV WARREN_TYPE.
 # For example
-# `WARREN_TYPE=broadcast bundle exec rails s`
+# `WARREN_TYPE=log bundle exec rails s`
 # This will override the setting in warren.yml
 development:
   type: broadcast
