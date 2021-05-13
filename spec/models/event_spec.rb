@@ -86,6 +86,10 @@ RSpec.describe Event do
       end
 
       context 'with an occurred_at attribute' do
+        # The column name 'occured_at' has an unfortunate mis-spelling,
+        # more so because fixing it will result in a potential breaking
+        # change for our users. This translation lets the correct spelling
+        # be used in event messages at least.
         let(:occured_at) { 'occurred_at' }
 
         it 'translates to occured_at' do
