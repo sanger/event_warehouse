@@ -3,7 +3,7 @@
 namespace :mock do
   desc 'Generate a number of mock events for testing and development'
   task data: :environment do
-    require './db/seeds/event_types.rb'
+    require './db/seeds/event_types'
 
     studies = Array.new(5) do |i|
       { role_type: 'study', subject_type: 'study', friendly_name: "Study #{i}", uuid: SecureRandom.uuid }

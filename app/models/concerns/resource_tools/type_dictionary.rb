@@ -10,19 +10,10 @@ module ResourceTools::TypeDictionary
     attr_accessor :default_description, :preregistration_required
 
     def for_key(key)
-      tries = 0
-      begin
-        if preregistration_required?
-          find_by(key: key)
-        else
-          create_with(description: default_description).find_or_create_by!(key: key)
-        end
-      rescue ActiveRecord::RecordNotUnique => e
-        # If we have two similar events arriving at the same time, we might conceivably run into a
-        # race condition. We retry a few times, then give up and re-raise our exception;
-        tries += 1
-        retry if tries <= RECORD_NOT_UNIQUE_RETRIES
-        raise e
+      if preregistration_required?
+        find_by(key: key)
+      else
+        create_with(description: default_description).find_or_create_by!(key: key)
       end
     end
 

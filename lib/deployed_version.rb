@@ -2,7 +2,9 @@
 
 require 'open3'
 
+# Namespace to handle reporting on the deployed version
 module Deployed
+  # RepoData loads deployment information from git commands or local files
   class RepoData
     def tag
       @tag ||= git_tag || read_file('TAG').strip.presence

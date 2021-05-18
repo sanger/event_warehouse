@@ -1,0 +1,30 @@
+---
+event_consumer:
+  desc: Takes events off the queue and records them in the warehouse
+  queue:
+    name: psd.event_warehouse.event_consumer
+    options:
+      :durable: true
+      :arguments:
+        x-dead-letter-exchange: psd.event_consumer.dead-letters
+    bindings:
+    - exchange:
+        name: psd.sequencescape
+        options:
+          :type: topic
+          :durable: true
+      options:
+        :routing_key: "%{routing_key_prefix}.event.#"
+  subscribed_class: Warren::Subscriber::EventConsumer
+  dead_letters:
+    name: psd.event_consumer.dead-letters
+    options:
+      :durable: true
+      :arguments: {}
+    bindings:
+    - exchange:
+        name: psd.event_consumer.dead-letters
+        options:
+          :type: fanout
+          :durable: true
+      options: {}

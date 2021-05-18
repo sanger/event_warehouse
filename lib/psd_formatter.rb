@@ -3,6 +3,8 @@
 require 'syslog/logger'
 require 'ostruct'
 
+# Formats logs for passing to Kibana
+# Logs in the format "(thread-THREAD_ID) [APP_NAME:VERSION:ENV] LEVEL -- : MESSAGE"
 class PsdFormatter < Syslog::Logger::Formatter
   LINE_FORMAT = "(thread-%s) [%s] %5s -- : %s\n"
 

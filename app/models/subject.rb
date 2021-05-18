@@ -19,6 +19,6 @@ class Subject < ApplicationRecord
     create_with(
       friendly_name: subject[:friendly_name],
       subject_type: subject[:subject_type]
-    ).find_or_create_by(uuid: subject[:uuid])
+    ).find_or_create_by!(uuid: subject[:uuid])
   end
 end

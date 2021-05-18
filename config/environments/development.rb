@@ -49,6 +49,8 @@ Rails.application.configure do
   # Disable sprockets
   config.assets.enabled = false
 
+  config.logger = ActiveSupport::Logger.new($stdout)
+
   # Debug mode disables concatenation and preprocessing of assets.
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.
@@ -63,27 +65,4 @@ Rails.application.configure do
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
-
-  # Configure the worker death messages
-  config.worker_death_from    = 'example@example.com'
-  config.worker_death_to      = 'example@example.com'
-  config.worker_death_restart = %(Please restart the worker.)
-
-  # Configure the main AMQP consumer
-  config.amqp.main.url                    = "amqp://#{ENV.fetch('RMQHOST', 'localhost')}:5672/"
-  config.amqp.main.queue                  = 'queue'
-  config.amqp.main.prefetch               = 50
-  config.amqp.main.requeue                = true
-  config.amqp.main.reconnect_interval     = 10
-  config.amqp.main.deadletter.deactivated = true
-  config.amqp.main.deadletter.exchange    = 'deadletters'
-  config.amqp.main.deadletter.routing_key = 'test.deadletter'
-
-  # Configure the deadletter AMQP consumer
-  config.amqp.deadletter.url                             = "amqp://#{ENV.fetch('RMQHOST', 'localhost')}:5672/"
-  config.amqp.deadletter.queue                           = 'deadletters'
-  config.amqp.deadletter.prefetch                        = 50
-  config.amqp.deadletter.requeue                         = true
-  config.amqp.deadletter.reconnect_interval              = 10
-  config.amqp.deadletter.empty_queue_disconnect_interval = 30
 end
