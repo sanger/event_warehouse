@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_19_122653) do
+ActiveRecord::Schema.define(version: 2021_10_06_155559) do
 
   create_table "event_types", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.string "key", null: false, comment: "The identifier for the event"
