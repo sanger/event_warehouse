@@ -17,7 +17,7 @@ class UpdateFlatEventsViewSecurity < ActiveRecord::Migration[5.2]
   def up
     ViewsSchema.update_view(
       'flat_events_view',
-      <<~SQL,
+      <<~SQL.squish,
         SELECT
           events.id AS wh_event_id,
           events.uuid AS event_uuid_bin,
@@ -44,7 +44,7 @@ class UpdateFlatEventsViewSecurity < ActiveRecord::Migration[5.2]
   def down
     ViewsSchema.update_view(
       'flat_events_view',
-      <<~SQL,
+      <<~SQL.squish,
         SELECT
           events.id AS wh_event_id,
           events.uuid AS event_uuid_bin,

@@ -18,7 +18,7 @@ RSpec.describe 'v1/role_types', type: :request do
       let!(:role2)  { create(:role, role_type: role_type1) }
       let!(:role3)  { create(:role, role_type: role_type2) }
 
-      it 'returns relevant roles in response' do
+      it 'returns relevant roles in response' do # rubocop:todo RSpec/ExampleLength
         get '/api/v1/role_types', params: {
           include: 'roles'
         }
@@ -40,9 +40,9 @@ RSpec.describe 'v1/role_types', type: :request do
     context 'when sideloading roles' do
       let!(:role1)  { create(:role, role_type: role_type1) }
       let!(:role2)  { create(:role, role_type: role_type1) }
-      let!(:role3)  { create(:role, role_type: role_type2) }
+      let!(:role3)  { create(:role, role_type: role_type2) } # rubocop:todo RSpec/LetSetup
 
-      it 'returns relevant roles in response' do
+      it 'returns relevant roles in response' do # rubocop:todo RSpec/ExampleLength
         get "/api/v1/role_types/#{role_type1.id}", params: {
           include: 'roles'
         }

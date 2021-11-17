@@ -72,7 +72,7 @@ RSpec.describe Event do
 
   it_behaves_like 'it has a type dictionary'
 
-  context 'message receipt' do
+  context 'message receipt' do # rubocop:todo RSpec/ContextWording
     let(:preregistration_required) { false }
 
     before do
@@ -82,7 +82,7 @@ RSpec.describe Event do
 
     shared_examples_for 'a recorded event' do
       it 'creates an event' do
-        expect(described_class.count - @pre_count).to eq(1)
+        expect(described_class.count - @pre_count).to eq(1) # rubocop:todo RSpec/InstanceVariable
       end
 
       context 'with an occurred_at attribute' do
@@ -92,13 +92,13 @@ RSpec.describe Event do
         # be used in event messages at least.
         let(:occured_at) { 'occurred_at' }
 
-        it 'translates to occured_at' do
-          expect(described_class.count - @pre_count).to eq(1)
+        it 'translates to occured_at' do # rubocop:todo RSpec/MultipleExpectations
+          expect(described_class.count - @pre_count).to eq(1) # rubocop:todo RSpec/InstanceVariable
           expect(described_class.last.occured_at).to eq(Time.zone.parse('2012-03-11 10:22:42'))
         end
       end
 
-      it 'has the right event type' do
+      it 'has the right event type' do # rubocop:todo RSpec/MultipleExpectations
         expect(described_class.last).to be_instance_of(described_class)
         expect(described_class.last.event_type).to be_instance_of(EventType)
         expect(described_class.last.event_type.key).to eq(event_type)
@@ -110,7 +110,7 @@ RSpec.describe Event do
     end
 
     shared_examples_for 'it registers metadata' do
-      it 'has 2 metadata with the right values' do
+      it 'has 2 metadata with the right values' do # rubocop:todo RSpec/MultipleExpectations
         expect(described_class.last.metadata_records.count).to eq(2)
         metadata.each do |key, value|
           expect(described_class.last.metadata_records.where(key: key).first.value).to eq(value)
@@ -123,7 +123,7 @@ RSpec.describe Event do
     end
 
     shared_examples_for 'it finds and registers subjects' do
-      it 'records all roles' do
+      it 'records all roles' do # rubocop:todo RSpec/MultipleExpectations
         expect(described_class.last.roles.count).to eq(expected_roles.length)
         registered_roles = described_class.last.roles.map { |role| role.role_type.key }
         expected_roles.each do |expected_role|
@@ -135,7 +135,7 @@ RSpec.describe Event do
         expect(Subject.count).to eq(expected_subjects.length)
       end
 
-      it 'records all subjects' do
+      it 'records all subjects' do # rubocop:todo RSpec/ExampleLength, RSpec/MultipleExpectations
         expect(described_class.last.subjects.count).to eq(expected_subjects.length)
         registered_subjects = described_class.last.subjects.map do |s|
           [s.uuid.to_s, s.friendly_name, s.subject_type.key]
@@ -166,13 +166,13 @@ RSpec.describe Event do
     context 'when pre-registration is required' do
       let(:preregistration_required) { true }
 
-      context 'and the event type is registered' do
+      context 'and the event type is registered' do # rubocop:todo RSpec/ContextWording, RSpec/NestedGroups
         let(:event_type) { registered_event_type }
 
         it_behaves_like 'a recorded event'
       end
 
-      context 'and the event type is unregistered' do
+      context 'and the event type is unregistered' do # rubocop:todo RSpec/ContextWording, RSpec/NestedGroups
         let(:event_type) { missing_event_type }
 
         it_behaves_like 'an ignored event'
@@ -189,7 +189,7 @@ RSpec.describe Event do
     end
   end
 
-  context 'repeat message receipt' do
+  context 'repeat message receipt' do # rubocop:todo RSpec/ContextWording
     let(:event_type) { registered_event_type }
 
     before do

@@ -115,7 +115,7 @@ module Deployed
   HOSTNAME       = Socket.gethostname
 
   require 'ostruct'
-  DETAILS = OpenStruct.new(
+  DETAILS = OpenStruct.new( # rubocop:todo Style/OpenStructUse
     name: nil,
     version: VERSION_ID,
     environment: ENVIRONMENT
