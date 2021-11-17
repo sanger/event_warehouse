@@ -18,10 +18,8 @@ RSpec.describe 'v1/event_types', type: :request do
       let!(:event2)  { create(:event, event_type: event_type1) }
       let!(:event3)  { create(:event, event_type: event_type2) }
 
-      it 'returns relevant events in response' do
-        get '/api/v1/event_types', params: {
-          include: 'events'
-        }
+      it 'returns relevant events in response' do # rubocop:todo RSpec/ExampleLength
+        get '/api/v1/event_types', params: { include: 'events' }
         json_events = json_includes('events')
         expect(json_events.length).to eq(3)
         assert_payload(:event, event1, json_events[0])
@@ -43,7 +41,7 @@ RSpec.describe 'v1/event_types', type: :request do
 
       before { create(:event, event_type: event_type2) }
 
-      it 'returns relevant events in response' do
+      it 'returns relevant events in response' do # rubocop:todo RSpec/ExampleLength
         get "/api/v1/event_types/#{event_type1.id}", params: {
           include: 'events'
         }

@@ -2,7 +2,7 @@
 
 # Create the events table to store events
 class CreateEvents < ActiveRecord::Migration
-  def change
+  def change # rubocop:disable Metrics/MethodLength
     create_table :events do |t|
       t.string :lims_id,
                null: false,

@@ -18,7 +18,7 @@ RSpec.describe Subject do
       create(:subject, uuid: uuid, friendly_name: old_friendly_name, subject_type: old_subject_type)
     end
 
-    it 'finds the existing record' do
+    it 'finds the existing record' do # rubocop:todo RSpec/MultipleExpectations
       expect(lookup.uuid.to_s).to eq(uuid)
       expect(lookup.friendly_name).to eq(old_friendly_name)
       expect(lookup.subject_type.key).to eq(old_subject_type)
@@ -27,7 +27,7 @@ RSpec.describe Subject do
   end
 
   context 'when not existing' do
-    it 'creates a new record' do
+    it 'creates a new record' do # rubocop:todo RSpec/MultipleExpectations
       expect(lookup.uuid.to_s).to eq(uuid)
       expect(lookup.friendly_name).to eq(new_friendly_name)
       expect(lookup.subject_type.key).to eq(new_subject_type)

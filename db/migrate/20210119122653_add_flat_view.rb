@@ -5,7 +5,7 @@ require './lib/views_schema'
 # Flattened view of the events database with one row per subject.
 # Metadata is excluded
 class AddFlatView < ActiveRecord::Migration[5.2]
-  def up
+  def up # rubocop:disable Metrics/MethodLength
     ViewsSchema.create_view(
       'flat_events_view',
       <<~SQL.squish

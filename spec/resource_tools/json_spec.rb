@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe ResourceTools::Json::Handler do
+RSpec.describe ResourceTools::Json::Handler do # rubocop:todo RSpec/FilePath
   let(:json_class) do
     Class.new(described_class) do
       translate('key' => 'translated')
