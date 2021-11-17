@@ -4,6 +4,7 @@ require:
  - rubocop-rails
  - rubocop-rspec
 AllCops:
+  NewCops: enable
   Exclude:
     - db/schema.rb
     - db/views_schema.rb
@@ -12,7 +13,7 @@ AllCops:
     - bin/*
     - vendor/**/*
 Metrics/BlockLength:
-  ExcludedMethods:
+  IgnoredMethods:
     - describe
     - context
     - background
@@ -33,7 +34,7 @@ Metrics/BlockLength:
     - define
     - shared_examples_for
     - guard
-Metrics/LineLength:
+Layout/LineLength:
   Max: 120
 Style/Documentation:
   Exclude:

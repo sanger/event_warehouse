@@ -25,7 +25,7 @@ namespace :mock do
           subjects: studies.sample(1) + samples.sample(rand(1..4)) + labware.sample(1),
           user_identifier: users.sample,
           metadata: {
-            'library_type' => %w[WGS ISC PCRFree].sample,
+            'library_type' => %w[WGS ISC PCRFree].sample, # rubocop:todo Performance/CollectionLiteralInLoop
             'pcr_cycles' => rand(3..8)
           },
           occured_at: Time.zone.now - rand(12).hours,

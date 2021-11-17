@@ -17,7 +17,7 @@ class CreateEvents < ActiveRecord::Migration
       t.datetime :occured_at,
                  null: false,
                  comment: 'The time at which the event was recorded as happening. '\
-                 'Other timestamps record when the event entered the database'
+                          'Other timestamps record when the event entered the database'
       t.string :user_identifier,
                null: false,
                comments: 'An identifier for the user associated with the event. Preferably a login'
