@@ -42,8 +42,6 @@ GEM
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
-    addressable (2.8.0)
-      public_suffix (>= 2.0.2, < 5.0)
     amq-protocol (2.3.2)
     arel (9.0.0)
     ast (2.4.2)
@@ -100,8 +98,6 @@ GEM
       domain_name (~> 0.5)
     i18n (1.8.11)
       concurrent-ruby (~> 1.0)
-    json-schema (2.8.1)
-      addressable (>= 2.4)
     jsonapi-deserializable (0.2.0)
     jsonapi-parser (0.1.1)
     jsonapi-rails (0.4.0)
@@ -185,7 +181,6 @@ GEM
     pry-byebug (3.9.0)
       byebug (~> 11.0)
       pry (~> 0.13.0)
-    public_suffix (4.0.6)
     puma (5.5.2)
       nio4r (~> 2.0)
     racc (1.6.0)
@@ -250,7 +245,7 @@ GEM
       rspec-expectations (~> 3.10)
       rspec-mocks (~> 3.10)
       rspec-support (~> 3.10)
-    rspec-support (3.10.2)
+    rspec-support (3.10.3)
     rubocop (1.23.0)
       parallel (~> 1.10)
       parser (>= 3.0.0.0)
@@ -299,9 +294,6 @@ GEM
     stronger_parameters (2.13.0)
       actionpack (>= 4.2, < 6.2)
     swagger-blocks (1.4.0)
-    swagger-diff (1.1.2)
-      json-schema (~> 2.6)
-      rspec-expectations (~> 3.3)
     thor (1.1.0)
     thread_safe (0.3.6)
     tzinfo (1.2.9)
@@ -347,7 +339,6 @@ DEPENDENCIES
   rubocop-rspec
   sanger_warren
   simplecov
-  swagger-diff (~> 1.1)
 
 BUNDLED WITH
    2.1.4
