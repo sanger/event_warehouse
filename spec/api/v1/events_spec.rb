@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe 'v1/events', type: :request do
-  let!(:event1) { create(:event, occured_at: Time.zone.now - 10.days) }
-  let!(:event2) { create(:event, occured_at: Time.zone.now + 10.days) }
+  let!(:event1) { create(:event, occured_at: 10.days.ago) }
+  let!(:event2) { create(:event, occured_at: 10.days.from_now) }
 
   describe '#index' do
     it 'lists events' do
