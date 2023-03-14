@@ -14,8 +14,7 @@ BECKMAN_RECORD = {
         uuid: '00000000-1111-2222-3333-888888888888'
       }
     ],
-    metadata: {
-    }
+    metadata: {}
   },
   lims: 'example'
 }.freeze
@@ -34,8 +33,7 @@ CHERRYPICK_RECORD = {
         uuid: '00000000-1111-2222-3333-999999999999'
       }
     ],
-    metadata: {
-    }
+    metadata: {}
   },
   lims: 'example'
 }.freeze
@@ -88,8 +86,7 @@ BIOSERO_PLATE_COMPLETED_RECORD = {
         uuid: '00000000-1111-2222-4444-222222222222'
       }
     ],
-    metadata: {
-    }
+    metadata: {}
   },
   lims: 'example'
 }.freeze
@@ -109,8 +106,7 @@ BIOSERO_PARTIAL_PLATE_COMPLETED_RECORD = {
         uuid: '00000000-1111-2222-4444-444444444444'
       }
     ],
-    metadata: {
-    }
+    metadata: {}
   },
   lims: 'example'
 }.freeze
@@ -129,8 +125,7 @@ BIOSERO_ERROR_RECOVERED_PLATE_COMPLETED_RECORD = {
         uuid: '00000000-1111-2222-4444-666666666666'
       }
     ],
-    metadata: {
-    }
+    metadata: {}
   },
   lims: 'example'
 }.freeze
@@ -149,8 +144,7 @@ BIOSERO_ERROR_RECOVERED_PARTIAL_PLATE_COMPLETED_RECORD = {
         uuid: '00000000-1111-2222-4444-888888888888'
       }
     ],
-    metadata: {
-    }
+    metadata: {}
   },
   lims: 'example'
 }.freeze
