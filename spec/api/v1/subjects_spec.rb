@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'v1/subjects', type: :request do
+RSpec.describe 'v1/subjects' do
   let!(:subject1) { create(:subject) }
   let!(:subject2) { create(:subject) }
 
@@ -36,7 +36,7 @@ RSpec.describe 'v1/subjects', type: :request do
           get '/api/v1/subjects', params: {
             filter: { friendly_name: subject1.friendly_name }
           }
-          expect(json_ids(true)).to match_array([subject1.id, subject3.id])
+          expect(json_ids(true)).to contain_exactly(subject1.id, subject3.id)
         end
       end
 
@@ -45,7 +45,7 @@ RSpec.describe 'v1/subjects', type: :request do
           get '/api/v1/subjects', params: {
             filter: { uuid: subject1.uuid }
           }
-          expect(json_ids(true)).to match_array([subject1.id])
+          expect(json_ids(true)).to contain_exactly(subject1.id)
         end
       end
     end
