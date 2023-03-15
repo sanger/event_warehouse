@@ -5,7 +5,7 @@ begin
 rescue LoadError
   module Deployed
     VERSION_ID = 'LOCAL'
-    VERSION_STRING = "#{File.split(Rails.root).last.capitalize} LOCAL [#{Rails.env}]"
+    VERSION_STRING = "#{Rails.root.split.last.capitalize} LOCAL [#{Rails.env}]"
     RELEASE_NAME = 'Running locally'
   end
 end
