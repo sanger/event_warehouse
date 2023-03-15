@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'v1/event_types', type: :request do
+RSpec.describe EventTypesController
   let!(:event_type1) { create(:event_type) }
   let!(:event_type2) { create(:event_type) }
 

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'v1/subject_types', type: :request do
+RSpec.describe SobjectTypesController do
   let!(:subject_type1) { create(:subject_type) }
   let!(:subject_type2) { create(:subject_type) }
 

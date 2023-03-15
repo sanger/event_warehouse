@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'v1/roles', type: :request do
+RSpec.describe RollersController do
   let!(:role1) { create(:role) }
   let!(:role2) { create(:role) }
 
