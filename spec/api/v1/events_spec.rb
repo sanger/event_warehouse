@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe EventsController do
+RSpec.describe 'v1/events', type: :request do
   let!(:event1) { create(:event, occured_at: 10.days.ago) }
   let!(:event2) { create(:event, occured_at: 10.days.from_now) }
 
@@ -68,7 +68,7 @@ RSpec.describe EventsController do
           get '/api/v1/events', params: {
             filter: { occured_before: Time.zone.now.as_json }
           }
-          expect(json_ids(true)).to contain_exactly(event1.id)
+          expect(json_ids(true)).to match_array([event1.id])
         end
       end
 
@@ -77,7 +77,7 @@ RSpec.describe EventsController do
           get '/api/v1/events', params: {
             filter: { occured_after: Time.zone.now.as_json }
           }
-          expect(json_ids(true)).to contain_exactly(event2.id)
+          expect(json_ids(true)).to match_array([event2.id])
         end
       end
 
@@ -88,7 +88,7 @@ RSpec.describe EventsController do
           get '/api/v1/events', params: {
             filter: { uuid: event1.uuid }
           }
-          expect(json_ids(true)).to contain_exactly(event1.id)
+          expect(json_ids(true)).to match_array([event1.id])
         end
       end
     end

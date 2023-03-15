@@ -8,7 +8,7 @@ RSpec.describe 'flat_events_view' do
   # but as the actual interface will be with the SQL directly, we don't actually care about the details of what
   # comes back from
   let(:event) { create(:event, event_type: 'event_name') }
-  let(:roles) { create_list(:role, 3, event: event) }
+  let(:roles) { create_list :role, 3, event: event }
   let(:results) do
     ApplicationRecord.connection.execute('SELECT * FROM flat_events_view')
   end
@@ -26,7 +26,7 @@ RSpec.describe 'flat_events_view' do
 
   before do
     roles
-    create_list(:metadatum, 4, event: event)
+    create_list :metadatum, 4, event: event
   end
 
   it 'lists finished activities at the role level' do

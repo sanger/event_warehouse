@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe RoleTypesController do
+RSpec.describe 'v1/role_types', type: :request do
   let!(:role_type1) { create(:role_type) }
   let!(:role_type2) { create(:role_type) }
 
