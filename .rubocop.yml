@@ -1,9 +1,9 @@
-inherit_from: .rubocop_todo.yml
 require:
- - rubocop-performance
- - rubocop-rails
- - rubocop-rspec
+  - rubocop-performance
+  - rubocop-rails
+  - rubocop-rspec
 AllCops:
+  NewCops: enable
   Exclude:
     - db/schema.rb
     - db/views_schema.rb
@@ -12,7 +12,7 @@ AllCops:
     - bin/*
     - vendor/**/*
 Metrics/BlockLength:
-  ExcludedMethods:
+  IgnoredMethods:
     - describe
     - context
     - background
@@ -33,11 +33,11 @@ Metrics/BlockLength:
     - define
     - shared_examples_for
     - guard
-Metrics/LineLength:
+Layout/LineLength:
   Max: 120
 Style/Documentation:
   Exclude:
-    - 'spec/**/*'
+    - "spec/**/*"
 Style/NumericPredicate:
   Exclude:
     - lib/deployed_version.rb
@@ -45,3 +45,6 @@ Style/NumericPredicate:
 RSpec/DescribeClass:
   Exclude:
     - spec/views/*
+    - spec/api/v1/*
+Style/ClassAndModuleChildren:
+  Enabled: false

@@ -57,7 +57,7 @@ module ResourceTools::Json
     #
     def json(&block)
       const_set(:JsonHandler, Class.new(ResourceTools::Json::Handler)) unless const_defined?(:JsonHandler)
-      const_get(:JsonHandler).tap { |json_handler| json_handler.instance_eval(&block) if block_given? }
+      const_get(:JsonHandler).tap { |json_handler| json_handler.instance_eval(&block) if block }
     end
   end
 

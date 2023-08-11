@@ -2,7 +2,7 @@
 
 # Add the roles table to associated subjects with events
 class CreateRoles < ActiveRecord::Migration
-  def change
+  def change # rubocop:disable Metrics/MethodLength
     create_table :roles do |t|
       t.integer :event_id,
                 null: false,

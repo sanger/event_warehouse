@@ -1,3 +1,3 @@
 # frozen_string_literal: true
 
-RestClient.proxy = ENV['http_proxy'] || ENV['HTTP_PROXY']
+RestClient.proxy = ENV.fetch('http_proxy') { ENV.fetch('HTTP_PROXY', nil) }

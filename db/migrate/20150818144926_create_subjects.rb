@@ -2,7 +2,7 @@
 
 # Create the subjects table to store things that are associated with events
 class CreateSubjects < ActiveRecord::Migration
-  def change
+  def change # rubocop:disable Metrics/MethodLength
     create_table :subjects do |t|
       t.binary :uuid, null: false,
                       comment: 'A binary encoded UUID use HEX(uuid) to retrieve the original (minus dashes)',

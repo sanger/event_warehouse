@@ -2,9 +2,9 @@
 
 require 'rails_helper'
 
-RSpec.describe 'v1/events', type: :request do
-  let!(:event1) { create(:event, occured_at: Time.zone.now - 10.days) }
-  let!(:event2) { create(:event, occured_at: Time.zone.now + 10.days) }
+RSpec.describe 'v1/events' do
+  let!(:event1) { create(:event, occured_at: 10.days.ago) }
+  let!(:event2) { create(:event, occured_at: 10.days.from_now) }
 
   describe '#index' do
     it 'lists events' do
@@ -18,7 +18,7 @@ RSpec.describe 'v1/events', type: :request do
       let!(:subject2)  { create(:role, event: event1).subject }
       let!(:subject3)  { create(:role, event: event2).subject }
 
-      it 'returns relevant subjects in response' do
+      it 'returns relevant subjects in response' do # rubocop:todo RSpec/ExampleLength
         get '/api/v1/events', params: {
           include: 'subjects'
         }
@@ -35,7 +35,7 @@ RSpec.describe 'v1/events', type: :request do
       let!(:role2)  { create(:role, event: event1) }
       let!(:role3)  { create(:role, event: event2) }
 
-      it 'returns relevant roles in response' do
+      it 'returns relevant roles in response' do # rubocop:todo RSpec/ExampleLength
         get '/api/v1/events', params: {
           include: 'roles'
         }
@@ -51,7 +51,7 @@ RSpec.describe 'v1/events', type: :request do
       let!(:event_type1)  { event1.event_type }
       let!(:event_type2)  { event2.event_type }
 
-      it 'returns relevant events in response' do
+      it 'returns relevant events in response' do # rubocop:todo RSpec/ExampleLength
         get '/api/v1/events', params: {
           include: 'event_type'
         }
@@ -63,35 +63,37 @@ RSpec.describe 'v1/events', type: :request do
     end
 
     describe 'filtering' do
-      context 'before' do
+      context 'before' do # rubocop:todo RSpec/ContextWording, RSpec/NestedGroups
         it 'filters correctly' do
           get '/api/v1/events', params: {
             filter: { occured_before: Time.zone.now.as_json }
           }
-          expect(json_ids(true)).to match_array([event1.id])
+          expect(json_ids(true)).to contain_exactly(event1.id)
         end
       end
 
-      context 'after' do
+      context 'after' do # rubocop:todo RSpec/ContextWording, RSpec/NestedGroups
         it 'filters correctly' do
           get '/api/v1/events', params: {
             filter: { occured_after: Time.zone.now.as_json }
           }
-          expect(json_ids(true)).to match_array([event2.id])
+          expect(json_ids(true)).to contain_exactly(event2.id)
         end
       end
 
-      context 'by uuid' do
+      # rubocop:todo RSpec/NestedGroups
+      context 'by uuid' do # rubocop:todo RSpec/ContextWording, RSpec/NestedGroups
+        # rubocop:enable RSpec/NestedGroups
         it 'filters correctly' do
           get '/api/v1/events', params: {
             filter: { uuid: event1.uuid }
           }
-          expect(json_ids(true)).to match_array([event1.id])
+          expect(json_ids(true)).to contain_exactly(event1.id)
         end
       end
     end
 
-    context 'fields' do
+    context 'fields' do # rubocop:todo RSpec/ContextWording
       it 'returns metadata' do
         get '/api/v1/events', params: {
           extra_fields: { events: 'metadata' }
@@ -111,9 +113,9 @@ RSpec.describe 'v1/events', type: :request do
     context 'when sideloading roles' do
       let!(:role1)  { create(:role, event: event1) }
       let!(:role2)  { create(:role, event: event1) }
-      let!(:role3)  { create(:role, event: event2) }
+      let!(:role3)  { create(:role, event: event2) } # rubocop:todo RSpec/LetSetup
 
-      it 'returns relevant roles in response' do
+      it 'returns relevant roles in response' do # rubocop:todo RSpec/ExampleLength
         get "/api/v1/events/#{event1.id}", params: {
           include: 'roles'
         }
@@ -127,9 +129,9 @@ RSpec.describe 'v1/events', type: :request do
     context 'when sideloading subjects' do
       let!(:subject1)  { create(:role, event: event1).subject }
       let!(:subject2)  { create(:role, event: event1).subject }
-      let!(:subject3)  { create(:role, event: event2).subject }
+      let!(:subject3)  { create(:role, event: event2).subject } # rubocop:todo RSpec/LetSetup
 
-      it 'returns relevant subjects in response' do
+      it 'returns relevant subjects in response' do # rubocop:todo RSpec/ExampleLength
         get "/api/v1/events/#{event1.id}", params: {
           include: 'subjects'
         }
@@ -142,9 +144,9 @@ RSpec.describe 'v1/events', type: :request do
 
     context 'when sideloading event types' do
       let!(:event_type1)  { event1.event_type }
-      let!(:event_type2)  { event1.event_type }
+      let!(:event_type2)  { event1.event_type } # rubocop:todo RSpec/LetSetup
 
-      it 'returns relevant events in response' do
+      it 'returns relevant events in response' do # rubocop:todo RSpec/ExampleLength
         get "/api/v1/events/#{event1.id}", params: {
           include: 'event_type'
         }
@@ -154,7 +156,7 @@ RSpec.describe 'v1/events', type: :request do
       end
     end
 
-    context 'fields' do
+    context 'fields' do # rubocop:todo RSpec/ContextWording
       it 'returns metadata' do
         get "/api/v1/events/#{event1.id}", params: {
           extra_fields: { events: 'metadata' }

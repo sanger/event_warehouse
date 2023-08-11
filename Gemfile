@@ -36,7 +36,6 @@ group :test, :development do
   gem 'pry-byebug'
   gem 'rspec-rails'
   gem 'simplecov', require: false
-  gem 'swagger-diff', '~> 1.1'
 end
 
 group :development do

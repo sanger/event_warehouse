@@ -2,7 +2,7 @@
 
 # Create the events table to store events
 class CreateEvents < ActiveRecord::Migration
-  def change
+  def change # rubocop:disable Metrics/MethodLength
     create_table :events do |t|
       t.string :lims_id,
                null: false,
@@ -16,8 +16,8 @@ class CreateEvents < ActiveRecord::Migration
                 comment: 'References the event type'
       t.datetime :occured_at,
                  null: false,
-                 comment: 'The time at which the event was recorded as happening. '\
-                 'Other timestamps record when the event entered the database'
+                 comment: 'The time at which the event was recorded as happening. ' \
+                          'Other timestamps record when the event entered the database'
       t.string :user_identifier,
                null: false,
                comments: 'An identifier for the user associated with the event. Preferably a login'

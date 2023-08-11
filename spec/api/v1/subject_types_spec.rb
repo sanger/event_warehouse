@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'v1/subject_types', type: :request do
+RSpec.describe 'v1/subject_types' do
   let!(:subject_type1) { create(:subject_type) }
   let!(:subject_type2) { create(:subject_type) }
 
@@ -18,7 +18,7 @@ RSpec.describe 'v1/subject_types', type: :request do
       let!(:subject2)  { create(:subject, subject_type: subject_type1) }
       let!(:subject3)  { create(:subject, subject_type: subject_type2) }
 
-      it 'returns relevant subjects in response' do
+      it 'returns relevant subjects in response' do # rubocop:todo RSpec/ExampleLength
         get '/api/v1/subject_types', params: {
           include: 'subjects'
         }
@@ -40,9 +40,9 @@ RSpec.describe 'v1/subject_types', type: :request do
     context 'when sideloading subjects' do
       let!(:subject1)  { create(:subject, subject_type: subject_type1) }
       let!(:subject2)  { create(:subject, subject_type: subject_type1) }
-      let!(:subject3)  { create(:subject, subject_type: subject_type2) }
+      let!(:subject3)  { create(:subject, subject_type: subject_type2) } # rubocop:todo RSpec/LetSetup
 
-      it 'returns relevant subjects in response' do
+      it 'returns relevant subjects in response' do # rubocop:todo RSpec/ExampleLength
         get "/api/v1/subject_types/#{subject_type1.id}", params: {
           include: 'subjects'
         }

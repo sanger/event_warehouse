@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'v1/roles', type: :request do
+RSpec.describe 'v1/roles' do
   let!(:role1) { create(:role) }
   let!(:role2) { create(:role) }
 
@@ -67,7 +67,7 @@ RSpec.describe 'v1/roles', type: :request do
     context 'when sideloading events' do
       let(:event1) { role1.event }
 
-      it 'returns relevant events in response' do
+      it 'returns relevant events in response' do # rubocop:todo RSpec/ExampleLength
         get "/api/v1/roles/#{role1.id}", params: {
           include: 'event'
         }
@@ -80,7 +80,7 @@ RSpec.describe 'v1/roles', type: :request do
     context 'when sideloading subjects' do
       let(:subject1) { role1.subject }
 
-      it 'returns relevant subjects in response' do
+      it 'returns relevant subjects in response' do # rubocop:todo RSpec/ExampleLength
         get "/api/v1/roles/#{role1.id}", params: {
           include: 'subject'
         }
@@ -94,7 +94,7 @@ RSpec.describe 'v1/roles', type: :request do
       let(:role_type1)  { role1.role_type }
       let(:role_type2)  { role1.role_type }
 
-      it 'returns relevant roles in response' do
+      it 'returns relevant roles in response' do # rubocop:todo RSpec/ExampleLength
         get "/api/v1/roles/#{role1.id}", params: {
           include: 'role_type'
         }
