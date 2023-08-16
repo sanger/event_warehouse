@@ -7,18 +7,12 @@ gem 'rails', '~> 7.0.3'
 
 # Rails dependencies
 gem 'bootsnap'
-gem 'puma'
 
 # RabbitMQ client
 gem 'sanger_warren'
 
 gem 'mysql-binuuid-rails'
 gem 'rest-client'
-gem 'sprockets-rails'
-
-# For JSON API support
-gem 'jsonapi-resources'
-gem 'rack-cors', require: 'rack/cors'
 
 gem 'oj'
 gem 'rainbow'

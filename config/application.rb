@@ -25,12 +25,5 @@ module EventWarehouse
     config.default_event_type_description = default_descriptions % 'event type'
     config.default_subject_type_description = default_descriptions % 'subject type'
     config.default_role_type_description = default_descriptions % 'role type'
-
-    config.middleware.insert_before 0, Rack::Cors do
-      allow do
-        origins '*'
-        resource '*', headers: :any, methods: %i[get post options]
-      end
-    end
   end
 end
