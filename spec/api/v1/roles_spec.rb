@@ -7,7 +7,7 @@ RSpec.describe 'v1/roles' do
   let!(:role2) { create(:role) }
 
   describe '#index' do
-    before { get '/api/v1/roles', params: params }
+    before { get '/api/v1/roles', params: }
 
     context 'with no options' do
       let(:params) { {} }

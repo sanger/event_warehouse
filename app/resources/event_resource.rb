@@ -1,35 +1,22 @@
 # frozen_string_literal: true
 
-# rubocop:disable Rails/RedundantForeignKey
 # Render Event
-class EventResource < ApplicationResource
-  type :events
+class EventResource < JSONAPI::Resource
+  has_many :roles
 
-  has_many :roles,
-           scope: -> { Role.all },
-           foreign_key: :event_id,
-           resource: RoleResource
+  has_many :subjects
 
-  has_and_belongs_to_many :subjects,
-                          scope: -> { Subject.all },
-                          foreign_key: { roles: :event_id },
-                          resource: SubjectResource
+  has_one :event_type
 
-  belongs_to :event_type,
-             scope: -> { EventType.all },
-             foreign_key: :event_type_id,
-             resource: EventTypeResource
+  filter :uuid
 
-  allow_filter :uuid
+  filter :occured_before, apply: lambda { |records, value, _options|
+    records.where('occured_at < ?', value)
+  }
 
-  allow_filter :occured_before do |scope, value|
-    scope.where('occured_at < ?', value)
-  end
+  filter :occured_after, apply: lambda { |records, value, _options|
+    records.where('occured_at > ?', value)
+  }
 
-  allow_filter :occured_after do |scope, value|
-    scope.where('occured_at > ?', value)
-  end
-
-  extra_field :metadata, &:include_metadata
+  attributes :metadata, &:include_metadata
 end
-# rubocop:enable Rails/RedundantForeignKey

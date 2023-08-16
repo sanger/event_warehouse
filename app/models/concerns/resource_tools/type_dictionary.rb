@@ -11,9 +11,9 @@ module ResourceTools::TypeDictionary
 
     def for_key(key)
       if preregistration_required?
-        find_by(key: key)
+        find_by(key:)
       else
-        create_with(description: default_description).find_or_create_by!(key: key)
+        create_with(description: default_description).find_or_create_by!(key:)
       end
     end
 

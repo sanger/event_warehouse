@@ -113,7 +113,7 @@ RSpec.describe Event do
       it 'has 2 metadata with the right values' do # rubocop:todo RSpec/MultipleExpectations
         expect(described_class.last.metadata_records.count).to eq(2)
         metadata.each do |key, value|
-          expect(described_class.last.metadata_records.where(key: key).first.value).to eq(value)
+          expect(described_class.last.metadata_records.where(key:).first.value).to eq(value)
         end
       end
 

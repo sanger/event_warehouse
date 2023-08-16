@@ -4,7 +4,7 @@ require 'rails_helper'
 
 # rubocop:disable RSpec/MultipleMemoizedHelpers
 RSpec.describe Subject do
-  let(:lookup) { described_class.lookup(uuid: uuid, friendly_name: new_friendly_name, subject_type: new_subject_type) }
+  let(:lookup) { described_class.lookup(uuid:, friendly_name: new_friendly_name, subject_type: new_subject_type) }
   let(:old_subject_type)  { 'old_type' }
   let(:old_friendly_name) { 'old' }
   let(:new_subject_type)  { 'new_type' }
@@ -15,7 +15,7 @@ RSpec.describe Subject do
 
   context 'when existing' do
     before do
-      create(:subject, uuid: uuid, friendly_name: old_friendly_name, subject_type: old_subject_type)
+      create(:subject, uuid:, friendly_name: old_friendly_name, subject_type: old_subject_type)
     end
 
     it 'finds the existing record' do # rubocop:todo RSpec/MultipleExpectations

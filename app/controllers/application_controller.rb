@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
 # Basic controller
-class ApplicationController < ActionController::API
-  include JsonapiSuite::ControllerMixin
+class ApplicationController < ActionController::Base
+  include JSONAPI::ActsAsResourceController
 end

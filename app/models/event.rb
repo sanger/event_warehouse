@@ -15,7 +15,7 @@ class Event < ApplicationRecord
   has_many :metadata_records, inverse_of: :event, dependent: :destroy, class_name: 'Metadatum' do
     def build_from_json(metadata_hash)
       build(metadata_hash.map do |key, value|
-        { key: key, value: value }
+        { key:, value: }
       end)
     end
 
@@ -44,7 +44,7 @@ class Event < ApplicationRecord
     role_array = subject_array.map do |subject_data|
       role_type = subject_data[:role_type]
       subject = Subject.lookup(subject_data)
-      { role_type: role_type, subject: subject }
+      { role_type:, subject: }
     end
     roles.build(role_array)
   end
