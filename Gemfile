@@ -12,7 +12,6 @@ gem 'bootsnap'
 gem 'sanger_warren'
 
 gem 'mysql-binuuid-rails'
-gem 'rest-client'
 
 gem 'oj'
 gem 'rainbow'
