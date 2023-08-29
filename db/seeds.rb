@@ -13,13 +13,13 @@ require './db/seeds/role_types'
 require './db/seeds/subject_types'
 
 EVENT_TYPES.each do |key, description|
-  EventType.create!(key: key, description: description)
+  EventType.create!(key:, description:)
 end
 
 ROLE_TYPES.each do |key, description|
-  RoleType.create!(key: key, description: description)
+  RoleType.create!(key:, description:)
 end
 
 SUBJECT_TYPES.each do |key, description|
-  SubjectType.create!(key: key, description: description)
+  SubjectType.create!(key:, description:)
 end

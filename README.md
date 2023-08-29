@@ -8,7 +8,7 @@ RabbitMQ driven event warehouse system for source agnostic event reporting. Reco
 
 Configuration
 -------------
-The default configuration is provided in ./config/application if follows the standard rails format. Environment specific configurations can be applied in the matching ./environments/environments_name.rb file.
+The default configuration is provided in ./config/application it follows the standard rails format. Environment specific configurations can be applied in the matching ./environments/environments_name.rb file.
 
 [event_type_preregistration] If set to true events will only be recorded if their event type is listed in the event dictionary. If false, new event types will be added to the dictionary automatically.
 
@@ -16,15 +16,12 @@ Glossary
 --------
 
 - **Event** A single action that can occur, and may be of interest to multiple parties. Events may be associated with one or more Subjects, and may have any number of metadata.
-- **Subject** Something associated with a event. An subject can be considered an interested party, either because it was directly subject to an event, or because it is indirectly affected. Subjects may belong to many events. While their subject type will remain constant, the role may be different for each event.
+- **Subject** Something associated with a event. A subject can be considered an interested party, either because it was directly subject to an event, or because it is indirectly affected. Subjects may belong to many events. While their subject type will remain constant, the role may be different for each event.
 - **Metadata** Key value pair describing custom information regarding an event.
-
 - **EventType** A dictionary of observed or accepted event types with a description. Associated with an event and describes the nature of the event.
 - **RoleType** A property of the association of an event with a subject. Defines the way in which the subject is associated with the event.
 - **SubjectType** A dictionary of subject types.
-
 - **Role** An association between an event and a subject. Defines the role a subject plays in the event.
-
 - **lims** Present on event, and included as a field in the event message (see Message Format), identifies the originating system. Allows multiple systems to share an event warehouse. (The term LIMS stands for 'Laboratory Information Management System' and reflects the initial use of this event tracker)
 - **friendly_name** Present on subject. A human readable, commonly used identifier for the subject. Uniqueness is recommended, but not enforced. In the event that two subjects exist with the same friendly name, uuid and subject type can assist with disambiguation.
 

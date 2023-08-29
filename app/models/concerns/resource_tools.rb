@@ -11,6 +11,6 @@ module ResourceTools
     attr_accessor :data
 
     scope :for_lims,  ->(lims) { where(lims_id: lims) }
-    scope :with_uuid, ->(uuid) { where(uuid: uuid) }
+    scope :with_uuid, ->(uuid) { where(uuid:) }
   end
 end
