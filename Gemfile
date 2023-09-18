@@ -2,29 +2,16 @@
 
 source 'https://rubygems.org'
 
-gem 'mysql2', '~> 0.4'
-gem 'rails', '~> 5.2'
+gem 'mysql2'
+gem 'rails', '~> 7.0.3'
 
 # Rails dependencies
 gem 'bootsnap'
-gem 'puma'
 
 # RabbitMQ client
 gem 'sanger_warren'
 
 gem 'mysql-binuuid-rails'
-
-gem 'migration_comments'
-gem 'rest-client'
-
-# For JSON API support
-gem 'jsonapi-rails', '~> 0.3'
-gem 'jsonapi_suite', '~> 0.7'
-gem 'jsonapi_swagger_helpers', '~> 0.6', require: false
-# Used by swagger to generate docs
-gem 'jsonapi_spec_helpers', require: false
-gem 'kaminari' # Pagination. Used by jsonapi_suite
-gem 'rack-cors', require: 'rack/cors'
 
 gem 'oj'
 gem 'rainbow'

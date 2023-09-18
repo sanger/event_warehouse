@@ -47,7 +47,7 @@ Rails.application.configure do
   config.active_record.verbose_query_logs = true
 
   # Disable sprockets
-  config.assets.enabled = false
+  # config.assets.enabled = false
 
   config.logger = ActiveSupport::Logger.new($stdout)
 

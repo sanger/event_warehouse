@@ -8,15 +8,15 @@ namespace :dictionaries do
     require './db/seeds/subject_types'
 
     EVENT_TYPES.each do |key, description|
-      EventType.find_or_create_by(key: key).update!(description: description)
+      EventType.find_or_create_by(key:).update!(description:)
     end
 
     ROLE_TYPES.each do |key, description|
-      RoleType.find_or_create_by(key: key).update!(description: description)
+      RoleType.find_or_create_by(key:).update!(description:)
     end
 
     SUBJECT_TYPES.each do |key, description|
-      SubjectType.find_or_create_by(key: key).update!(description: description)
+      SubjectType.find_or_create_by(key:).update!(description:)
     end
   end
 end

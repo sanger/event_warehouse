@@ -12,27 +12,10 @@ AllCops:
     - bin/*
     - vendor/**/*
 Metrics/BlockLength:
-  IgnoredMethods:
-    - describe
-    - context
-    - background
-    - scenario
-    - namespace
-    - task
-    - included
-    - shared_context
-    - shared_examples
-    - state_machine
-    - configure
-    - draw
-    - feature
-    - subject
-    - let
-    - let!
-    - factory
-    - define
-    - shared_examples_for
-    - guard
+  Exclude:
+    - 'spec/**/*'
+    - 'config/environments/development.rb'
+    - 'lib/tasks/*'
 Layout/LineLength:
   Max: 120
 Style/Documentation:

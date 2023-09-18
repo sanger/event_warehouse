@@ -13,11 +13,9 @@ module EventWarehouse
   # Sets defaults for all environments
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 5.0
-    config.autoload_paths += [
-      "#{config.root}/lib",
-      "#{config.root}/app"
-    ]
+    config.load_defaults 7.0
+    config.autoload_paths += ["#{config.root}/app"]
+    config.eager_load_paths += ["#{config.root}/app"]
 
     # Events must be preregistered in the event types dictionary before they are recorded
     config.event_type_preregistration = false
@@ -27,12 +25,5 @@ module EventWarehouse
     config.default_event_type_description = default_descriptions % 'event type'
     config.default_subject_type_description = default_descriptions % 'subject type'
     config.default_role_type_description = default_descriptions % 'role type'
-
-    config.middleware.insert_before 0, Rack::Cors do
-      allow do
-        origins '*'
-        resource '*', headers: :any, methods: %i[get post options]
-      end
-    end
   end
 end
