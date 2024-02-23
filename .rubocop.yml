@@ -4,6 +4,7 @@ require:
   - rubocop-rspec
 AllCops:
   NewCops: enable
+  SuggestExtensions: false
   Exclude:
     - db/schema.rb
     - db/views_schema.rb
