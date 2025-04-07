@@ -9,7 +9,7 @@ gem 'rails', '~> 7.2.0'
 gem 'bootsnap'
 
 # RabbitMQ client
-gem 'sanger_warren'
+gem 'sanger_warren', github: 'sanger/warren', branch: 'develop'
 
 gem 'mysql-binuuid-rails'
 
