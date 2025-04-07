@@ -13,7 +13,7 @@ module EventWarehouse
   # Sets defaults for all environments
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 7.0
+    config.load_defaults 7.2
     config.autoload_paths += ["#{config.root}/app"]
     config.eager_load_paths += ["#{config.root}/app"]
 
