@@ -15,6 +15,7 @@ gem 'mysql-binuuid-rails'
 
 gem 'oj'
 gem 'rainbow'
+gem 'syslog' # No longer part of the default gems in Ruby 3.4
 
 group :test, :development do
   gem 'database_cleaner'
