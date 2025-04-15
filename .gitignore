@@ -23,3 +23,7 @@
 
 # Ignore spec info
 /spec/examples.txt
+
+# Ignore credentials and secrets
+/config/master.key
+/config/credentials.yml.enc
