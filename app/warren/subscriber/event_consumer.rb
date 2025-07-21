@@ -65,7 +65,7 @@ module Warren
       def process
         attempts ||= 0
         Event.transaction { Event.create_or_update_from_json(event_payload, lims) }
-      rescue ActiveRecord::RecordNotUnique => e
+      rescue ActiveRecord::RecordNotUnique, ActiveRecord::Deadlocked => e
         # If multiple messages are processed simultaneously we could end up
         # with a race condition. In this case we just retry processing the message
         # immediately. In most cases this will be sufficient, but in the unlikely
