@@ -1,6 +1,7 @@
 ---
 event_consumer:
   desc: Takes events off the queue and records them in the warehouse
+  worker_count: 1
   queue:
     name: psd.event_warehouse.event_consumer
     options:
