@@ -1,8 +1,8 @@
-require:
-  - rubocop-rails
-  - rubocop-rspec
+
 plugins: 
   - rubocop-performance
+  - rubocop-rails
+  - rubocop-rspec
 AllCops:
   NewCops: enable
   SuggestExtensions: false
