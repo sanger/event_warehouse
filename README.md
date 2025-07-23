@@ -128,3 +128,24 @@ RAILS_ENV="test"
 INTEGRATION_TEST_SETUP="true"
 INTEGRATION_TEST_SEED="/code/spec/data/integration/seed_for_unified_wh.rb"
 ```
+
+### Execution
+
+Execute the worker to pick up messages in the queue and process them into the
+database:
+
+        bundle exec warren consumer start
+
+The consumer will run in the foreground, logging to the console. You can stop it with Ctrl-C.
+
+For more warren actions, either use `bundle exec warren help` or see the
+[warren documentation](https://rubydoc.info/gems/sanger_warren)
+
+#### worker_count
+
+The number of worker threads can be configured for the consumer in
+`warren_consumers.yml`. This setting is applied to the channel and affects how
+messages from the subscription on the queue are processed. Setting this value
+to one uses a single thread and, therefore, a single writer to the database. If
+only a few tables are written sequentially, a single worker has the advantage
+of avoiding lock contention. If not configured, the default value is 3.

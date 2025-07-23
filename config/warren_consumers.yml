@@ -1,6 +1,7 @@
 ---
 event_consumer:
   desc: Takes events off the queue and records them in the warehouse
+  # Number of worker threads for this consumer; single worker means single writer to the database.
   worker_count: 1
   queue:
     name: psd.event_warehouse.event_consumer
