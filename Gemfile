@@ -3,13 +3,13 @@
 source 'https://rubygems.org'
 
 gem 'mysql2'
-gem 'rails', '~> 7.2.0'
+gem 'rails', '~> 8.1.1'
 
 # Rails dependencies
 gem 'bootsnap'
 
 # RabbitMQ client
-gem 'sanger_warren'
+gem 'sanger_warren', github: 'sanger/warren', branch: 'master'
 
 gem 'mysql-binuuid-rails'
 
