@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/sanger/warren.git
-  revision: 9cf58d2f7366340276b84fdf06d732a4cf376984
-  branch: master
+  revision: a6ec48eea7f2e0ed425e6766a26225da4ed702f8
+  branch: y26-066-bug-handle-top-level-exceptions-in-unified_warehouse-warre
   specs:
     sanger_warren (0.5.2)
       bunny (~> 2.17)
