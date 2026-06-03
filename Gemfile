@@ -9,7 +9,9 @@ gem 'rails', '~> 8.1.1'
 gem 'bootsnap'
 
 # RabbitMQ client
-gem 'sanger_warren', github: 'sanger/warren', branch: 'y26-066-bug-handle-top-level-exceptions-in-unified_warehouse-warre'
+# Note: The 'warre' ending in branch name is a known typo.
+gem 'sanger_warren', github: 'sanger/warren',
+                     branch: 'y26-066-bug-handle-top-level-exceptions-in-unified_warehouse-warre'
 
 gem 'mysql-binuuid-rails'
 
