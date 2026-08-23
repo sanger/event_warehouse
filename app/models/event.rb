@@ -19,11 +19,13 @@ class Event < ApplicationRecord
       end)
     end
 
+    # rubocop:disable Style/ReduceToHash
     def to_h
       each_with_object({}) do |metadatum, store|
         store[metadatum.key] = metadatum.value
       end
     end
+    # rubocop:enable Style/ReduceToHash
   end
 
   attribute :uuid, MySQLBinUUID::Type.new
