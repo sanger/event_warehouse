@@ -37,6 +37,7 @@ module ResourceTools::TypeDictionary
   # The setter can receive either the key, or the type itself
   module HasDictionary
     extend ActiveSupport::Concern
+
     included do
       type_assn = "#{name.downcase}_type"
       type_class = "#{name}Type".constantize
